@@ -15,10 +15,6 @@ export async function GET(
     return new NextResponse("[ERROR] Missing bucket or key.", { status: 400 });
   }
 
-  console.log("damnn")
-
-  console.log(searchParams);
-  console.log(keySlashed);
   try {
     const { userId } = auth();
     if (!userId) {
@@ -38,12 +34,12 @@ export async function GET(
   // get the presigned URLs from redis
   const redisKey = `${bucket}:${keySlashed}`;
   await client.connect();
-  // const redisValue = await client.get(redisKey);
-  // if (redisValue) {
-  //   console.log("Already in Redis")
-  //   const presignedUrls = JSON.parse(redisValue);
-  //   return NextResponse.json({ presignedUrls });
-  // }
+  const redisValue = await client.get(redisKey);
+  if (redisValue) {
+    console.log("Already in Redis")
+    const presignedUrls = JSON.parse(redisValue);
+    return NextResponse.json({ presignedUrls });
+  }
 
   // iterate over files and create a presigned URL for each
   const presignedUrls = files.Contents.map((file) => {
@@ -67,6 +63,7 @@ export async function GET(
   }
   await client.disconnect();
 
+  console.log(presignedUrls)
   return NextResponse.json({ presignedUrls });
 
   } catch (error) {
