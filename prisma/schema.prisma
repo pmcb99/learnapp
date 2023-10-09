@@ -1,0 +1,190 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model UserApiLimit {
+  id        String      @id @default(cuid())
+  userId    String   @unique
+  count     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserSubscription {
+  id        String      @id @default(cuid())
+  userId    String   @unique
+  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
+  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
+  stripePriceId          String?   @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+}
+
+enum SubjectName {
+  // Compulsory Subjects
+  ENGLISH
+  IRISH
+  MATHEMATICS
+
+  // Languages
+  FRENCH
+  GERMAN
+  SPANISH
+  ITALIAN
+  RUSSIAN
+  JAPANESE
+
+  // Sciences
+  PHYSICS
+  CHEMISTRY
+  BIOLOGY
+  AGRICULTURAL_SCIENCE
+  APPLIED_MATHEMATICS
+  PHYSICS_AND_CHEMISTRY // It's a combined course
+  
+  // Business and Social Sciences
+  ACCOUNTING
+  BUSINESS
+  ECONOMICS
+  GEOGRAPHY
+  HISTORY
+  CLASSICAL_STUDIES
+
+  // Practical Subjects
+  CONSTRUCTION_STUDIES
+  ENGINEERING
+  DESIGN_AND_COMMUNICATION_GRAPHICS
+  HOME_ECONOMICS
+
+  // Arts
+  ART
+  MUSIC
+
+  // Other Subjects
+  RELIGIOUS_EDUCATION
+}
+
+
+model Profile {
+  id String @id @default(uuid())
+  userId String @unique
+  name String
+  imageUrl String @db.Text
+  email String @db.Text
+
+  servers Server[]
+  members Member[]
+  channels Channel[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Server {
+  id String @id @default(uuid())
+  name String
+  imageUrl String @db.Text
+  inviteCode String @unique
+
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  members Member[]
+  channels Channel[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+}
+
+enum MemberRole {
+  ADMIN
+  MODERATOR
+  GUEST
+}
+
+model Member {
+  id String @id @default(uuid())
+  role MemberRole @default(GUEST)
+
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  serverId String
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+  @@index([serverId])
+
+}
+
+enum ChannelType {
+  TEXT 
+  AUDIO
+  VIDEO
+}
+
+model Channel {
+  id String @id @default(uuid())
+  name String
+  type ChannelType @default(TEXT)
+
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  serverId String
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index ([profileId])
+  @@index ([serverId])
+}
+
+
+
+
+
+enum Level {
+  HIGHER
+  ORDINARY
+}
+model UserSubject {
+  userId    String
+  subject   SubjectName
+  enabled   Boolean
+  level     Level
+  user      User         @relation(fields: [userId], references: [id])
+  @@index([userId])
+  @@index([subject])
+
+  @@id([userId, subject])
+}
+
+model User {
+  id        String      @id @default(cuid())
+  email     String      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  subjects  UserSubject[]
+}
+
+model Definition {
+  id         String      @id @default(cuid())
+  term       String
+  definition String
+  keyword    String
+  subject    SubjectName
+  topic      String
+}
+
