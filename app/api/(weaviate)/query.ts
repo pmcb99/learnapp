@@ -17,7 +17,6 @@ import { client } from './vdb';
 export async function nearTextQuery(class_name: string, question: string, fields: string[]) {
     const className = `${class_name}`
     const fieldString = fields.join(" ")
-    console.log(fieldString)
     const res = await client.graphql
       .get()
       .withClassName(className)

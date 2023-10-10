@@ -4,14 +4,11 @@ const weaviateKey = process.env.WEAVIATE_API_KEY;
 
 
 // if (!weaviateKey) {
-//     console.log('here')
-//     console.log(weaviateKey);
 //     throw new Error('WEAVIATE_API_KEY is not set');
 // }
 
 // const openAIKey = process.env.OPENAI_API_KEY;
 // if (!openAIKey) {
-//     console.log(openAIKey);
 //     throw new Error('OPENAI_API_KEY is not set');
 // }
 

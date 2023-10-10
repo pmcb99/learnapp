@@ -5,6 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Page, Document, pdfjs } from "react-pdf";
 import { SizeMe } from "react-sizeme";
+import { Nav } from "./pdf-viewer-navbar";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 export type BucketName = typeof LC_BUCKET_NAME | typeof JC_BUCKET_NAME;
@@ -25,8 +26,18 @@ export default function PDFViewer(props: {
   viewId: string;
   linkId: string;
 }) {
+
+  const { examPaperIsShown, flipDocumentShown, page, setPage } = useExamDocumentStore(
+    (state) => ({
+      examPaperIsShown: state.examPaperIsShown,
+      flipDocumentShown: state.flipDocumentShown,
+      page: state.page,
+      setPage: state.setPage,
+    })
+  );
+
   const [numPages, setNumPages] = useState<number>(0);
-  const [pageNumber, setPageNumber] = useState<number>(1); // start on first page
+  const [pageNumber, setPageNumber] = useState<number>(page);
   const [loading, setLoading] = useState(true);
   const [pageWidth, setPageWidth] = useState(0);
 
@@ -138,7 +149,6 @@ export default function PDFViewer(props: {
   const isExamPaperVisible = useExamDocumentStore(
     (state) => state.examPaperIsShown
   );
-  console.log(isExamPaperVisible);
 
   var examPaperOrMarkingScheme: "exam-paper" | "marking-scheme" = "exam-paper";
   if (isExamPaperVisible) {
@@ -150,15 +160,11 @@ export default function PDFViewer(props: {
   const thisFileKeySuffix = `${props.year}/${examPaperOrMarkingScheme}`;
   var matchingPresignedUrl: PresignedUrl | undefined;
   if (props.presignedUrls) {
-    console.log(props.presignedUrls[0])
     matchingPresignedUrl = props.presignedUrls.find((file) =>
       file.key.includes(thisFileKeySuffix)
     );
   }
 
-  
-  console.log(thisFileKeySuffix)
-  console.log(matchingPresignedUrl)
 
   // if (!fileUrl) {
   //   throw new Error("[ERROR] File not found.");
@@ -168,7 +174,7 @@ export default function PDFViewer(props: {
 
   return (
     <div className="flex-col w-full h-full relative overflow-hidden">
-      {/* <Nav pageNumber={pageNumber} numPages={numPages} pdfName={props.documentId}/> */}
+      <Nav pageNumber={pageNumber} numPages={numPages} pdfName={`${props.year} - ${examPaperOrMarkingScheme.replaceAll('-',' ').toUpperCase()}`}/>
 
       <SizeMe
         monitorHeight

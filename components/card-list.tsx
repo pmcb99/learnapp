@@ -19,7 +19,6 @@ export type CardListProps = {
 
 const CardList: React.FC<CardListProps> = ({items, heading}) => {
     const router = useRouter();
-    console.log(heading)
     return (     
     <div>
         <div className="mb-8 space-y-4">
