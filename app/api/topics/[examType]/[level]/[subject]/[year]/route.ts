@@ -57,7 +57,7 @@ export async function GET(
         question: 'asc',
         },
         {
-        topic: 'asc',
+        parts: 'desc',
         }
     ],
     });

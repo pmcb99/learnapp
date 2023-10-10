@@ -21,12 +21,14 @@ const PaperQuestionsByTopicPage = (params: {
 }) => {
   const [topics, setTopics] = useState<PaperQuestionsByTopic[]>([]);
 
-  const { examPaperIsShown, flipDocumentShown, page, setPage } = useExamDocumentStore(
+  const { examPaperIsShown, flipDocumentShown, examPaperPage, setExamPaperPage, markingSchemePage, setMarkingSchemePage} = useExamDocumentStore(
     (state) => ({
       examPaperIsShown: state.examPaperIsShown,
       flipDocumentShown: state.flipDocumentShown,
-      page: state.page,
-      setPage: state.setPage,
+      examPaperPage: state.examPaperPage,
+      setExamPaperPage: state.setExamPaperPage,
+      markingSchemePage: state.markingSchemePage,
+      setMarkingSchemePage: state.setMarkingSchemePage,
     })
   );
 
@@ -69,9 +71,22 @@ const PaperQuestionsByTopicPage = (params: {
       };
       const apiEndpoint = '/api/documents/question-page/';
       const response = await axios.get(apiEndpoint, { params: paramValues });
-      console.log(response.data.pages[0].page);
-      setPage(response.data.pages[0].page);
-      console.log(page)
+
+      // iterate through response.data.pages and find the page with the question and paper type
+      const examPageRes = response.data.pages.find((page: any) => page.paperType === 'exam-paper');
+      const markingSchemePageRes = response.data.pages.find((page: any) => page.paperType === 'marking-scheme');
+
+      if (examPaperIsShown) {
+        setExamPaperPage(examPageRes.page);
+        setMarkingSchemePage(markingSchemePageRes.page);
+        console.log('exam', examPaperPage)
+        console.log('mark', markingSchemePage)
+      } else {
+        setExamPaperPage(examPageRes.page);
+        setMarkingSchemePage(markingSchemePageRes.page);
+        console.log('exam', examPaperPage)
+        console.log('mark', markingSchemePage)
+      }
     } catch (error: any) {
       toast.error("Failed to find page with question.");
     }

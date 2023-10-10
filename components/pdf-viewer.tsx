@@ -27,28 +27,31 @@ export default function PDFViewer(props: {
   linkId: string;
 }) {
 
-  const { examPaperIsShown, flipDocumentShown, page, setPage } = useExamDocumentStore(
+  const { examPaperIsShown, flipDocumentShown, examPaperPage, setExamPaperPage, markingSchemePage, setMarkingSchemePage } = useExamDocumentStore(
     (state) => ({
       examPaperIsShown: state.examPaperIsShown,
       flipDocumentShown: state.flipDocumentShown,
-      page: state.page,
-      setPage: state.setPage,
+      examPaperPage: state.examPaperPage,
+      setExamPaperPage: state.setExamPaperPage,
+      markingSchemePage: state.markingSchemePage,
+      setMarkingSchemePage: state.setMarkingSchemePage,
     })
   );
 
   const [numPages, setNumPages] = useState<number>(0);
-  const [pageNumber, setPageNumber] = useState<number>(page);
   const [loading, setLoading] = useState(true);
   const [pageWidth, setPageWidth] = useState(0);
 
+  const visiblePage = examPaperIsShown ? examPaperPage : markingSchemePage;
+
   const startTimeRef = useRef(Date.now());
-  const pageNumberRef = useRef<number>(pageNumber);
+  const pageNumberRef = useRef<number>(visiblePage);
   const isInitialPageLoad = useRef(true);
 
   // Update the previous page number after the effect hook has run
   useEffect(() => {
-    pageNumberRef.current = pageNumber;
-  }, [pageNumber]);
+    pageNumberRef.current = visiblePage;
+  }, [visiblePage]);
 
   useEffect(() => {
     startTimeRef.current = Date.now(); // update the start time for the new page
@@ -59,7 +62,7 @@ export default function PDFViewer(props: {
       const duration = Math.round(endTime - startTimeRef.current);
       trackPageView(duration);
     };
-  }, [pageNumber]); // monitor pageNumber for changes
+  }, [visiblePage]); // monitor pageNumber for changes
 
   useEffect(() => {
     if (numPages > 0) {
@@ -103,12 +106,21 @@ export default function PDFViewer(props: {
 
   // Go to next page
   function goToNextPage() {
-    setPageNumber((prevPageNumber) => prevPageNumber + 1);
-    // setPageNumber((prevPageNumber) => 24);
+    if (isExamPaperVisible) {
+      setExamPaperPage(examPaperPage + 1);
+    }
+    else {
+      setMarkingSchemePage(markingSchemePage + 1);
+    }
   }
 
   function goToPreviousPage() {
-    setPageNumber((prevPageNumber) => prevPageNumber - 1);
+    if (isExamPaperVisible) {
+      setExamPaperPage(examPaperPage - 1);
+    }
+    else {
+      setMarkingSchemePage(markingSchemePage - 1);
+    }
   }
 
   async function trackPageView(duration: number = 0) {
@@ -174,7 +186,7 @@ export default function PDFViewer(props: {
 
   return (
     <div className="flex-col w-full h-full relative overflow-hidden">
-      <Nav pageNumber={pageNumber} numPages={numPages} pdfName={`${props.year} - ${examPaperOrMarkingScheme.replaceAll('-',' ').toUpperCase()}`}/>
+      <Nav pageNumber={visiblePage} numPages={numPages} pdfName={`${props.year} - ${examPaperOrMarkingScheme.replaceAll('-',' ').toUpperCase()}`}/>
 
       <SizeMe
         monitorHeight
@@ -187,7 +199,7 @@ export default function PDFViewer(props: {
             >
               <button
                 onClick={goToPreviousPage}
-                disabled={pageNumber <= 1}
+                disabled={visiblePage <= 1}
                 className="relative h-[calc(100vh - 64px)] px-2 py-24 text-gray-400 hover:text-gray-50 focus:z-20"
               >
                 <span className="sr-only">Previous</span>
@@ -195,7 +207,7 @@ export default function PDFViewer(props: {
               </button>
               <button
                 onClick={goToNextPage}
-                disabled={pageNumber >= numPages!}
+                disabled={visiblePage >= numPages!}
                 className="relative px-2 py-24 text-gray-400 hover:text-gray-50 focus:z-20"
               >
                 <span className="sr-only">Next</span>
@@ -216,8 +228,8 @@ export default function PDFViewer(props: {
               >
                 <Page
                   className="overflow-hidden w-full items-center"
-                  key={pageNumber}
-                  pageNumber={pageNumber}
+                  key={visiblePage}
+                  pageNumber={visiblePage}
                   renderAnnotationLayer={false}
                   renderTextLayer={false}
                   onLoadSuccess={onPageLoadSuccess}

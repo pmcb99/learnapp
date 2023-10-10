@@ -16,16 +16,20 @@ function flipState(state: boolean) {
   return !state
 }
 
-interface examPaperStates {
+interface paperStates {
     examPaperIsShown: boolean
     flipDocumentShown: (currentState: boolean) => void
-    page: number
-    setPage: (page_number: number) => void
+    examPaperPage: number
+    setExamPaperPage: (page_number: number) => void
+    markingSchemePage: number
+    setMarkingSchemePage: (page_number: number) => void
   }
   
-export const useExamDocumentStore = create<examPaperStates>((set) => ({
+export const useExamDocumentStore = create<paperStates>((set) => ({
     examPaperIsShown: true,
     flipDocumentShown: () => set((state) => ({ examPaperIsShown: !state.examPaperIsShown })),
-    page: 1,
-    setPage: (page_number) => set((state) => ({ page: state.page = page_number })),
+    examPaperPage: 1,
+    setExamPaperPage: (page_number) => set((state) => ({ examPaperPage: state.examPaperPage = page_number })),
+    markingSchemePage: 1,
+    setMarkingSchemePage: (page_number) => set((state) => ({ markingSchemePage: state.markingSchemePage = page_number })),
 }));

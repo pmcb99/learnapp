@@ -33,12 +33,18 @@ export async function GET(
 
   // get the presigned URLs from redis
   const redisKey = `${bucket}:${keySlashed}`;
-  await client.connect();
-  const redisValue = await client.get(redisKey);
-  if (redisValue) {
-    console.log("Already in Redis")
-    const presignedUrls = JSON.parse(redisValue);
-    return NextResponse.json({ presignedUrls });
+  try {
+    await client.connect();
+    const redisValue = await client.get(redisKey);
+    if (redisValue) {
+      console.log("Already in Redis")
+      const presignedUrls = JSON.parse(redisValue);
+      return NextResponse.json({ presignedUrls });
+    }
+  } catch (error) {
+      console.log("[REDIS_GET_ERROR]", error);
+  } finally {
+      await client.disconnect();
   }
 
   // iterate over files and create a presigned URL for each
@@ -57,9 +63,16 @@ export async function GET(
 
   // if (!redisValue && presignedUrls){
   if (presignedUrls){
-    await client.set(redisKey, JSON.stringify(presignedUrls), {
-      "EX": 3600
-    });
+    try {
+      await client.connect();
+      await client.set(redisKey, JSON.stringify(presignedUrls), {
+        "EX": 3600
+      });
+    } catch (error) {
+      console.log("[REDIS_SET_ERROR]", error);
+    } finally {
+      await client.disconnect();
+    }
   }
   await client.disconnect();
 
@@ -71,67 +84,3 @@ export async function GET(
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
-
-export async function POST(
-  req: Request,
-) {
-  // Get all files from S3 for the given bucket and prefix, and return a presigned URL for each, cached in Redis for 1 hour
-  const { Bucket, Key }= await req.json();
-  // console.log(searchParams.get('bucket'));
-  // console.log(searchParams.get('key'));
-  try {
-    console.log(Bucket);
-    console.log(Key);
-  //   const { userId } = auth();
-  //   if (!userId) {
-  //     return new NextResponse("Unauthorized", { status: 401 });
-    // }
-
-  // const values = {
-  //   Bucket: params.bucket,
-  //   Prefix: params.key
-  // }
-
-  // const files = await s3.listObjects(values).promise();
-  // if (!files || !files.Contents ) {
-  //   return new NextResponse("[ERROR] No files found.", { status: 404 });
-  // }
-
-  // // get the presigned URLs from redis
-  // const redisKey = `${params.bucket}:${params.key}`;
-  // const redisValue = await client.get(redisKey);
-  // if (redisValue) {
-  //   const presignedUrls = JSON.parse(redisValue);
-  //   return NextResponse.json({ presignedUrls });
-  // }
-
-  // // iterate over files and create a presigned URL for each
-  // const presignedUrls = files.Contents.map((file) => {
-  //   const url = s3.getSignedUrl("getObject", {
-  //     Bucket: params.bucket,
-  //     Key: file.Key,
-  //     Expires: 3600,
-  //   });
-  //   return { url, bucket: params.bucket, key: file.Key}
-  // });
-
-  // if (!presignedUrls) {
-  //   return new NextResponse("[ERROR] No presigned URLs found.", { status: 404 });
-  // }
-
-  // if (!redisValue){
-  //   await client.set(redisKey, JSON.stringify(presignedUrls), {
-  //     "EX": 3600
-  //   });
-  // }
-
-  // return NextResponse.json({ presignedUrls });
-
-  return NextResponse.json({ presignedUrls: "test" });
-
-  } catch (error) {
-    console.log("[GET_ERROR]", error);
-    return new NextResponse("Internal Error", { status: 500 });
-  }
-}
-
