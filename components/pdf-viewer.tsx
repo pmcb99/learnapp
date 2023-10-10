@@ -1,5 +1,5 @@
 "use client";
-import { JC_BUCKET_NAME, LC_BUCKET_NAME } from "@/app/(dashboard)/(routes)/constants";
+import { JC_BUCKET_NAME, LC_BUCKET_NAME } from "@/app/constants";
 import { useExamDocumentStore } from "@/hooks/pdf-viewer-page";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -147,7 +147,7 @@ export default function PDFViewer(props: {
     examPaperOrMarkingScheme = "marking-scheme";
   }
 
-  const thisFileKeySuffix = `${props.year}/${examPaperOrMarkingScheme}/${props.paperName}.pdf`;
+  const thisFileKeySuffix = `${props.year}/${examPaperOrMarkingScheme}`;
   var matchingPresignedUrl: PresignedUrl | undefined;
   if (props.presignedUrls) {
     console.log(props.presignedUrls[0])
@@ -163,6 +163,8 @@ export default function PDFViewer(props: {
   // if (!fileUrl) {
   //   throw new Error("[ERROR] File not found.");
   // }
+
+
 
   return (
     <div className="flex-col w-full h-full relative overflow-hidden">

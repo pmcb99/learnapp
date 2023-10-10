@@ -21,7 +21,7 @@ import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
 import { useProModal } from "@/hooks/use-pro-modal"
 
-import { formSchema } from "../../../../constants";
+import { formSchema } from "@/app/constants";
 import { getSubjectParams } from "@/lib/subjectPaths";
 import { getSubjectFromHref } from "@/constants";
 import { Separator } from "@/components/ui/separator";
