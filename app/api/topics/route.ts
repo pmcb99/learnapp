@@ -18,6 +18,7 @@ export async function GET(req: Request) {
     const level = searchParams.get("level") as string;
     const examType = searchParams.get("examType") as string;
     const namesOnly = searchParams.get("namesOnly") as string;
+    const topic = searchParams.get("topic") as string;
 
     console.log("searchParams", searchParams);
 
@@ -69,19 +70,24 @@ export async function GET(req: Request) {
 
       // get all topic data from db if namesOnly is false
     } else {
-      console.log("no data")
-      // check redis cache
-      try {
-        const cachedTopics = await redisClient.get(
-          `topics:${subject}:${level}:${examType}`
-        );
 
-        if (cachedTopics) {
-          return new NextResponse(cachedTopics);
-        }
-      } catch (error) {
-        console.log("error", error);
+      console.log("Return all data")
+      if (!topic) {
+        return new NextResponse(JSON.stringify({ topics: []}));
       }
+
+      // check redis cache
+      // try {
+      //   const cachedTopics = await redisClient.get(
+      //     `topics:${subject}:${level}:${examType}`
+      //   );
+
+      //   if (cachedTopics) {
+      //     return new NextResponse(cachedTopics);
+      //   }
+      // } catch (error) {
+      //   console.log("error", error);
+      // }
 
       console.log("no cached topics");
 
@@ -90,7 +96,19 @@ export async function GET(req: Request) {
           subject: subject,
           level: level,
           examType: examType,
+          topic: topic
         },
+        orderBy: [
+          {
+            year: "desc",
+          },
+          {
+            question: "desc",
+          },
+          {
+            parts: "desc"
+          }
+        ]
       });
 
       // cache in redis indefinitely

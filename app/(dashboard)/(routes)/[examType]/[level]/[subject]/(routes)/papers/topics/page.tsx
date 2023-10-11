@@ -31,6 +31,8 @@ const ConversationPage = (params: {
 
   const [pageNumber, setPageNumber] = useState<number>(1);
 
+  const [year, setYear] = useState<number>(2023);
+
   useEffect(() => {
     // Save scroll position
     setScrollPosition(window.scrollY);
@@ -56,7 +58,7 @@ const ConversationPage = (params: {
   const onSubmit = async () => {
     try {
       const response = await axios.get(
-        `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.params.level}-${params.params.subject}-${params.params.year}-`
+        `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.params.level}-${params.params.subject}-${year}-`
       );
       setPresignedUrls(response.data.presignedUrls);
     } catch (error: any) {
@@ -70,20 +72,20 @@ const ConversationPage = (params: {
 
   useEffect(() => {
     onSubmit();
-  }, []);
+  }, [year]);
 
   return (
     <div className="flex">
 
       <div className="h-full w-full">
-        <PaperQuestionsByTopicPage params={params.params} />
+        <PaperQuestionsByTopicPage params={params.params} updateYear={setYear} />
       </div>
       <div className="h-full w-full">
         <PDFViewer
           presignedUrls={presignedUrls}
           bucket={bucket}
           paperName={params.params.paper}
-          year={params.params.year}
+          year={year}
           documentId={params.params.paper}
           viewId=""
           linkId=""

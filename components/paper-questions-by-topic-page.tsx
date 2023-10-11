@@ -17,7 +17,7 @@ import {
 
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import { useExamDocumentStore } from "@/hooks/pdf-viewer-page";
+import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
 import { Separator } from "@radix-ui/react-separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Scroll } from "lucide-react";
 
-const PaperQuestionsByTopicPage = (params: {
+interface PaperQuestionsByTopicPageProps {
   params: {
     paper: string;
     subject: string;
@@ -43,10 +43,14 @@ const PaperQuestionsByTopicPage = (params: {
     examType: string;
     year: string;
   };
-}) => {
+  updateYear: React.Dispatch<React.SetStateAction<number>>;
+}
+
+
+const PaperQuestionsByTopicPage = ({ params, updateYear }: PaperQuestionsByTopicPageProps) => {
   const [topics, setTopics] = useState<PaperQuestionsByTopic[]>([]);
   const [open, setOpen] = useState(false);
-  const [chosenTopicValue, setChosenTopicValue] = useState("Bacteria");
+  const [chosenTopicValue, setChosenTopicValue] = useState("");
   const [topicNames, setTopicNames] = useState<TopicName[]>([]);
 
   const {
@@ -56,6 +60,8 @@ const PaperQuestionsByTopicPage = (params: {
     setExamPaperPage,
     markingSchemePage,
     setMarkingSchemePage,
+    year,
+    setYear,
   } = useExamDocumentStore((state) => ({
     examPaperIsShown: state.examPaperIsShown,
     flipDocumentShown: state.flipDocumentShown,
@@ -63,6 +69,8 @@ const PaperQuestionsByTopicPage = (params: {
     setExamPaperPage: state.setExamPaperPage,
     markingSchemePage: state.markingSchemePage,
     setMarkingSchemePage: state.setMarkingSchemePage,
+    year: state.year,
+    setYear: state.setYear,
   }));
 
   function flipTo(whichButton: "examPaper" | "markingScheme" = "examPaper") {
@@ -77,7 +85,7 @@ const PaperQuestionsByTopicPage = (params: {
 
   const getTopicsForYear = async () => {
     try {
-      const apiEndpoint = `/api/topics/${params.params.examType}/${params.params.level}/${params.params.subject}/${params.params.year}`;
+      const apiEndpoint = `/api/topics/${params.examType}/${params.level}/${params.subject}/${params.year}`;
       const response = await axios.get(apiEndpoint);
       setTopics(response.data.topics);
       return topics;
@@ -96,10 +104,11 @@ const PaperQuestionsByTopicPage = (params: {
       const apiEndpoint = `/api/topics/`;
       const response = await axios.get(apiEndpoint, {
         params: {
-          examType: params.params.examType,
-          level: params.params.level,
-          subject: params.params.subject,
+          examType: params.examType,
+          level: params.level,
+          subject: params.subject,
           namesOnly: "true",
+          topic: chosenTopicValue
         },
       });
       console.log("Response:", response);
@@ -116,43 +125,50 @@ const PaperQuestionsByTopicPage = (params: {
       const apiEndpoint = `/api/topics/`;
       const response = await axios.get(apiEndpoint, {
         params: {
-          examType: params.params.examType,
-          level: params.params.level,
-          subject: params.params.subject,
+          examType: params.examType,
+          level: params.level,
+          subject: params.subject,
           namesOnly: "false",
+          topic: chosenTopicValue
         },
       });
-      return response.data.topics;
+      setTopics(response.data.topics);
+      console.log("Response:", response);
+      return response.data;
     } catch (error: any) {
       toast.error("Failed to fetch topic names.");
     }
   };
 
   useEffect(() => {
-    if (params.params.year) {
+    console.log(params.year)
+    if (params.year) {
       getTopicsForYear();
     } else {
       console.log("getTopicsForSubject");
-      // getTopicsForSubject();
+      getTopicsForSubject();
       getTopicsNamesForSubject();
-      console.log(topicNames);
+      console.log(topics);
     }
   }, []);
 
   const paperType = examPaperIsShown ? "exam-paper" : "marking-scheme";
 
-  const findPageWithQuestion = async (question: number | null) => {
+  const findPageWithQuestion = async (question: number | null, year: number) => {
     try {
       const paramValues = {
-        examType: params.params.examType,
-        level: params.params.level,
-        subject: params.params.subject,
-        year: params.params.year,
+        examType: params.examType,
+        level: params.level,
+        subject: params.subject,
+        year: year,
         question: question,
         paperType: paperType,
       };
       const apiEndpoint = "/api/documents/question-page/";
       const response = await axios.get(apiEndpoint, { params: paramValues });
+
+      updateYear(year);
+      setYear(year);
 
       // iterate through response.data.pages and find the page with the question and paper type
       const examPageRes = response.data.pages.find(
@@ -204,7 +220,7 @@ const PaperQuestionsByTopicPage = (params: {
         <Separator className="my-4" />
       </div>
 
-      {!params.params.year && (
+      {!params.year && (
         <div className="py-6">
           <h3 className="flex font-bold text-xl justify-center items-center pb-4"> Topics </h3>
           <Popover open={open} onOpenChange={setOpen}>
@@ -234,6 +250,7 @@ const PaperQuestionsByTopicPage = (params: {
                       onSelect={() => {
                         console.log(topicName.topic);
                         setChosenTopicValue(topicName.topic);
+                        getTopicsForSubject();
                         setOpen(false);
                       }}
                     >
@@ -256,16 +273,16 @@ const PaperQuestionsByTopicPage = (params: {
       )}
 
       <div className="flex-2 flex flex-col items-center justify-center">
-        <h2 className="font-bold text-2xl mb-4 pt-8"> {params.params.year ? "Topics" : "Questions"} </h2>
+        <h2 className="font-bold text-2xl mb-4 pt-8"> {params.year ? "Topics" : "Questions"} </h2>
         <ScrollArea className="rounded-md border p-4 h-[240px] w-full">
           <div className="flex flex-col items-center">
             {topics.map((topic) => (
               <Button
                 key={topic.id}
                 className="my-2 w-3/4"
-                onClick={() => findPageWithQuestion(topic.question)}
+                onClick={() => findPageWithQuestion(topic.question, topic.year)}
               >
-                Q{topic.question} {topic.parts} - {topic.topic}
+                {!params.year ? topic.year : ""} Q{topic.question} {topic.parts} - {topic.topic}
               </Button>
             ))}
           </div>

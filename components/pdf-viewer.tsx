@@ -1,12 +1,15 @@
 "use client";
 import { JC_BUCKET_NAME, LC_BUCKET_NAME } from "@/app/constants";
-import { useExamDocumentStore } from "@/hooks/pdf-viewer-page";
+import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Page, Document, pdfjs } from "react-pdf";
 import { SizeMe } from "react-sizeme";
 import { Nav } from "./pdf-viewer-navbar";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+// import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+
+// pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 export type BucketName = typeof LC_BUCKET_NAME | typeof JC_BUCKET_NAME;
 
@@ -21,11 +24,13 @@ export default function PDFViewer(props: {
   presignedUrls: PresignedUrl[];
   bucket: BucketName; 
   paperName: string;
-  year: string;
+  year: number;
   documentId: string;
   viewId: string;
   linkId: string;
 }) {
+
+  console.log(props.year)
 
   const { examPaperIsShown, flipDocumentShown, examPaperPage, setExamPaperPage, markingSchemePage, setMarkingSchemePage } = useExamDocumentStore(
     (state) => ({
@@ -176,6 +181,8 @@ export default function PDFViewer(props: {
       file.key.includes(thisFileKeySuffix)
     );
   }
+
+  console.log(thisFileKeySuffix)
 
 
   // if (!fileUrl) {
