@@ -3,12 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from 'next/font/google'
-import { Code, Dna, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon } from "lucide-react";
+import { Code, Dna, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, Sun, Moon, VideoIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { FreeCounter } from "@/components/free-counter";
 import { Accordion } from "./ui/accordion";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { useTheme } from "next-themes";
 
 const poppins = Montserrat ({ weight: '600', subsets: ['latin'] });
 
@@ -77,9 +80,14 @@ export const Sidebar = ({
 }) => {
   const pathname = usePathname();
 
+
+
   return (
     <div className="space-y-4 py-4 flex flex-col h-full bg-[#111827] text-white">
       <div className="px-3 py-2 flex-1">
+
+
+
         <Link href="/dashboard" className="flex items-center pl-3 mb-14">
           <div className="relative h-9 w-9 mr-4">
             <Image fill alt="Logo" src="/brain-sm.png" />
@@ -88,6 +96,9 @@ export const Sidebar = ({
             LC-GPT
           </h1>
         </Link>
+
+
+
         <div className="space-y-1">
           {routes.map((route) => (
             <Link
