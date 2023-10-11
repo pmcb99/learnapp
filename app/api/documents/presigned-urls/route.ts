@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { s3 } from "../../(s3)/client";
-import { client } from "@/lib/redis";
+import { redisClient } from "@/lib/redis";
 
 export async function GET(
   req: Request,
@@ -34,8 +34,7 @@ export async function GET(
   // get the presigned URLs from redis
   const redisKey = `${bucket}:${keySlashed}`;
   try {
-    await client.connect();
-    const redisValue = await client.get(redisKey);
+    const redisValue = await redisClient.get(redisKey);
     if (redisValue) {
       console.log("Already in Redis")
       const presignedUrls = JSON.parse(redisValue);
@@ -43,9 +42,7 @@ export async function GET(
     }
   } catch (error) {
       console.log("[REDIS_GET_ERROR]", error);
-  } finally {
-      await client.disconnect();
-  }
+  } 
 
   // iterate over files and create a presigned URL for each
   const presignedUrls = files.Contents.map((file) => {
@@ -64,17 +61,13 @@ export async function GET(
   // if (!redisValue && presignedUrls){
   if (presignedUrls){
     try {
-      await client.connect();
-      await client.set(redisKey, JSON.stringify(presignedUrls), {
+      await redisClient.set(redisKey, JSON.stringify(presignedUrls), {
         "EX": 3600
       });
     } catch (error) {
       console.log("[REDIS_SET_ERROR]", error);
-    } finally {
-      await client.disconnect();
-    }
+    } 
   }
-  await client.disconnect();
 
   console.log(presignedUrls)
   return NextResponse.json({ presignedUrls });

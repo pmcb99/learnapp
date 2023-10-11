@@ -4,24 +4,6 @@ import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
 
 
-async function getTopicsForYear(
-  year: number,
-  level: 'higher' | 'ordinary',
-  examType: 'jc' | 'lc',
-  subject: string
-  ) {
-  const topics = await prismadb.paperQuestionsByTopic.findMany({
-    where: {
-      // subject: subject,
-      // level: level,
-      // examType: examType,
-      year: Number(year),
-    },
-  });
-
-  return topics
-}
-
 export async function GET(
   req: Request,
   params: {

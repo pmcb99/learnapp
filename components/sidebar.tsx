@@ -20,6 +20,18 @@ const routes = [
     color: "text-sky-500"
   },
   {
+    label: 'Papers by Year',
+    icon: ImageIcon,
+    href: '/lc/higher/biology/papers',
+    color: "text-pink-700",
+  },
+  {
+    label: 'Papers by Topic',
+    icon: ImageIcon,
+    href: '/lc/higher/biology/papers/topics',
+    color: "text-pink-700",
+  },
+  {
     label: 'Settings',
     icon: Settings,
     href: '/settings',
