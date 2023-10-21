@@ -7,13 +7,14 @@ import { Page, Document, pdfjs } from "react-pdf";
 import { SizeMe } from "react-sizeme";
 import { Nav } from "./pdf-viewer-navbar";
 import { PresignedUrl } from "@/types/global";
+import { set } from "zod";
+import toast from "react-hot-toast";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 // import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 
 // pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 export type BucketName = typeof LC_BUCKET_NAME | typeof JC_BUCKET_NAME;
-
 
 
 interface CachedUrls {
@@ -31,17 +32,19 @@ export default function PDFViewer(props: {
 }) {
 
 
-  const { examPaperIsShown, flipDocumentShown, examPaperPage, setExamPaperPage, markingSchemePage, setMarkingSchemePage,
-  paperVersion, setPaperVersion, currentPresignedUrl, setCurrentPresignedUrl } = useExamDocumentStore(
+
+  const { examPaperPage, setExamPaperPage, markingSchemePage, setMarkingSchemePage,
+  currentPresignedUrl, setCurrentPresignedUrl, samplePaperPage, setSamplePaperPage,
+  projectPaperPage, setProjectPaperPage } = useExamDocumentStore(
     (state) => ({
-      examPaperIsShown: state.examPaperIsShown,
-      flipDocumentShown: state.flipDocumentShown,
       examPaperPage: state.examPaperPage,
       setExamPaperPage: state.setExamPaperPage,
       markingSchemePage: state.markingSchemePage,
       setMarkingSchemePage: state.setMarkingSchemePage,
-      paperVersion: state.paperVersion,
-      setPaperVersion: state.setPaperVersion,
+      samplePaperPage: state.samplePaperPage,
+      setSamplePaperPage: state.setSamplePaperPage,
+      projectPaperPage: state.projectPaperPage,
+      setProjectPaperPage: state.setProjectPaperPage,
       currentPresignedUrl: state.currentPresignedUrl,
       setCurrentPresignedUrl: state.setCurrentPresignedUrl,
     })
@@ -49,7 +52,7 @@ export default function PDFViewer(props: {
 
   if (!currentPresignedUrl.url && props.presignedUrls[0]) {
     setCurrentPresignedUrl(props.presignedUrls[0]);
-  }
+  } 
   console.log(currentPresignedUrl)
 
   const [numPages, setNumPages] = useState<number>(0);
@@ -62,7 +65,23 @@ export default function PDFViewer(props: {
   // const visiblePage = examPaperIsShown ? examPaperPage : markingSchemePage;
 
   // check if visiblePage = exam-paper or sample-paper, set to 1 if so else set to 2
-  const visiblePage = (paperVersion.includes("exam-paper") || paperVersion.includes("sample-paper")) ? examPaperPage : markingSchemePage;
+
+  function getVisiblePage() {
+    if (currentPresignedUrl.key.includes("exam-paper")) {
+      return examPaperPage;
+    }
+    else if (currentPresignedUrl.key.includes("sample-paper")) {
+      return samplePaperPage;
+    }
+    else if (currentPresignedUrl.key.includes("coursework-project")) {
+      return projectPaperPage;
+    }
+    else {
+      return markingSchemePage;
+    }
+  }
+
+  const visiblePage = getVisiblePage();
 
 
   const startTimeRef = useRef(Date.now());
@@ -120,40 +139,38 @@ export default function PDFViewer(props: {
     standardFontDataUrl: "standard_fonts/",
   };
 
-  // Go to next page
-  function goToNextPage() {
-    if (isExamPaperVisible) {
-      setExamPaperPage(examPaperPage + 1);
+  function flipToAdjacentPage(increment_or_decrement: string) {
+    const adjustmentAmount = increment_or_decrement === "increment" ? 1 : -1;
+
+    if (currentPresignedUrl.key.includes("exam-paper")) {
+      setExamPaperPage(examPaperPage + adjustmentAmount)
+    }
+    else if (currentPresignedUrl.key.includes("sample-paper")) {
+      setSamplePaperPage(samplePaperPage + adjustmentAmount)
+    }
+    else if (currentPresignedUrl.key.includes("project")) {
+      setProjectPaperPage(projectPaperPage + adjustmentAmount)
+    }
+    else if (currentPresignedUrl.key.includes("marking-scheme")) {
+      setMarkingSchemePage(markingSchemePage + adjustmentAmount)
     }
     else {
-      setMarkingSchemePage(markingSchemePage + 1);
+      toast.error("Something went wrong.");
     }
+  }
+
+  // Go to next page
+  function goToNextPage() {
+    flipToAdjacentPage("increment");
   }
 
   function goToPreviousPage() {
-    if (isExamPaperVisible) {
-      setExamPaperPage(examPaperPage - 1);
-    }
-    else {
-      setMarkingSchemePage(markingSchemePage - 1);
-    }
+    flipToAdjacentPage("decrement");
   }
 
-  async function trackPageView(duration: number = 0) {
-    // If this is the initial page load, don't send the request
-    if (isInitialPageLoad.current) {
-      isInitialPageLoad.current = false;
-      return;
-    }
-  }
 
-  const isExamPaperVisible = useExamDocumentStore(
-    (state) => state.examPaperIsShown
-  );
-
-  const paperVersionVisible = useExamDocumentStore(
-    (state) => state.paperVersion
-  );
+  console.log(currentPresignedUrl)
+  const paperVersionVisible = currentPresignedUrl.key ? `${currentPresignedUrl.key.split('/')[3].replaceAll('-',' ').toUpperCase()}` : "";
 
   const thisFileKeySuffix = `${props.year}/${paperVersionVisible}`;
 
