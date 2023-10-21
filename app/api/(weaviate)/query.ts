@@ -4,7 +4,6 @@ import { client } from './vdb';
 // export async function nearTextQuery(subject: string, level: 'Lc' | 'Jc', suffix: 'syllabus',question: string, fields: [string]) {
 //   const className = `${level}_${subject}_${suffix}`
 //   const fieldString = fields.join(" ")
-//   console.log(fieldString)
 //   const res = await client.graphql
 //     .get()
 //     .withClassName(className)

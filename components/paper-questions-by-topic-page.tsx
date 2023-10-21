@@ -34,6 +34,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Scroll } from "lucide-react";
+import { set } from "react-hook-form";
+import PaperVersionAndTypeToggles from "./paper-version-and-type-toggles";
+import { PresignedUrl } from "@/types/global";
 
 interface PaperQuestionsByTopicPageProps {
   params: {
@@ -43,11 +46,13 @@ interface PaperQuestionsByTopicPageProps {
     examType: string;
     year: string;
   };
+
   updateYear: React.Dispatch<React.SetStateAction<number>>;
+  presignedUrls: PresignedUrl[];
 }
 
 
-const PaperQuestionsByTopicPage = ({ params, updateYear }: PaperQuestionsByTopicPageProps) => {
+const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQuestionsByTopicPageProps) => {
   const [topics, setTopics] = useState<PaperQuestionsByTopic[]>([]);
   const [open, setOpen] = useState(false);
   const [chosenTopicValue, setChosenTopicValue] = useState("");
@@ -60,8 +65,8 @@ const PaperQuestionsByTopicPage = ({ params, updateYear }: PaperQuestionsByTopic
     setExamPaperPage,
     markingSchemePage,
     setMarkingSchemePage,
-    year,
-    setYear,
+    paperVersion,
+    setPaperVersion
   } = useExamDocumentStore((state) => ({
     examPaperIsShown: state.examPaperIsShown,
     flipDocumentShown: state.flipDocumentShown,
@@ -69,19 +74,9 @@ const PaperQuestionsByTopicPage = ({ params, updateYear }: PaperQuestionsByTopic
     setExamPaperPage: state.setExamPaperPage,
     markingSchemePage: state.markingSchemePage,
     setMarkingSchemePage: state.setMarkingSchemePage,
-    year: state.year,
-    setYear: state.setYear,
+    paperVersion: state.paperVersion,
+    setPaperVersion: state.setPaperVersion
   }));
-
-  function flipTo(whichButton: "examPaper" | "markingScheme" = "examPaper") {
-    if (whichButton === "examPaper" && !examPaperIsShown) {
-      flipDocumentShown(examPaperIsShown);
-    } else if (whichButton === "examPaper" && !examPaperIsShown) {
-    } else if (whichButton === "markingScheme" && examPaperIsShown) {
-      flipDocumentShown(!examPaperIsShown);
-    } else {
-    }
-  }
 
   const getTopicsForYear = async () => {
     try {
@@ -145,16 +140,16 @@ const PaperQuestionsByTopicPage = ({ params, updateYear }: PaperQuestionsByTopic
     if (params.year) {
       getTopicsForYear();
     } else {
-      console.log("getTopicsForSubject");
       getTopicsForSubject();
       getTopicsNamesForSubject();
-      console.log(topics);
+      // console.log(topics);
     }
   }, []);
 
-  const paperType = examPaperIsShown ? "exam-paper" : "marking-scheme";
+  const paperType = paperVersion;
 
-  const findPageWithQuestion = async (question: number | null, year: number) => {
+  const findPageWithQuestion = async (question: number | null, year: number, topicPaperVersion: string) => {
+    console.log([question, year, topicPaperVersion])
     try {
       const paramValues = {
         examType: params.examType,
@@ -163,12 +158,14 @@ const PaperQuestionsByTopicPage = ({ params, updateYear }: PaperQuestionsByTopic
         year: year,
         question: question,
         paperType: paperType,
+        paperVersion: topicPaperVersion
       };
+      // consolee.log("paramValues:", paramValues);
       const apiEndpoint = "/api/documents/question-page/";
       const response = await axios.get(apiEndpoint, { params: paramValues });
 
+      setPaperVersion(topicPaperVersion);
       updateYear(year);
-      setYear(year);
 
       // iterate through response.data.pages and find the page with the question and paper type
       const examPageRes = response.data.pages.find(
@@ -177,51 +174,43 @@ const PaperQuestionsByTopicPage = ({ params, updateYear }: PaperQuestionsByTopic
       const markingSchemePageRes = response.data.pages.find(
         (page: any) => page.paperType === "marking-scheme"
       );
+      const samplePaperPageRes = response.data.pages.find(
+        (page: any) => page.paperType === "sample-paper"
+      );
 
-      if (examPaperIsShown) {
+      // bonsole.log("examPageRes:", examPageRes);
+      // bonsole.log("markingSchemePageRes:", markingSchemePageRes);
+
+
+      if (paperVersion == "paper-one") {
         setExamPaperPage(examPageRes.page);
         setMarkingSchemePage(markingSchemePageRes.page);
-        console.log("exam", examPaperPage);
-        console.log("mark", markingSchemePage);
-      } else {
+        console.log("examPaperPage:", examPaperPage);
+      } else if (paperVersion == "marking-scheme") {
         setExamPaperPage(examPageRes.page);
         setMarkingSchemePage(markingSchemePageRes.page);
-        console.log("exam", examPaperPage);
-        console.log("mark", markingSchemePage);
+      } else if (paperVersion == "sample-paper"){
+        setPaperVersion("sample-paper");
+        setExamPaperPage(samplePaperPageRes.page);
       }
     } catch (error: any) {
-      toast.error("Failed to find page with question.");
+      console.log("Error:", error);
+      toast.error("Failed to fetch data. Please try again later.");
     }
   };
 
   return (
     <div className="flex flex-col h-full justify-center items-center">
-      <h2 className="font-bold text-2xl"> Paper </h2>
-      <div className="flex-1 flex ">
-        <Button
-          onClick={() => flipTo("examPaper")}
-          className={cn({
-            "": !examPaperIsShown,
-            "scale-105": examPaperIsShown,
-            "mx-6": true,
-          })}
-        >
-          Exam Paper
-        </Button>
-        <Button
-          onClick={() => flipTo("markingScheme")}
-          className={cn({
-            "scale-105": !examPaperIsShown,
-            "": examPaperIsShown,
-          })}
-        >
-          Marking Scheme
-        </Button>
-        <Separator className="my-4" />
+      <div className="flex-1 flex flex-col items-center justify-between bg-gray-300 pb-4 rounded-xl">
+        <PaperVersionAndTypeToggles presignedUrls={presignedUrls} />
       </div>
 
+
       {!params.year && (
+
         <div className="py-6">
+
+      <div className="flex-1 flex flex-col items-center justify-between bg-gray-300 py-4 rounded-xl">
           <h3 className="flex font-bold text-xl justify-center items-center pb-4"> Topics </h3>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -233,17 +222,21 @@ const PaperQuestionsByTopicPage = ({ params, updateYear }: PaperQuestionsByTopic
               >
                 {chosenTopicValue
                   ? topicNames.find(
-                      (framework) => framework.topic === chosenTopicValue
+                      (topicName) => topicName.topic === chosenTopicValue
                     )?.topic
                   : "Select topic..."}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
+
               <Command>
                 <CommandInput placeholder="Search topic..." />
                 <CommandEmpty>No topic found.</CommandEmpty>
+
                 <CommandGroup>
+
+                  <ScrollArea>
                   {topicNames.map((topicName) => (
                     <CommandItem
                       key={topicName.topic}
@@ -265,22 +258,28 @@ const PaperQuestionsByTopicPage = ({ params, updateYear }: PaperQuestionsByTopic
                       {topicName.topic}
                     </CommandItem>
                   ))}
+
+</ScrollArea>
                 </CommandGroup>
+
               </Command>
+
             </PopoverContent>
+
           </Popover>
+        </div>
         </div>
       )}
 
       <div className="flex-2 flex flex-col items-center justify-center">
         <h2 className="font-bold text-2xl mb-4 pt-8"> {params.year ? "Topics" : "Questions"} </h2>
-        <ScrollArea className="rounded-md border p-4 h-[240px] w-full">
+        <ScrollArea className="rounded-md border p-4 h-[440px] w-full">
           <div className="flex flex-col items-center">
             {topics.map((topic) => (
               <Button
                 key={topic.id}
                 className="my-2 w-3/4"
-                onClick={() => findPageWithQuestion(topic.question, topic.year)}
+                onClick={() => findPageWithQuestion(topic.question, topic.year, topic.paperVersion )}
               >
                 {!params.year ? topic.year : ""} Q{topic.question} {topic.parts} - {topic.topic}
               </Button>

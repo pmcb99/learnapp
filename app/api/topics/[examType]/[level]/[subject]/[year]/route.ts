@@ -44,7 +44,6 @@ export async function GET(
     ],
     });
 
-
     // const topics = await getTopicsForYear(Number(year), level, examType, subject);
     
     return new NextResponse(JSON.stringify({ topics : topics }))

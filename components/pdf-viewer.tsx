@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Page, Document, pdfjs } from "react-pdf";
 import { SizeMe } from "react-sizeme";
 import { Nav } from "./pdf-viewer-navbar";
+import { PresignedUrl } from "@/types/global";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 // import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 
@@ -13,12 +14,11 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 export type BucketName = typeof LC_BUCKET_NAME | typeof JC_BUCKET_NAME;
 
-export interface PresignedUrl {
-  url: string;
-  bucket: BucketName;
-  key: string;
-}
 
+
+interface CachedUrls {
+  [key: string]: string;
+}
 
 export default function PDFViewer(props: {
   presignedUrls: PresignedUrl[];
@@ -30,9 +30,9 @@ export default function PDFViewer(props: {
   linkId: string;
 }) {
 
-  console.log(props.year)
 
-  const { examPaperIsShown, flipDocumentShown, examPaperPage, setExamPaperPage, markingSchemePage, setMarkingSchemePage } = useExamDocumentStore(
+  const { examPaperIsShown, flipDocumentShown, examPaperPage, setExamPaperPage, markingSchemePage, setMarkingSchemePage,
+  paperVersion, setPaperVersion, currentPresignedUrl, setCurrentPresignedUrl } = useExamDocumentStore(
     (state) => ({
       examPaperIsShown: state.examPaperIsShown,
       flipDocumentShown: state.flipDocumentShown,
@@ -40,14 +40,30 @@ export default function PDFViewer(props: {
       setExamPaperPage: state.setExamPaperPage,
       markingSchemePage: state.markingSchemePage,
       setMarkingSchemePage: state.setMarkingSchemePage,
+      paperVersion: state.paperVersion,
+      setPaperVersion: state.setPaperVersion,
+      currentPresignedUrl: state.currentPresignedUrl,
+      setCurrentPresignedUrl: state.setCurrentPresignedUrl,
     })
   );
+
+  if (!currentPresignedUrl.url && props.presignedUrls[0]) {
+    setCurrentPresignedUrl(props.presignedUrls[0]);
+  }
+  console.log(currentPresignedUrl)
 
   const [numPages, setNumPages] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [pageWidth, setPageWidth] = useState(0);
+  const [pageHeight, setPageHeight] = useState(null);
+  const [cachedUrls, setCachedUrls] = useState<CachedUrls>({});
+  const [localUrl, setLocalUrl] = useState<string>("");
 
-  const visiblePage = examPaperIsShown ? examPaperPage : markingSchemePage;
+  // const visiblePage = examPaperIsShown ? examPaperPage : markingSchemePage;
+
+  // check if visiblePage = exam-paper or sample-paper, set to 1 if so else set to 2
+  const visiblePage = (paperVersion.includes("exam-paper") || paperVersion.includes("sample-paper")) ? examPaperPage : markingSchemePage;
+
 
   const startTimeRef = useRef(Date.now());
   const pageNumberRef = useRef<number>(visiblePage);
@@ -69,11 +85,6 @@ export default function PDFViewer(props: {
     };
   }, [visiblePage]); // monitor pageNumber for changes
 
-  useEffect(() => {
-    if (numPages > 0) {
-      updateNumPages(numPages);
-    }
-  }, [numPages]); // monitor numPages for changes
 
   function onDocumentLoadSuccess({
     numPages: nextNumPages,
@@ -134,76 +145,73 @@ export default function PDFViewer(props: {
       isInitialPageLoad.current = false;
       return;
     }
-
-    await fetch("/api/record_view", {
-      method: "POST",
-      body: JSON.stringify({
-        linkId: props.linkId,
-        documentId: props.documentId,
-        viewId: props.viewId,
-        duration: duration,
-        pageNumber: pageNumberRef.current,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  }
-
-  async function updateNumPages(numPages: number) {
-    await fetch(`/api/documents/update`, {
-      method: "POST",
-      body: JSON.stringify({
-        documentId: props.documentId,
-        numPages: numPages,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
   }
 
   const isExamPaperVisible = useExamDocumentStore(
     (state) => state.examPaperIsShown
   );
 
-  var examPaperOrMarkingScheme: "exam-paper" | "marking-scheme" = "exam-paper";
-  if (isExamPaperVisible) {
-    examPaperOrMarkingScheme = "exam-paper";
-  } else {
-    examPaperOrMarkingScheme = "marking-scheme";
-  }
+  const paperVersionVisible = useExamDocumentStore(
+    (state) => state.paperVersion
+  );
 
-  const thisFileKeySuffix = `${props.year}/${examPaperOrMarkingScheme}`;
-  var matchingPresignedUrl: PresignedUrl | undefined;
-  if (props.presignedUrls) {
-    matchingPresignedUrl = props.presignedUrls.find((file) =>
-      file.key.includes(thisFileKeySuffix)
+  const thisFileKeySuffix = `${props.year}/${paperVersionVisible}`;
+
+  useEffect(() => {
+    async function downloadAndCachePdfs() {
+      const urls = await Promise.all(
+        props.presignedUrls.map(async (presignedUrl) => {
+          const response = await fetch(presignedUrl.url);
+          const blob = await response.blob();
+          return URL.createObjectURL(blob);
+        })
+      );
+      const urlObject = Object.fromEntries(
+        urls.map((url, index) => [props.presignedUrls[index].key, url])
+      );
+      setCachedUrls(urlObject);
+    }
+    downloadAndCachePdfs();
+
+    return () => {
+      // Cleanup function to clear the cache when the component is unmounted
+      setCachedUrls({});
+    };
+
+  }, [props.presignedUrls]);
+
+
+  
+  // const matchingUrl = cachedUrls[thisFileKeySuffix];
+  // find the matching URL in the cache that contains thisFileKeySuffix
+  var matchingUrl: string = "";
+  if (cachedUrls) {
+    const matchingKey = Object.keys(cachedUrls).find((key) =>
+      key.includes(thisFileKeySuffix)
     );
+    matchingUrl = matchingKey ? cachedUrls[matchingKey] : "";
   }
 
-  console.log(thisFileKeySuffix)
+  const currentPresignedUrlKey = currentPresignedUrl ? currentPresignedUrl.url : "";
 
 
-  // if (!fileUrl) {
-  //   throw new Error("[ERROR] File not found.");
-  // }
-
-
+  const LoadingAnimation = () => (
+    <div className="flex items-center justify-center w-full h-full">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
+    </div>
+  );
 
   return (
     <div className="flex-col w-full h-full relative overflow-hidden">
-      <Nav pageNumber={visiblePage} numPages={numPages} pdfName={`${props.year} - ${examPaperOrMarkingScheme.replaceAll('-',' ').toUpperCase()}`}/>
-
+      <Nav pageNumber={visiblePage} numPages={numPages} pdfName={`${props.year} - ${paperVersionVisible.replaceAll('-',' ').toUpperCase()}`}/>
+  
       <SizeMe
         monitorHeight
         refreshRate={128}
-        refreshMode={"debounce"}
+        refreshMode="debounce"
         render={({ size }) => (
-          <div hidden={loading} className="flex items-center h-full">
-            <div
-              className={`flex items-center justify-between w-full absolute z-10 px-2`}
-            >
+          <div hidden={loading} className="flex items-center justify-center h-full">
+            <div className="flex items-center justify-between w-full absolute z-10 px-2">
               <button
                 onClick={goToPreviousPage}
                 disabled={visiblePage <= 1}
@@ -221,29 +229,31 @@ export default function PDFViewer(props: {
                 <ChevronRightIcon className="h-10 w-10" aria-hidden="true" />
               </button>
             </div>
-
-            <div className="flex items-center justify-center overflow-hidden">
-              <Document
-                file={matchingPresignedUrl?.url || ""} // Pass the presignedUrl here
-                onLoadSuccess={onDocumentLoadSuccess}
-                onLoadError={(error) =>
-                  console.error("Document failed to load", error)
-                }
-                options={options}
-                renderMode="canvas"
-                className="flex items-center justify-center"
-              >
-                <Page
-                  className="overflow-hidden w-full items-center"
-                  key={visiblePage}
-                  pageNumber={visiblePage}
-                  renderAnnotationLayer={false}
-                  renderTextLayer={false}
-                  onLoadSuccess={onPageLoadSuccess}
-                  onRenderError={() => setLoading(false)}
-                  width={size.width}
-                />
-              </Document>
+  
+            <div className="flex items-center justify-center w-full h-full">
+              <div className="flex items-center justify-center w-full h-full">
+                <Document
+                  file={currentPresignedUrlKey}
+                  onLoadSuccess={onDocumentLoadSuccess}
+                  onLoadError={(error) => console.error("Document failed to load", error)}
+                  loading={<LoadingAnimation />}
+                  options={options}
+                  renderMode="canvas"
+                  className="flex items-center justify-center"
+                >
+                  <Page
+                    className="flex overflow-hidden w-full items-center"
+                    key={visiblePage}
+                    pageNumber={visiblePage}
+                    loading={<LoadingAnimation />}
+                    renderAnnotationLayer={false}
+                    renderTextLayer={false}
+                    onLoadSuccess={onPageLoadSuccess}
+                    onRenderError={() => setLoading(false)}
+                    width={size.width}
+                  />
+                </Document>
+              </div>
             </div>
           </div>
         )}

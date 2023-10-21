@@ -9,7 +9,7 @@ export async function GET(
   const { searchParams } = new URL(req.url)
   const bucket = searchParams.get('Bucket')
   const keyDashed = searchParams.get('Prefix') as string;
-  const keySlashed = keyDashed.replaceAll(/-/g, '/')
+  const keySlashed = keyDashed.replaceAll(/_/g, '/')
 
   if (!bucket || !keyDashed) {
     return new NextResponse("[ERROR] Missing bucket or key.", { status: 400 });
@@ -31,27 +31,35 @@ export async function GET(
     return new NextResponse("[ERROR] No files found.", { status: 404 });
   }
 
+  // filter any files that are not PDFs
+  const filteredFiles = files.Contents.filter((file) => {
+    // skip any undefined files
+    return file.Key && file.Key.endsWith(".pdf");
+  });
+
   // get the presigned URLs from redis
   const redisKey = `${bucket}:${keySlashed}`;
-  try {
-    const redisValue = await redisClient.get(redisKey);
-    if (redisValue) {
-      console.log("Already in Redis")
-      const presignedUrls = JSON.parse(redisValue);
-      return NextResponse.json({ presignedUrls });
-    }
-  } catch (error) {
-      console.log("[REDIS_GET_ERROR]", error);
-  } 
+  // try {
+  //   const redisValue = await redisClient.get(redisKey);
+  //   if (redisValue) {
+  //     console.log("Already in Redis")
+  //     const presignedUrls = JSON.parse(redisValue);
+  //     return NextResponse.json({ presignedUrls });
+  //   }
+  // } catch (error) {
+  //     console.log("[REDIS_GET_ERROR]", error);
+  // } 
 
   // iterate over files and create a presigned URL for each
-  const presignedUrls = files.Contents.map((file) => {
+  const presignedUrls = files.Contents
+  .filter((file) => file.Key && file.Key.endsWith(".pdf")) // filter any files that do not end with ".pdf"
+  .map((file) => {
     const url = s3.getSignedUrl("getObject", {
       Bucket: values.Bucket,
       Key: file.Key,
       Expires: 3600,
     });
-    return { url, bucket: values.Bucket, key: file.Key}
+    return { url, bucket: values.Bucket, key: file.Key };
   });
 
   if (!presignedUrls) {
@@ -69,7 +77,6 @@ export async function GET(
     } 
   }
 
-  console.log(presignedUrls)
   return NextResponse.json({ presignedUrls });
 
   } catch (error) {

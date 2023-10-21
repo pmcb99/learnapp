@@ -10,9 +10,9 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "@/app/constants";
 import { JC_BUCKET_NAME, LC_BUCKET_NAME } from "@/app/constants";
-import PDFViewer, { PresignedUrl } from "@/components/pdf-viewer";
+import PDFViewer from "@/components/pdf-viewer";
 import PaperQuestionsByTopicPage from "@/components/paper-questions-by-topic-page";
-
+import { PresignedUrl } from "@/types/global";
 
 
 const ConversationPage = (params: {
@@ -58,7 +58,7 @@ const ConversationPage = (params: {
   const onSubmit = async () => {
     try {
       const response = await axios.get(
-        `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.params.level}-${params.params.subject}-${year}-`
+        `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.params.level}_${params.params.subject}_${year}_`
       );
       setPresignedUrls(response.data.presignedUrls);
     } catch (error: any) {
@@ -78,7 +78,7 @@ const ConversationPage = (params: {
     <div className="flex">
 
       <div className="h-full w-full">
-        <PaperQuestionsByTopicPage params={params.params} updateYear={setYear} />
+        <PaperQuestionsByTopicPage params={params.params} updateYear={setYear} presignedUrls={presignedUrls}/>
       </div>
       <div className="h-full w-full">
         <PDFViewer

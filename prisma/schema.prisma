@@ -65,25 +65,27 @@ model ExamPaper {
 }
 
 model PaperQuestionsByTopic {
-  id       Int     @id @default(autoincrement())
-  level    String? @db.VarChar(255)
-  examType String? @db.VarChar(255)
-  year     Int?
-  question Int?
-  parts    String? @db.VarChar(255)
-  topic    String? @db.VarChar(255)
-  subject  String? @db.VarChar(255)
+  id           Int     @id @default(autoincrement())
+  level        String? @db.VarChar(255)
+  examType     String? @db.VarChar(255)
+  year         Int?
+  question     Int?
+  parts        String? @db.VarChar(255)
+  topic        String? @db.VarChar(255)
+  subject      String? @db.VarChar(255)
+  paperVersion String? @db.VarChar(255)
 }
 
 model QuestionsByPage {
-  id        Int     @id @default(autoincrement())
-  year      Int?
-  page      Int?
-  question  Int?
-  level     String? @db.VarChar(255)
-  examType  String? @db.VarChar(255)
-  subject   String? @db.VarChar(255)
-  paperType String? @db.VarChar(255)
+  id           Int     @id @default(autoincrement())
+  year         Int?
+  page         Int?
+  question     Int?
+  level        String? @db.VarChar(255)
+  examType     String? @db.VarChar(255)
+  subject      String? @db.VarChar(255)
+  paperType    String? @db.VarChar(255)
+  paperVersion String? @db.VarChar(255)
 }
 
 enum SubjectName {
