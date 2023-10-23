@@ -59,23 +59,27 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
   const [topicNames, setTopicNames] = useState<TopicName[]>([]);
 
   const {
-    examPaperIsShown,
-    flipDocumentShown,
     examPaperPage,
     setExamPaperPage,
     markingSchemePage,
     setMarkingSchemePage,
-    paperVersion,
-    setPaperVersion
+    samplePaperPage,
+    setSamplePaperPage,
+    projectPaperPage,
+    setProjectPaperPage,
+    currentPresignedUrl,
+    setCurrentPresignedUrl,
   } = useExamDocumentStore((state) => ({
-    examPaperIsShown: state.examPaperIsShown,
-    flipDocumentShown: state.flipDocumentShown,
     examPaperPage: state.examPaperPage,
     setExamPaperPage: state.setExamPaperPage,
     markingSchemePage: state.markingSchemePage,
     setMarkingSchemePage: state.setMarkingSchemePage,
-    paperVersion: state.paperVersion,
-    setPaperVersion: state.setPaperVersion
+    samplePaperPage: state.samplePaperPage,
+    setSamplePaperPage: state.setSamplePaperPage,
+    projectPaperPage: state.projectPaperPage,
+    setProjectPaperPage: state.setProjectPaperPage,
+    currentPresignedUrl: state.currentPresignedUrl,
+    setCurrentPresignedUrl: state.setCurrentPresignedUrl,
   }));
 
   const getTopicsForYear = async () => {
@@ -146,7 +150,15 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
     }
   }, []);
 
-  const paperType = paperVersion;
+  useEffect(() => {
+    if (!open) {
+      getTopicsForSubject().then(() => {
+        setOpen(false);
+      });
+    }
+  }, [chosenTopicValue]);
+
+  const paperType = currentPresignedUrl.key.split("/")[3];
 
   const findPageWithQuestion = async (question: number | null, year: number, topicPaperVersion: string) => {
     console.log([question, year, topicPaperVersion])
@@ -161,11 +173,19 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
         paperVersion: topicPaperVersion
       };
       // consolee.log("paramValues:", paramValues);
+      updateYear(year);
       const apiEndpoint = "/api/documents/question-page/";
       const response = await axios.get(apiEndpoint, { params: paramValues });
 
-      setPaperVersion(topicPaperVersion);
-      updateYear(year);
+
+      const requestedPresignedUrl = presignedUrls.find((presignedUrl) => presignedUrl.key.includes(topicPaperVersion))
+      if (!requestedPresignedUrl) {
+        toast.error("A paper could not be found for this question. We'll fix this soon.");
+        return;
+      }
+      setCurrentPresignedUrl(requestedPresignedUrl);
+      console.log(response.data)
+
 
       // iterate through response.data.pages and find the page with the question and paper type
       const examPageRes = response.data.pages.find(
@@ -174,28 +194,48 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
       const markingSchemePageRes = response.data.pages.find(
         (page: any) => page.paperType === "marking-scheme"
       );
-      const samplePaperPageRes = response.data.pages.find(
-        (page: any) => page.paperType === "sample-paper"
-      );
+
+      // find presigned url for this paper version
+
+      response.data.pages.forEach((page: any) => {
+        if (page.paperType === "exam-paper") {
+          setExamPaperPage(page.page);
+        } else if (page.paperType === "marking-scheme") {
+          setMarkingSchemePage(page.page);
+        } else if (page.paperType === "sample-paper") {
+          setSamplePaperPage(page.page);
+        } else if (page.paperType === "project") {
+          setProjectPaperPage(page.page);
+        }
+      });
+        
 
       // bonsole.log("examPageRes:", examPageRes);
       // bonsole.log("markingSchemePageRes:", markingSchemePageRes);
 
+      const correctPresignedUrl = presignedUrls.find((presignedUrl) => presignedUrl.key.includes(response.data.paperVersion)) 
+      if (correctPresignedUrl) {
+        setCurrentPresignedUrl(correctPresignedUrl);
+      } else {
+        console.log("No presigned url found for this paper version.")
+      }
 
-      if (paperVersion == "paper-one") {
+
+      if (currentPresignedUrl.key.includes("marking-scheme")) {
         setExamPaperPage(examPageRes.page);
         setMarkingSchemePage(markingSchemePageRes.page);
         console.log("examPaperPage:", examPaperPage);
-      } else if (paperVersion == "marking-scheme") {
+      } else if (currentPresignedUrl.key.includes("exam-paper")) {
         setExamPaperPage(examPageRes.page);
         setMarkingSchemePage(markingSchemePageRes.page);
-      } else if (paperVersion == "sample-paper"){
-        setPaperVersion("sample-paper");
-        setExamPaperPage(samplePaperPageRes.page);
+      } else if (currentPresignedUrl.key.includes("sample-paper")) {
+        setSamplePaperPage(examPageRes.page);
+      }
+      else if (currentPresignedUrl.key.includes("project")) {
+        setProjectPaperPage(examPageRes.page);
       }
     } catch (error: any) {
       console.log("Error:", error);
-      toast.error("Failed to fetch data. Please try again later.");
     }
   };
 
@@ -241,9 +281,7 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
                     <CommandItem
                       key={topicName.topic}
                       onSelect={() => {
-                        console.log(topicName.topic);
                         setChosenTopicValue(topicName.topic);
-                        getTopicsForSubject();
                         setOpen(false);
                       }}
                     >

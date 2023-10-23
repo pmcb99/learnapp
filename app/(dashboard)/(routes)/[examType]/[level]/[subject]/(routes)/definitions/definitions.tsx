@@ -17,8 +17,8 @@ const DefinitionList: React.FC<DefinitionListProps> = ({ definitions }) => {
                 </div>
             ))}
 
-            <footer className="mt-10 text-center text-gray-500">
-                © LC-GPT
+            <footer className="mt-10 text-center text-foreground">
+                © StreamWise
             </footer>
         </div>
     );

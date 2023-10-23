@@ -54,7 +54,7 @@ export async function GET() {
           price_data: {
             currency: "USD",
             product_data: {
-              name: "Plot Compass Pro",
+              name: "StreamWise Pro",
               description: "Unlimited answers to your questions"
             },
             unit_amount: 1000,

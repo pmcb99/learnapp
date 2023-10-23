@@ -11,7 +11,7 @@ export const Loader = () => {
         />
       </div>
       <p className="text-sm text-muted-foreground">
-        LC-GPT is thinking...
+        StreamWise is thinking...
       </p>
     </div>
   );

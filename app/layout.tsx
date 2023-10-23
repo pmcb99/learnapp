@@ -12,7 +12,7 @@ import './globals.css'
 const font = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Plot Compass',
+  title: 'StreamWise',
   description: 'Leaving Cert AI Assistant',
 }
 

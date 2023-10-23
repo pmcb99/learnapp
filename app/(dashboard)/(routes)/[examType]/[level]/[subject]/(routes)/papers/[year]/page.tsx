@@ -61,7 +61,6 @@ const PaperViewPage = (params: {
         `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.params.level}_${params.params.subject}_${year}_`
       );
       setPresignedUrls(response.data.presignedUrls);
-      console.log(response.data.presignedUrls)
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();

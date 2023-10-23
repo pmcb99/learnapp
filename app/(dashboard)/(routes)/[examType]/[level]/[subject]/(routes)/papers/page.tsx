@@ -22,7 +22,6 @@ export default async function HomePage(
     }
 
     const files = await s3.listObjects(values).promise();
-    console.log(files)
 
     var examPaperKeys = files.Contents?.filter(file => file.Key?.includes('exam-paper'))
     //filter out undefined values, and sort in reverse order

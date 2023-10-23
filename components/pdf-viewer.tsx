@@ -53,7 +53,6 @@ export default function PDFViewer(props: {
   if (!currentPresignedUrl.url && props.presignedUrls[0]) {
     setCurrentPresignedUrl(props.presignedUrls[0]);
   } 
-  console.log(currentPresignedUrl)
 
   const [numPages, setNumPages] = useState<number>(0);
   const [loading, setLoading] = useState(true);
@@ -67,18 +66,24 @@ export default function PDFViewer(props: {
   // check if visiblePage = exam-paper or sample-paper, set to 1 if so else set to 2
 
   function getVisiblePage() {
+    var visiblePage = 1;
     if (currentPresignedUrl.key.includes("exam-paper")) {
-      return examPaperPage;
+      console.log("exam paper page", examPaperPage);
+      visiblePage = examPaperPage;
     }
     else if (currentPresignedUrl.key.includes("sample-paper")) {
-      return samplePaperPage;
+      visiblePage = samplePaperPage;
     }
     else if (currentPresignedUrl.key.includes("coursework-project")) {
-      return projectPaperPage;
+      visiblePage = projectPaperPage;
     }
     else {
-      return markingSchemePage;
+      visiblePage = markingSchemePage;
     }
+    if (visiblePage > numPages) {
+      visiblePage = 1;
+    }
+    return visiblePage;
   }
 
   const visiblePage = getVisiblePage();
@@ -100,7 +105,6 @@ export default function PDFViewer(props: {
     return () => {
       const endTime = Date.now();
       const duration = Math.round(endTime - startTimeRef.current);
-      trackPageView(duration);
     };
   }, [visiblePage]); // monitor pageNumber for changes
 
@@ -118,7 +122,6 @@ export default function PDFViewer(props: {
     const handleBeforeUnload = () => {
       const endTime = Date.now();
       const duration = Math.round(endTime - startTimeRef.current);
-      trackPageView(duration);
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -168,9 +171,13 @@ export default function PDFViewer(props: {
     flipToAdjacentPage("decrement");
   }
 
+  function convertToTitleCase(str: string) {
+    return str.replace(/(^|\s)\S/g, function (t) {
+      return t.toUpperCase();
+    });
+  }
 
-  console.log(currentPresignedUrl)
-  const paperVersionVisible = currentPresignedUrl.key ? `${currentPresignedUrl.key.split('/')[3].replaceAll('-',' ').toUpperCase()}` : "";
+  const paperVersionVisible = currentPresignedUrl.key ? `${convertToTitleCase(currentPresignedUrl.key.split('/')[3].replaceAll('-',' '))}` : "";
 
   const thisFileKeySuffix = `${props.year}/${paperVersionVisible}`;
 
@@ -220,7 +227,7 @@ export default function PDFViewer(props: {
 
   return (
     <div className="flex-col w-full h-full relative overflow-hidden">
-      <Nav pageNumber={visiblePage} numPages={numPages} pdfName={`${props.year} - ${paperVersionVisible.replaceAll('-',' ').toUpperCase()}`}/>
+      <Nav pageNumber={visiblePage} numPages={numPages} pdfName={`${props.year} - ${paperVersionVisible}`}/>
   
       <SizeMe
         monitorHeight

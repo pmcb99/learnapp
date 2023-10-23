@@ -42,7 +42,6 @@ function getUniquePaperVersions(presignedUrls: PresignedUrl[]) {
             uniquePaperVersions.push(paperVersion);
         }
     })
-    console.log(uniquePaperVersions)
     return uniquePaperVersions
 }
 
@@ -75,7 +74,11 @@ function PaperVersionAndTypeToggles(
           <h3 className=''>{uniquePaperVersion}</h3>
           <div className='flex gap-x-2'>
             {presignedUrlsByPaperVersion[uniquePaperVersion].map((presignedUrl: PresignedUrl) => (
-              <Button key={presignedUrl.key} onClick={() => setCurrentPresignedUrl(presignedUrl)}> {/* Replace console.log with your desired functionality */}
+              <Button 
+                key={presignedUrl.key} 
+                onClick={() => setCurrentPresignedUrl(presignedUrl)}
+                disabled={currentPresignedUrl?.key === presignedUrl.key} 
+                > 
                 {getPaperVersionAndType(presignedUrl).paperType}
               </Button>
             ))}
