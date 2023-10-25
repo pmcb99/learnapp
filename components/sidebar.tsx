@@ -89,11 +89,12 @@ export const Sidebar = ({
 
 
         <Link href="/dashboard" className="flex items-center pl-3 mb-14">
-          <div className="relative h-9 w-9 mr-4">
-            <Image fill alt="Logo" src="/logo.png" />
+          <div className="relative h-9 w-9 ">
+            <Image fill alt="Logo" src="/logo-light.png" className="dark:block hidden scale-110" />
+            <Image fill alt="Logo" src="/logo-dark.png" className="dark:hidden scale-110" />
           </div>
           <h1 className={cn("text-2xl font-bold dark: text-white", poppins.className)}>
-            StreamWise
+            Rewize
           </h1>
         </Link>
 

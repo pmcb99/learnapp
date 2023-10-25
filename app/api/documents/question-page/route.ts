@@ -3,6 +3,10 @@ import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
 
+import { Redis } from '@upstash/redis'
+
+
+
 
 async function getPageForQuestion(
   year: number,
@@ -50,6 +54,7 @@ export async function GET(
     console.log('examType', examType)
     console.log('subject', subject)
     console.log('question', question)
+    console.log('paperVersion', paperVersion)
 
     const pages = await prismadb.questionsByPage.findMany({
       where: {
@@ -60,7 +65,11 @@ export async function GET(
         question: Number(question),
         paperVersion: paperVersion,
       },
+      orderBy: {
+        page: 'desc'
+      }
     });
+
 
     console.log('pages', pages)
     

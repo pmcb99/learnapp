@@ -73,7 +73,7 @@ model PaperQuestionsByTopic {
   parts        String? @db.VarChar(255)
   topic        String? @db.VarChar(255)
   subject      String? @db.VarChar(255)
-  paperVersion String? @db.VarChar(255)
+  paperVersion String  @db.VarChar(255)
 }
 
 model QuestionsByPage {

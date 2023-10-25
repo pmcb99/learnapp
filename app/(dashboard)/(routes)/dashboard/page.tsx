@@ -30,11 +30,12 @@ export default function HomePage() {
         {subjects.map((subject) => (
           <Card onClick={() => router.push(subject.href)} key={subject.href} className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer">
             <div className="flex items-center gap-x-4">
-              <div className={cn("p-2 w-fit rounded-md", subject.bgColor)}>
-                <subject.icon className={cn("w-8 h-8", subject.color)} />
-              </div>
               <div className="font-semibold">
-                <Image src={subject.imageIconPath || ""} alt="" width={50} height={50}/>
+                <Image src={subject.imageIconPath || ""} alt="" width={50} height={50} className="dark:hidden"/>
+                <Image src={subject.imageIconPath.replace("light","dark") || ""} alt="" width={50} height={50} className="hidden dark:block"/>
+              </div>
+              <div>
+
               </div>
               <div className="font-semibold">
                 {subject.label}

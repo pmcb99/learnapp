@@ -28,7 +28,7 @@ export const LandingHero = () => {
         </div>
       </div>
       <div className="text-sm md:text-xl font-light text-zinc-400">
-        StreamWise is an AI-powered tool that helps you study for the Leaving Cert.
+        Rewize is an AI-powered tool that helps you study for the Leaving Cert.
       </div>
       <div>
         <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>

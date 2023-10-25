@@ -10,8 +10,9 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "@/app/constants";
 import { JC_BUCKET_NAME, LC_BUCKET_NAME } from "@/app/constants";
-import PDFViewer, { PresignedUrl } from "@/components/pdf-viewer";
+import PDFViewer from "@/components/pdf-viewer";
 import PaperQuestionsByTopicPage from "@/components/paper-questions-by-topic-page";
+import { PresignedUrl } from "@/types/global";
 
 
 
@@ -78,7 +79,7 @@ const PaperViewPage = (params: {
     <div className="flex">
 
       <div className="h-full w-full">
-        <PaperQuestionsByTopicPage params={params.params} updateYear={setYear} presignedUrls={presignedUrls}/>
+        <PaperQuestionsByTopicPage params={params.params} presignedUrls={presignedUrls}/>
       </div>
       <div className="h-full w-full">
         <PDFViewer

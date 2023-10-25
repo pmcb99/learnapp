@@ -54,6 +54,7 @@ export default function PDFViewer(props: {
     setCurrentPresignedUrl(props.presignedUrls[0]);
   } 
 
+
   const [numPages, setNumPages] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [pageWidth, setPageWidth] = useState(0);
@@ -204,6 +205,9 @@ export default function PDFViewer(props: {
 
   }, [props.presignedUrls]);
 
+  // console.log("cachedUrls", cachedUrls);
+
+  // render the page only if document is loaded
 
   
   // const matchingUrl = cachedUrls[thisFileKeySuffix];
@@ -217,6 +221,16 @@ export default function PDFViewer(props: {
   }
 
   const currentPresignedUrlKey = currentPresignedUrl ? currentPresignedUrl.url : "";
+  
+
+  // if current presigned url is an empty string, return null
+  if (!currentPresignedUrlKey) {
+    return null;
+  }
+  
+
+  
+
 
 
   const LoadingAnimation = () => (
@@ -261,7 +275,7 @@ export default function PDFViewer(props: {
                   onLoadSuccess={onDocumentLoadSuccess}
                   onLoadError={(error) => console.error("Document failed to load", error)}
                   loading={<LoadingAnimation />}
-                  options={options}
+                  // options={options}
                   renderMode="canvas"
                   className="flex items-center justify-center"
                 >

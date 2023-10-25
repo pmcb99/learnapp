@@ -20,9 +20,6 @@ export async function GET(req: Request) {
     const namesOnly = searchParams.get("namesOnly") as string;
     const topic = searchParams.get("topic") as string;
 
-    console.log("searchParams", searchParams);
-
-
     // get topic names from db if namesOnly is true
     console.log("namesOnly", namesOnly)
     if (namesOnly === "true") {

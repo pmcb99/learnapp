@@ -47,12 +47,11 @@ interface PaperQuestionsByTopicPageProps {
     year: string;
   };
 
-  updateYear: React.Dispatch<React.SetStateAction<number>>;
   presignedUrls: PresignedUrl[];
 }
 
 
-const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQuestionsByTopicPageProps) => {
+const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTopicPageProps) => {
   const [topics, setTopics] = useState<PaperQuestionsByTopic[]>([]);
   const [open, setOpen] = useState(false);
   const [chosenTopicValue, setChosenTopicValue] = useState("");
@@ -69,6 +68,8 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
     setProjectPaperPage,
     currentPresignedUrl,
     setCurrentPresignedUrl,
+    year,
+    setYear
   } = useExamDocumentStore((state) => ({
     examPaperPage: state.examPaperPage,
     setExamPaperPage: state.setExamPaperPage,
@@ -80,6 +81,8 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
     setProjectPaperPage: state.setProjectPaperPage,
     currentPresignedUrl: state.currentPresignedUrl,
     setCurrentPresignedUrl: state.setCurrentPresignedUrl,
+    year: state.year,
+    setYear: state.setYear
   }));
 
   const getTopicsForYear = async () => {
@@ -112,6 +115,7 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
       });
       console.log("Response:", response);
       setTopicNames(response.data.topics);
+      setChosenTopicValue(response.data.topics[0].topic);
       return topics;
     } catch (error: any) {
       console.log("Error:", error);
@@ -161,7 +165,7 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
   const paperType = currentPresignedUrl.key.split("/")[3];
 
   const findPageWithQuestion = async (question: number | null, year: number, topicPaperVersion: string) => {
-    console.log([question, year, topicPaperVersion])
+    setYear(year);
     try {
       const paramValues = {
         examType: params.examType,
@@ -169,22 +173,21 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
         subject: params.subject,
         year: year,
         question: question,
-        paperType: paperType,
         paperVersion: topicPaperVersion
       };
-      // consolee.log("paramValues:", paramValues);
-      updateYear(year);
-      const apiEndpoint = "/api/documents/question-page/";
-      const response = await axios.get(apiEndpoint, { params: paramValues });
+      console.log(paramValues)
+      const response = await axios.get("/api/documents/question-page/", { params: paramValues });
 
+      console.log("Response:", response);
 
-      const requestedPresignedUrl = presignedUrls.find((presignedUrl) => presignedUrl.key.includes(topicPaperVersion))
-      if (!requestedPresignedUrl) {
-        toast.error("A paper could not be found for this question. We'll fix this soon.");
-        return;
-      }
-      setCurrentPresignedUrl(requestedPresignedUrl);
-      console.log(response.data)
+      // const requestedPresignedUrl = presignedUrls.find((presignedUrl) => presignedUrl.key.includes(`${year}/${topicPaperVersion}`))
+      // if (!requestedPresignedUrl) {
+      //   console.log("Something fucked up")
+      //   console.log("presignedUrls:", presignedUrls);
+      //   toast.error(".");
+      //   return;
+      // }
+      // setCurrentPresignedUrl(requestedPresignedUrl);
 
 
       // iterate through response.data.pages and find the page with the question and paper type
@@ -208,32 +211,7 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
           setProjectPaperPage(page.page);
         }
       });
-        
 
-      // bonsole.log("examPageRes:", examPageRes);
-      // bonsole.log("markingSchemePageRes:", markingSchemePageRes);
-
-      const correctPresignedUrl = presignedUrls.find((presignedUrl) => presignedUrl.key.includes(response.data.paperVersion)) 
-      if (correctPresignedUrl) {
-        setCurrentPresignedUrl(correctPresignedUrl);
-      } else {
-        console.log("No presigned url found for this paper version.")
-      }
-
-
-      if (currentPresignedUrl.key.includes("marking-scheme")) {
-        setExamPaperPage(examPageRes.page);
-        setMarkingSchemePage(markingSchemePageRes.page);
-        console.log("examPaperPage:", examPaperPage);
-      } else if (currentPresignedUrl.key.includes("exam-paper")) {
-        setExamPaperPage(examPageRes.page);
-        setMarkingSchemePage(markingSchemePageRes.page);
-      } else if (currentPresignedUrl.key.includes("sample-paper")) {
-        setSamplePaperPage(examPageRes.page);
-      }
-      else if (currentPresignedUrl.key.includes("project")) {
-        setProjectPaperPage(examPageRes.page);
-      }
     } catch (error: any) {
       console.log("Error:", error);
     }
@@ -314,13 +292,13 @@ const PaperQuestionsByTopicPage = ({ params, updateYear, presignedUrls }: PaperQ
         <ScrollArea className="rounded-md border p-4 h-[440px] w-full">
           <div className="flex flex-col items-center">
             {topics.map((topic) => (
-              <Button
+              currentPresignedUrl.key.includes(topic.paperVersion)&&(<Button
                 key={topic.id}
                 className="my-2 w-3/4"
                 onClick={() => findPageWithQuestion(topic.question, topic.year, topic.paperVersion )}
               >
                 {!params.year ? topic.year : ""} Q{topic.question} {topic.parts} - {topic.topic}
-              </Button>
+              </Button>)
             ))}
           </div>
         </ScrollArea>

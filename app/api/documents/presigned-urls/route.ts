@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { s3 } from "../../(s3)/client";
-import { redisClient } from "@/lib/redis";
+import { Redis } from '@upstash/redis';
 
 export async function GET(
   req: Request,
@@ -38,17 +38,18 @@ export async function GET(
   });
 
   // get the presigned URLs from redis
+  const redis = Redis.fromEnv();
   const redisKey = `${bucket}:${keySlashed}`;
-  // try {
-  //   const redisValue = await redisClient.get(redisKey);
-  //   if (redisValue) {
-  //     console.log("Already in Redis")
-  //     const presignedUrls = JSON.parse(redisValue);
-  //     return NextResponse.json({ presignedUrls });
-  //   }
-  // } catch (error) {
-  //     console.log("[REDIS_GET_ERROR]", error);
-  // } 
+
+  // const cachedValue = (await redis.get(redisKey)) as string | null;
+  const cachedValue = null;
+
+  if (cachedValue != null) {
+    console.log("In Redis")
+    return NextResponse.json({ presignedUrls: cachedValue});
+  } else {
+    console.log("Not in Redis")
+  }
 
   // iterate over files and create a presigned URL for each
   const presignedUrls = files.Contents
@@ -57,7 +58,7 @@ export async function GET(
     const url = s3.getSignedUrl("getObject", {
       Bucket: values.Bucket,
       Key: file.Key,
-      Expires: 3600,
+      Expires: 3600*10,
     });
     return { url, bucket: values.Bucket, key: file.Key };
   });
@@ -66,16 +67,15 @@ export async function GET(
     return new NextResponse("[ERROR] No presigned URLs found.", { status: 404 });
   }
 
-  // if (!redisValue && presignedUrls){
-  if (presignedUrls){
+  (async () => {
     try {
-      await redisClient.set(redisKey, JSON.stringify(presignedUrls), {
-        "EX": 3600
-      });
+      const data = await redis.set(redisKey, JSON.stringify(presignedUrls))
+      await redis.expire(redisKey, 3558)
+      console.log(data);
     } catch (error) {
-      console.log("[REDIS_SET_ERROR]", error);
-    } 
-  }
+      console.error(error);
+    }
+  })();
 
   return NextResponse.json({ presignedUrls });
 

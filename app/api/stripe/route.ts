@@ -43,7 +43,7 @@ export async function GET() {
           price_data: {
             currency: "USD",
             product_data: {
-              name: "StreamWise Pro",
+              name: "Rewize Pro",
               description: "Unlimited answers to your questions"
             },
             unit_amount: 1000,
