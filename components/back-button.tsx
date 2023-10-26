@@ -8,7 +8,7 @@ const BackButton: React.FC = () => {
     return ( 
         <>
         <Button className="flex items-center w-[100px]" onClick={() => {router.back()}}>
-            <ArrowLeft/>
+            <ArrowLeft className="mr-5"/>
             Back
         </Button>
         </>

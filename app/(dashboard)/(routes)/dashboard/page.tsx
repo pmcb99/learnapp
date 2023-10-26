@@ -15,6 +15,8 @@ export default function HomePage() {
   const router = useRouter();
   // create a list of subjects from the enum SubjectName
 
+  const hrefPrefix = "/lc/higher/";
+
 
   return (
     <div>
@@ -26,9 +28,9 @@ export default function HomePage() {
           Chat with the smartest AI - Experience the power of AI
         </p> */}
       </div>
-      <div className="px-4 md:px-20 lg:px-32 space-y-4">
+      <div className="grid grid-cols-2 px-4 md:px-20 lg:px-32 space-y-4">
         {subjects.map((subject) => (
-          <Card onClick={() => router.push(subject.href)} key={subject.href} className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer">
+          <Card onClick={() => router.push(`${hrefPrefix}${subject.href}`)} key={subject.href} className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer">
             <div className="flex items-center gap-x-4">
               <div className="font-semibold">
                 <Image src={subject.imageIconPath || ""} alt="" width={50} height={50} className="dark:hidden"/>

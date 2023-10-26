@@ -126,6 +126,7 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
   const getTopicsForSubject = async () => {
     try {
       const apiEndpoint = `/api/topics/`;
+      console.log(params)
       const response = await axios.get(apiEndpoint, {
         params: {
           examType: params.examType,
@@ -292,6 +293,8 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
         <ScrollArea className="rounded-md border p-4 h-[440px] w-full">
           <div className="flex flex-col items-center">
             {topics.map((topic) => (
+              console.log(topic.paperVersion),
+              console.log(currentPresignedUrl.key),
               currentPresignedUrl.key.includes(topic.paperVersion)&&(<Button
                 key={topic.id}
                 className="my-2 w-3/4"

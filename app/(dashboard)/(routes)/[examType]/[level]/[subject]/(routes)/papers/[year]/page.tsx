@@ -76,9 +76,9 @@ const PaperViewPage = (params: {
   }, [year]);
 
   return (
-    <div className="flex">
+    <div className="flex w-full">
 
-      <div className="h-full w-full">
+      <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80">
         <PaperQuestionsByTopicPage params={params.params} presignedUrls={presignedUrls}/>
       </div>
       <div className="h-full w-full">
@@ -91,6 +91,9 @@ const PaperViewPage = (params: {
           viewId=""
           linkId=""
         />
+        <div>
+
+        </div>
       </div>
     </div>
   );

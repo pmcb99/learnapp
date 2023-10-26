@@ -20,18 +20,8 @@ const DefinitionPage: React.FC<DefinitionPageProps> = async ({
         }
     });
     
-    const updatedef = await prismadb.definition.updateMany({
-        where: {
-            topic: "FUNGI/PROTISTA(AMOEBA)/VIRUSES",
-        },
-        data: {
-            topic: "FUNGI AND PROTISTA (AMOEBA) AND VIRUSES",
-        }
-    });
-
     return (
         <DefinitionList definitions={definitions}/>
-
     );
 }
 

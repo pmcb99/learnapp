@@ -5,7 +5,6 @@ function RootLayout({
   }) {
     return ( 
         <div>
-            {/* < */}
             {children}
         </div>
      );

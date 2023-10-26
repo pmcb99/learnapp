@@ -166,13 +166,14 @@ export const subjects = [
   //   bgColor: "bg-gray-600/10",
   //   href: '/business',
   // },
-  // {
-  //   label: 'Economics',
-  //   icon: LineChart,
-  //   color: "text-pink-600",
-  //   bgColor: "bg-pink-600/10",
-  //   href: '/economics',
-  // },
+  {
+    label: 'Economics',
+    icon: LineChart,
+    color: "text-pink-600",
+    imageIconPath: "/subject-icons/economics-light.png",
+    bgColor: "bg-pink-600/10",
+    href: '/economics',
+  },
   // {
   //   label: 'Geography',
   //   icon: Globe,
@@ -201,13 +202,14 @@ export const subjects = [
   //   bgColor: "bg-orange-500/10",
   //   href: '/construction-studies',
   // },
-  // {
-  //   label: 'Engineering',
-  //   icon: Cog,
-  //   color: "text-gray-800",
-  //   bgColor: "bg-gray-800/10",
-  //   href: '/engineering',
-  // },
+  {
+    label: 'Engineering',
+    icon: Cog,
+    color: "text-gray-800",
+    imageIconPath: "/subject-icons/engineering-light.png",
+    bgColor: "bg-gray-800/10",
+    href: '/engineering',
+  },
   // {
   //   label: 'Design and Communication Graphics',
   //   icon: Pencil,

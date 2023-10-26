@@ -21,7 +21,7 @@ export default async function HomePage() {
 
   const topicCardListProps = uniqueTopics.map((topic) => ({
     //convert topic to kebab case
-    href: `/biology/definitions/${topic.topic.replace(/\s+/g, '-').toLowerCase()}`,
+    href: `/lc/higher/biology/definitions/${topic.topic.replace(/\s+/g, '-').toLowerCase()}`,
     label: topic.topic,
     bgColor: "bg-blue-500",
     color: "text-white",

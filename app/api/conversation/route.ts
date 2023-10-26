@@ -6,6 +6,9 @@ import { checkSubscription } from "@/lib/subscription";
 import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
 import { getClasses, nearTextQuery } from "../(weaviate)/query";
 
+import { qdrantClient } from "@/lib/qdrant";
+import { EmbeddingModel, FlagEmbedding } from "fastembed";
+
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -52,16 +55,45 @@ export async function POST(
 
     // messages = [{ role: 'system', content: 'You are a tutor for the Leaving Certificate. Only use information in the messages' }, ...messages}]
 
-    const lastUserMessage = messages[messages.length - 1].content;
-    
-    const classes = getClasses();
+    const embeddingModel = await FlagEmbedding.init({
+      model: EmbeddingModel.BGEBaseEN
+  });
+  
+  let documents = [
+    "passage: Hello, World!",
+    "query: Hello, World!",
+    "passage: This is an example passage.",
+    // You can leave out the prefix but it's recommended
+    "fastembed-js is licensed under MIT" 
+];
 
-    const weaviateResponse = await nearTextQuery(bookInstance, lastUserMessage, ['chapter', 'content']);
-    // log each message in the data object
-    // const weaviateContent: string = weaviateResponse.data.Get.Lc_biology[0]["page"];
-    const weaviateMessage: string = weaviateResponse.data.Get[bookInstance][0]["_additional"]["generate"]["groupedResult"];
-    // const weaviateMessage: string = weaviateResponse.data.Get.Lc_biology_syllabus[0]["_additional"]["generate"]["grouped"];
-    console.log(weaviateMessage);
+const embeddings = embeddingModel.embed(documents, 2); //Optional batch size. Defaults to 256
+
+for await (const batch of embeddings) {
+    // batch is list of Float32 embeddings(number[][]) with length 2
+    console.log(batch);
+}
+
+
+
+  //   const res1 = await qdrantClient.search('economics', {
+  //     vector: embeddings,
+  //     limit: 3,
+  // });
+
+  //   console.log(ans)
+
+
+    // const lastUserMessage = messages[messages.length - 1].content;
+    
+    // const classes = getClasses();
+
+    // const weaviateResponse = await nearTextQuery(bookInstance, lastUserMessage, ['chapter', 'content']);
+    // // log each message in the data object
+    // // const weaviateContent: string = weaviateResponse.data.Get.Lc_biology[0]["page"];
+    // const weaviateMessage: string = weaviateResponse.data.Get[bookInstance][0]["_additional"]["generate"]["groupedResult"];
+    // // const weaviateMessage: string = weaviateResponse.data.Get.Lc_biology_syllabus[0]["_additional"]["generate"]["grouped"];
+    // console.log(weaviateMessage);
 
     // console.log(messages);
     // const response = await openai.createChatCompletion({
