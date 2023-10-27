@@ -21,7 +21,7 @@ export const LandingNavbar = () => {
           <Image fill alt="Logo" src="/logo-dark.png" className="hidden dark:block"/>
         </div>
         <h1 className={cn("text-2xl font-bold text-white", font.className)}>
-          Rewize
+          Rewise
         </h1>
       </Link>
       <div className="flex items-center gap-x-2">

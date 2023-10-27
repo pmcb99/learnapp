@@ -83,18 +83,17 @@ export const Sidebar = ({
 
 
   return (
-    <div className="space-y-4 py-4 flex flex-col h-full">
+    <div className="space-y-4 py-4 flex flex-col h-full dark:bg-slate-900">
       <div className="px-3 py-2 flex-1">
 
 
 
         <Link href="/dashboard" className="flex items-center pl-3 mb-14">
           <div className="relative h-9 w-9 ">
-            <Image fill alt="Logo" src="/logo-light.png" className="dark:block hidden scale-110" />
-            <Image fill alt="Logo" src="/logo-dark.png" className="dark:hidden scale-110" />
+            <Image fill alt="Logo" src="/logo-dark.png" className="scale-110" />
           </div>
-          <h1 className={cn("text-2xl font-bold dark: text-white", poppins.className)}>
-            Rewize
+          <h1 className={cn("text-2xl font-bold text-white", poppins.className)}>
+            Rewise
           </h1>
         </Link>
 

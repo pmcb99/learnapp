@@ -41,7 +41,7 @@ export const tools = [
 ];
 
 
-export const subjects = [
+export const lcSubjects = [
   {
     label: 'English',
     icon: BookIcon,
@@ -248,9 +248,9 @@ export const subjects = [
 ];
 
 export function getSubjectsFromHref(href: string) {
-  return subjects.filter((subject) => subject.href === href);
+  return lcSubjects.filter((subject) => subject.href === href);
 }
 
 export function getSubjectFromHref(href: string) {
-  return subjects.find((subject) => subject.href === href);
+  return lcSubjects.find((subject) => subject.href === href);
 }

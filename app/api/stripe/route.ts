@@ -43,7 +43,7 @@ export async function GET() {
           price_data: {
             currency: "USD",
             product_data: {
-              name: "Rewize Pro",
+              name: "Rewise Pro",
               description: "Unlimited answers to your questions"
             },
             unit_amount: 1000,

@@ -13,7 +13,7 @@ const TopicLayout = async ({
   const topic = topicName.replace(/-/g, " ").toUpperCase();
   return (
     <div className="pt-2">
-      <div className="flex bg-gray-100 justify-center gap-x-6 items-center pl-5">
+      <div className="flex flex-col gap-y-3 bg-gray-100 justify-center gap-x-6 items-center pl-5">
         <div className="">
         <BackButton/>
         </div>

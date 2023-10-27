@@ -23,10 +23,12 @@ const DefinitionList: React.FC<DefinitionListProps> = ({ definitions }) => {
           >
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1" className="w-full">
-                <AccordionTrigger className="font-semibold text-2xl text-primary">{definition.term}</AccordionTrigger>
+                <AccordionTrigger className="font-semibold text-2xl text-primary">
+                  {definition.term}
+                </AccordionTrigger>
                 <AccordionContent className="text-xl">
-                    <div className="rounded bg-slate-300">
-                  {definition.definition}
+                  <div className="flex rounded bg-slate-300 items-center">
+                    <div>{definition.definition}</div>
                   </div>
                 </AccordionContent>
               </AccordionItem>
@@ -35,7 +37,7 @@ const DefinitionList: React.FC<DefinitionListProps> = ({ definitions }) => {
         </div>
       ))}
 
-      <footer className="mt-10 text-center text-foreground">© Rewize</footer>
+      <footer className="mt-10 text-center text-foreground">© Rewise</footer>
     </div>
   );
 };

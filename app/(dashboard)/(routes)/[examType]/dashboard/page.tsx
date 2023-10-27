@@ -8,7 +8,7 @@ import Image from "next/image"
 import { cn } from "@/lib/utils";
 
 import { tools } from "@/constants";
-import { subjects } from "@/constants";
+import { lcSubjects } from "@/constants";
 
 
 export default function HomePage() {
@@ -29,7 +29,7 @@ export default function HomePage() {
         </p> */}
       </div>
       <div className="grid grid-cols-2 px-4 md:px-20 lg:px-32 space-y-4">
-        {subjects.map((subject) => (
+        {lcSubjects.map((subject) => (
           <Card onClick={() => router.push(`${hrefPrefix}${subject.href}`)} key={subject.href} className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer">
             <div className="flex items-center gap-x-4">
               <div className="font-semibold">

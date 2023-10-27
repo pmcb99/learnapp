@@ -165,7 +165,7 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
 
   const paperType = currentPresignedUrl.key.split("/")[3];
 
-  const findPageWithQuestion = async (question: number | null, year: number, topicPaperVersion: string) => {
+  const findPageWithQuestion = async (topic: PaperQuestionsByTopic) => {
     setYear(year);
     try {
       const paramValues = {
@@ -173,8 +173,8 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
         level: params.level,
         subject: params.subject,
         year: year,
-        question: question,
-        paperVersion: topicPaperVersion
+        question: topic.question,
+        paperVersion: topic.paperVersion
       };
       console.log(paramValues)
       const response = await axios.get("/api/documents/question-page/", { params: paramValues });
@@ -298,7 +298,7 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
               currentPresignedUrl.key.includes(topic.paperVersion)&&(<Button
                 key={topic.id}
                 className="my-2 w-3/4"
-                onClick={() => findPageWithQuestion(topic.question, topic.year, topic.paperVersion )}
+                onClick={() => findPageWithQuestion(topic)}
               >
                 {!params.year ? topic.year : ""} Q{topic.question} {topic.parts} - {topic.topic}
               </Button>)

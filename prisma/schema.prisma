@@ -89,34 +89,34 @@ model QuestionsByPage {
 }
 
 enum SubjectName {
-  ENGLISH
-  IRISH
-  MATHEMATICS
-  FRENCH
-  GERMAN
-  SPANISH
-  ITALIAN
-  RUSSIAN
-  JAPANESE
-  PHYSICS
-  CHEMISTRY
-  BIOLOGY
-  AGRICULTURAL_SCIENCE
-  APPLIED_MATHEMATICS
-  PHYSICS_AND_CHEMISTRY
-  ACCOUNTING
-  BUSINESS
-  ECONOMICS
-  GEOGRAPHY
-  HISTORY
-  CLASSICAL_STUDIES
-  CONSTRUCTION_STUDIES
-  ENGINEERING
-  DESIGN_AND_COMMUNICATION_GRAPHICS
-  HOME_ECONOMICS
-  ART
-  MUSIC
-  RELIGIOUS_EDUCATION
+  english
+  irish
+  mathematics
+  french
+  german
+  spanish
+  italian
+  russian
+  japanese
+  physics
+  chemistry
+  biology
+  agricultural_science
+  applied_mathematics
+  physics_and_chemistry
+  accounting
+  business
+  economics
+  geography
+  history
+  classical_studies
+  construction_studies
+  engineering
+  design_and_communication_graphics
+  home_economics
+  art
+  music
+  religious_education
 }
 
 enum Level {

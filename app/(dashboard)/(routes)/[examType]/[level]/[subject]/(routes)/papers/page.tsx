@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 import { tools } from "@/constants";
-import { subjects } from "@/constants";
+import { lcSubjects } from "@/constants";
 import prismadb from "@/lib/prismadb";
 import CardList, { CardListProps, CardProps } from "@/components/card-list";
 import axios from "axios";
