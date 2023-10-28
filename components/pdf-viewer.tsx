@@ -14,7 +14,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 // pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
-export type BucketName = typeof LC_BUCKET_NAME | typeof JC_BUCKET_NAME;
+type BucketName = typeof LC_BUCKET_NAME | typeof JC_BUCKET_NAME;
 
 
 interface CachedUrls {
