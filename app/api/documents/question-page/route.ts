@@ -5,7 +5,7 @@ import prismadb from "@/lib/prismadb";
 
 import { Redis } from '@upstash/redis'
 
-
+export const dynamic = 'force-dynamic'
 
 
 async function getPageForQuestion(

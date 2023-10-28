@@ -4,10 +4,8 @@ import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Page, Document, pdfjs } from "react-pdf";
-import { SizeMe } from "react-sizeme";
 import { Nav } from "./pdf-viewer-navbar";
 import { PresignedUrl } from "@/types/global";
-import { set } from "zod";
 import toast from "react-hot-toast";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 // import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
@@ -50,17 +48,12 @@ export default function PDFViewer(props: {
     })
   );
 
-  if (!currentPresignedUrl.url && props.presignedUrls[0]) {
-    setCurrentPresignedUrl(props.presignedUrls[0]);
-  } 
 
 
   const [numPages, setNumPages] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [pageWidth, setPageWidth] = useState(0);
-  const [pageHeight, setPageHeight] = useState(null);
   const [cachedUrls, setCachedUrls] = useState<CachedUrls>({});
-  const [localUrl, setLocalUrl] = useState<string>("");
 
   // const visiblePage = examPaperIsShown ? examPaperPage : markingSchemePage;
 
@@ -181,6 +174,15 @@ export default function PDFViewer(props: {
   const paperVersionVisible = currentPresignedUrl.key ? `${convertToTitleCase(currentPresignedUrl.key.split('/')[3].replaceAll('-',' '))}` : "";
 
   const thisFileKeySuffix = `${props.year}/${paperVersionVisible}`;
+
+
+  useEffect(() => {
+    if (!currentPresignedUrl.url && props.presignedUrls[0]) {
+        setCurrentPresignedUrl(props.presignedUrls[0]);
+    }
+}, [currentPresignedUrl.url, props.presignedUrls]);
+
+
 
   useEffect(() => {
     async function downloadAndCachePdfs() {

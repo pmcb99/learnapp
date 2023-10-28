@@ -18,7 +18,6 @@ import {
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
-import { Separator } from "@radix-ui/react-separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { PaperQuestionsByTopic } from "@prisma/client";
@@ -26,15 +25,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Scroll } from "lucide-react";
-import { set } from "react-hook-form";
 import PaperVersionAndTypeToggles from "./paper-version-and-type-toggles";
 import { PresignedUrl } from "@/types/global";
 
@@ -89,7 +79,8 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
     try {
       const apiEndpoint = `/api/topics/${params.examType}/${params.level}/${params.subject}/${params.year}`;
       const response = await axios.get(apiEndpoint);
-      setTopics(response.data.topics);
+      console.log("Rerjrsponse:", response);
+      response.data.topics ? setTopics(response.data.topics) : setTopics([]);
       return topics;
     } catch (error: any) {
       toast.error("Failed to fetch topics.");
@@ -113,8 +104,8 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
           topic: chosenTopicValue
         },
       });
-      console.log("Response:", response);
-      setTopicNames(response.data.topics);
+      console.log("1Response:", response);
+      response.data.topics ? setTopicNames(response.data.topics) : setTopicNames([]);
       setChosenTopicValue(response.data.topics[0].topic);
       return topics;
     } catch (error: any) {
@@ -136,8 +127,9 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
           topic: chosenTopicValue
         },
       });
-      setTopics(response.data.topics);
-      console.log("Response:", response);
+      response.data.topics ? setTopics(response.data.topics) : setTopics([]);
+      console.log("4Response:", response);
+      console.log(chosenTopicValue)
       return response.data;
     } catch (error: any) {
       toast.error("Failed to fetch topic names.");
@@ -151,17 +143,8 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
       getTopicsForSubject();
       getTopicsNamesForSubject();
     }
-  }, [params.year, getTopicsForSubject, getTopicsNamesForSubject, getTopicsForYear]);
+  }, [params.year]);
 
-  useEffect(() => {
-    if (!open) {
-      getTopicsForSubject().then(() => {
-        setOpen(false);
-      });
-    }
-  }, [chosenTopicValue, open]);
-
-  const paperType = currentPresignedUrl.key.split("/")[3];
 
   const findPageWithQuestion = async (topic: PaperQuestionsByTopic) => {
     setYear(year);
@@ -196,7 +179,15 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
       console.log(topic)
       const response = await axios.get("/api/documents/question-page/", { params: paramValues });
 
-      console.log("Response:", response);
+      console.log("2Response:", response);
+
+      if (currentPresignedUrl.key === undefined || currentPresignedUrl.key === null) {
+        setCurrentPresignedUrl({
+          key: "",
+          url: "",
+          bucket: "",
+        });
+      }
 
       // const requestedPresignedUrl = presignedUrls.find((presignedUrl) => presignedUrl.key.includes(`${year}/${topicPaperVersion}`))
       // if (!requestedPresignedUrl) {
@@ -206,15 +197,6 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
       //   return;
       // }
       // setCurrentPresignedUrl(requestedPresignedUrl);
-
-
-      // iterate through response.data.pages and find the page with the question and paper type
-      const examPageRes = response.data.pages.find(
-        (page: any) => page.paperType === "exam-paper"
-      );
-      const markingSchemePageRes = response.data.pages.find(
-        (page: any) => page.paperType === "marking-scheme"
-      );
 
       // find presigned url for this paper version
       response.data.pages.forEach((page: any) => {
@@ -304,24 +286,30 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
         </div>
       )}
 
-      <div className="flex-2 flex flex-col items-center justify-center">
-        <h2 className="font-bold text-2xl mb-4 pt-8"> {params.year ? "Topics" : "Questions"} </h2>
-        <ScrollArea className="rounded-md border p-4 h-[440px] w-full">
-          <div className="flex flex-col items-center">
-            {topics.map((topic) => (
-              console.log(topic.paperVersion),
-              console.log(currentPresignedUrl.key),
-              currentPresignedUrl.key.includes(topic.paperVersion)&&(<Button
-                key={topic.id}
-                className="my-2 w-3/4"
-                onClick={() => findPageWithQuestion(topic)}
-              >
-                {!params.year ? topic.year : ""} Q{topic.question} {topic.parts} - {topic.topic}
-              </Button>)
-            ))}
-          </div>
-        </ScrollArea>
+
+{currentPresignedUrl && topics && (
+  <div className="flex-2 flex flex-col items-center justify-center">
+    <h2 className="font-bold text-2xl mb-4 pt-8">
+      {params && params.year ? "Topics" : "Questions"}
+    </h2>
+    <ScrollArea className="rounded-md border p-4 h-[440px] w-full">
+      <div className="flex flex-col items-center">
+        {topics.map((topic) => (
+          topic && currentPresignedUrl.key.includes(topic.paperVersion) && (
+            <Button
+              key={topic.id}
+              className="my-2 w-3/4"
+              onClick={() => findPageWithQuestion && findPageWithQuestion(topic)}
+            >
+              {!params.year ? topic.year : ""} Q{topic.question} {topic.parts} - {topic.topic}
+            </Button>
+          )
+        ))}
       </div>
+    </ScrollArea>
+  </div>
+)}
+
     </div>
   );
 };
