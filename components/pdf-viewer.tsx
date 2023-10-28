@@ -243,11 +243,7 @@ export default function PDFViewer(props: {
     <div className="flex-col w-full h-full relative overflow-hidden">
       <Nav pageNumber={visiblePage} numPages={numPages} pdfName={`${props.year} - ${paperVersionVisible}`}/>
   
-      <SizeMe
-        monitorHeight
-        refreshRate={128}
-        refreshMode="debounce"
-        render={({ size }) => (
+      <div>
           <div hidden={loading} className="flex items-center justify-center h-full">
             <div className="flex items-center justify-between w-full absolute z-10 px-2">
               <button
@@ -288,14 +284,12 @@ export default function PDFViewer(props: {
                     renderTextLayer={false}
                     onLoadSuccess={onPageLoadSuccess}
                     onRenderError={() => setLoading(false)}
-                    width={size.width}
                   />
                 </Document>
               </div>
             </div>
           </div>
-        )}
-      />
+        </div>
     </div>
   );
 }

@@ -159,7 +159,7 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
         setOpen(false);
       });
     }
-  }, [chosenTopicValue, getTopicsForSubject, open]);
+  }, [chosenTopicValue, open]);
 
   const paperType = currentPresignedUrl.key.split("/")[3];
 
