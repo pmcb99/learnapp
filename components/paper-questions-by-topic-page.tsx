@@ -298,7 +298,7 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
           topic && currentPresignedUrl.key.includes(topic.paperVersion) && (
             <Button
               key={topic.id}
-              className="my-2 w-3/4"
+              className="my-2 w-3/4 h-auto"
               onClick={() => findPageWithQuestion && findPageWithQuestion(topic)}
             >
               {!params.year ? topic.year : ""} Q{topic.question} {topic.parts} - {topic.topic}

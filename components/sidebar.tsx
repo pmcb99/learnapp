@@ -19,7 +19,7 @@ const routes = [
   {
     label: 'Dashboard',
     icon: LayoutDashboard,
-    href: '/dashboard',
+    href: '/lc/dashboard',
     color: "text-sky-500"
   },
   {

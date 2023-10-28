@@ -31,7 +31,7 @@ export const LandingHero = () => {
         Rewise is an AI-powered tool that helps you study for the Leaving Cert.
       </div>
       <div>
-        <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
+        <Link href={isSignedIn ? "/lc/dashboard" : "/sign-up"}>
           <Button variant="premium" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
             Get Started
           </Button>
