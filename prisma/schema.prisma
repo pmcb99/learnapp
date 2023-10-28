@@ -27,10 +27,10 @@ model UserSubscription {
 
 model UserSubject {
   userId  String
-  subject SubjectName
+  subject UserSubject_subject
   enabled Boolean
   level   Level
-  user    User        @relation(fields: [userId], references: [id])
+  user    User                @relation(fields: [userId], references: [id])
 
   @@id([userId, subject])
   @@index([userId])
@@ -46,11 +46,11 @@ model User {
 }
 
 model Definition {
-  id         String      @id @default(cuid())
+  id         String             @id @default(cuid())
   term       String
   definition String
   keyword    String
-  subject    SubjectName
+  subject    Definition_subject
   topic      String
 }
 
@@ -65,15 +65,17 @@ model ExamPaper {
 }
 
 model PaperQuestionsByTopic {
-  id           Int     @id @default(autoincrement())
-  level        String? @db.VarChar(255)
-  examType     String? @db.VarChar(255)
-  year         Int?
-  question     Int?
-  parts        String? @db.VarChar(255)
-  topic        String? @db.VarChar(255)
-  subject      String? @db.VarChar(255)
-  paperVersion String  @db.VarChar(255)
+  id                Int     @id @default(autoincrement())
+  level             String? @db.VarChar(255)
+  examType          String? @db.VarChar(255)
+  year              Int?
+  question          String? @db.VarChar(255)
+  parts             String? @db.VarChar(255)
+  topic             String? @db.VarChar(255)
+  subject           String? @db.VarChar(255)
+  paperVersion      String  @db.VarChar(255)
+  examPaperPage     Int?
+  markingSchemePage Int?
 }
 
 model QuestionsByPage {
@@ -88,43 +90,74 @@ model QuestionsByPage {
   paperVersion String? @db.VarChar(255)
 }
 
-enum SubjectName {
-  english
-  irish
-  mathematics
-  french
-  german
-  spanish
-  italian
-  russian
-  japanese
-  physics
-  chemistry
-  biology
-  agricultural_science
-  applied_mathematics
-  physics_and_chemistry
-  accounting
-  business
-  economics
-  geography
-  history
-  classical_studies
-  construction_studies
-  engineering
-  design_and_communication_graphics
-  home_economics
-  art
-  music
-  religious_education
-}
-
 enum Level {
   HIGHER
   ORDINARY
 }
 
 enum ExamPaper_subject {
+  ENGLISH
+  IRISH
+  MATHEMATICS
+  FRENCH
+  GERMAN
+  SPANISH
+  ITALIAN
+  RUSSIAN
+  JAPANESE
+  PHYSICS
+  CHEMISTRY
+  BIOLOGY
+  AGRICULTURAL_SCIENCE
+  APPLIED_MATHEMATICS
+  PHYSICS_AND_CHEMISTRY
+  ACCOUNTING
+  BUSINESS
+  ECONOMICS
+  GEOGRAPHY
+  HISTORY
+  CLASSICAL_STUDIES
+  CONSTRUCTION_STUDIES
+  ENGINEERING
+  DESIGN_AND_COMMUNICATION_GRAPHICS
+  HOME_ECONOMICS
+  ART
+  MUSIC
+  RELIGIOUS_EDUCATION
+}
+
+enum UserSubject_subject {
+  ENGLISH
+  IRISH
+  MATHEMATICS
+  FRENCH
+  GERMAN
+  SPANISH
+  ITALIAN
+  RUSSIAN
+  JAPANESE
+  PHYSICS
+  CHEMISTRY
+  BIOLOGY
+  AGRICULTURAL_SCIENCE
+  APPLIED_MATHEMATICS
+  PHYSICS_AND_CHEMISTRY
+  ACCOUNTING
+  BUSINESS
+  ECONOMICS
+  GEOGRAPHY
+  HISTORY
+  CLASSICAL_STUDIES
+  CONSTRUCTION_STUDIES
+  ENGINEERING
+  DESIGN_AND_COMMUNICATION_GRAPHICS
+  HOME_ECONOMICS
+  ART
+  MUSIC
+  RELIGIOUS_EDUCATION
+}
+
+enum Definition_subject {
   ENGLISH
   IRISH
   MATHEMATICS

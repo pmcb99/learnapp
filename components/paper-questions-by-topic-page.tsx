@@ -145,15 +145,13 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
   };
 
   useEffect(() => {
-    console.log(params.year)
     if (params.year) {
       getTopicsForYear();
     } else {
       getTopicsForSubject();
       getTopicsNamesForSubject();
-      // console.log(topics);
     }
-  }, []);
+  }, [params.year, getTopicsForSubject, getTopicsNamesForSubject, getTopicsForYear]);
 
   useEffect(() => {
     if (!open) {
@@ -161,22 +159,41 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
         setOpen(false);
       });
     }
-  }, [chosenTopicValue]);
+  }, [chosenTopicValue, getTopicsForSubject, open]);
 
   const paperType = currentPresignedUrl.key.split("/")[3];
 
   const findPageWithQuestion = async (topic: PaperQuestionsByTopic) => {
     setYear(year);
+
+    if (topic.examPaperPage) {
+      if (topic.paperVersion === "sample-paper") {
+        setSamplePaperPage(topic.examPaperPage);
+      } 
+      if (topic.paperVersion.includes("project")) {
+        setSamplePaperPage(topic.examPaperPage);
+      } 
+      if (topic.examPaperPage) {
+        setExamPaperPage(topic.examPaperPage);
+      } 
+      if (topic.markingSchemePage) {
+        setMarkingSchemePage(topic.markingSchemePage);
+      } 
+      return;
+    }
+
+
     try {
       const paramValues = {
         examType: params.examType,
         level: params.level,
         subject: params.subject,
         year: year,
-        question: topic.question,
+        question: Number(topic.question),
         paperVersion: topic.paperVersion
       };
       console.log(paramValues)
+      console.log(topic)
       const response = await axios.get("/api/documents/question-page/", { params: paramValues });
 
       console.log("Response:", response);
@@ -200,7 +217,6 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
       );
 
       // find presigned url for this paper version
-
       response.data.pages.forEach((page: any) => {
         if (page.paperType === "exam-paper") {
           setExamPaperPage(page.page);

@@ -22,18 +22,9 @@ import { Empty } from "@/components/ui/empty";
 import { useProModal } from "@/hooks/use-pro-modal"
 
 import { formSchema } from "@/app/constants";
-import { getSubjectParams } from "@/lib/subjectPaths";
 import { getSubjectFromHref } from "@/constants";
-import { Separator } from "@/components/ui/separator";
 
 
-export async function getStaticPaths() {
-  const paths = getSubjectParams();
-  return {
-    paths,
-    fallback: false,
-  };
-}
 
 const SubjectPage = (params: {params: { subject: string, examType: string, level: string }}) => {
   const router = useRouter();

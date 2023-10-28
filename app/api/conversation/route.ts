@@ -7,7 +7,6 @@ import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
 import { getClasses, nearTextQuery } from "../(weaviate)/query";
 
 import { qdrantClient } from "@/lib/qdrant";
-import { EmbeddingModel, FlagEmbedding } from "fastembed";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -55,26 +54,6 @@ export async function POST(
 
     // messages = [{ role: 'system', content: 'You are a tutor for the Leaving Certificate. Only use information in the messages' }, ...messages}]
 
-    const embeddingModel = await FlagEmbedding.init({
-      model: EmbeddingModel.BGEBaseEN
-  });
-  
-  let documents = [
-    "passage: Hello, World!",
-    "query: Hello, World!",
-    "passage: This is an example passage.",
-    // You can leave out the prefix but it's recommended
-    "fastembed-js is licensed under MIT" 
-];
-
-const embeddings = embeddingModel.embed(documents, 2); //Optional batch size. Defaults to 256
-
-for await (const batch of embeddings) {
-    // batch is list of Float32 embeddings(number[][]) with length 2
-    console.log(batch);
-}
-
-
 
   //   const res1 = await qdrantClient.search('economics', {
   //     vector: embeddings,
@@ -106,12 +85,12 @@ for await (const batch of embeddings) {
     // }
 
     // return NextResponse.json(response.data.choices[0].message);
-    const messageResponse = {
-      role: 'assistant',
-      content: weaviateMessage
-    }
+    // const messageResponse = {
+    //   role: 'assistant',
+    //   content: weaviateMessage
+    // }
     // console.log(response.data.choices[0].message);
-    return NextResponse.json(messageResponse);
+    // return NextResponse.json(messageResponse);
   } catch (error) {
     console.log('[CONVERSATION_ERROR]', error);
     return new NextResponse("Internal Error", { status: 500 });

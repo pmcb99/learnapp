@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
-import { redisClient } from "@/lib/redis";
+// import { redisClient } from "@/lib/redis";
 
 export async function GET(req: Request) {
   try {
@@ -55,14 +55,14 @@ export async function GET(req: Request) {
       console.log("topics", topics);
 
       // cache in redis indefinitely
-      try {
-        await redisClient.set(
-          `topics:${subject}:${level}:${examType}:names`,
-          JSON.stringify(topics)
-        );
-      } catch (error) {
-        console.log("error", error);
-      }
+      // try {
+      //   await redisClient.set(
+      //     `topics:${subject}:${level}:${examType}:names`,
+      //     JSON.stringify(topics)
+      //   );
+      // } catch (error) {
+      //   console.log("error", error);
+      // }
       return new NextResponse(JSON.stringify({ topics: topics }));
 
       // get all topic data from db if namesOnly is false
@@ -109,14 +109,14 @@ export async function GET(req: Request) {
       });
 
       // cache in redis indefinitely
-      try {
-        await redisClient.set(
-          `topics:${subject}:${level}:${examType}`,
-          JSON.stringify(topics)
-        );
-      } catch (error) {
-        console.log("error", error);
-      }
+      // try {
+      //   await redisClient.set(
+      //     `topics:${subject}:${level}:${examType}`,
+      //     JSON.stringify(topics)
+      //   );
+      // } catch (error) {
+      //   console.log("error", error);
+      // }
       return new NextResponse(JSON.stringify({ topics: topics }));
     }
   } catch (error) {

@@ -16,7 +16,7 @@ const DefinitionList: React.FC<DefinitionListProps> = ({ definitions }) => {
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
       {definitions.map((definition, index) => (
-        <div className="">
+        <div className="" key={index}>
           <div
             key={index}
             className="mb-4 bg-white p-4 rounded shadow hover:shadow-lg transition-shadow duration-200"
