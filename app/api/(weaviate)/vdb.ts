@@ -15,9 +15,9 @@ const weaviateKey = process.env.WEAVIATE_API_KEY;
 export const client: WeaviateClient = weaviate.client({
     scheme: 'https',
     // host: 'lcgpt-fn97ot7k.weaviate.network',
-    host: 'plot-compass-test-4230pecv.weaviate.network',
-    apiKey: new ApiKey("B3ipySMDLJpSudK0pncQWGnENHUUj64DTFSX"),
+    host: 'rewise-1i0b23tp.weaviate.network',
+    apiKey: new ApiKey("m2OOZWQhfuh1Ip08u5TwkWjUFe8Xzri0MzvD"),
     headers: {
-        'X-OpenAI-Api-Key': "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"
+        'X-OpenAI-Api-Key': "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"
     }
 });

@@ -88,7 +88,7 @@ export const Sidebar = ({
 
 
 
-        <Link href="/dashboard" className="flex items-center pl-3 mb-14">
+        <Link href="/lc/dashboard" className="flex items-center pl-3 mb-14">
           <div className="relative h-9 w-9 ">
             <Image fill alt="Logo" src="/logo-dark.png" className="scale-110" />
           </div>

@@ -4,34 +4,34 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const testimonials = [
   {
-    name: "Joel",
+    name: "Sam S.",
     avatar: "J",
-    title: "Software Engineer",
-    description: "This is the best application I've ever used!",
+    title: "Leaving Cert Student",
+    description: "Better and cheaper than what I tried before.",
   },
   {
-    name: "Antonio",
+    name: "Shauna L.",
+    avatar: "J",
+    title: "Leaving Cert Student",
+    description: "The chat feature is so useful.",
+  },
+  {
+    name: "Jason D.",
     avatar: "A",
-    title: "Designer",
-    description: "I use this daily for generating new photos!",
+    title: "Grinds Teacher",
+    description: "Makes my job easier.",
   },
   {
-    name: "Mark",
+    name: "James M.",
     avatar: "M",
-    title: "CEO",
-    description: "This app has changed my life, cannot imagine working without it!",
-  },
-  {
-    name: "Mary",
-    avatar: "M",
-    title: "CFO",
-    description: "The best in class, definitely worth the premium subscription!",
+    title: "PE/Biology Teacher",
+    description: "I recommend this to all my students.",
   },
 ];
 
 export const LandingContent = () => {
   return (
-    <div className="px-10 pb-20">
+    <div className="px-10 pb-20 bg-[#000310]">
       <h2 className="text-center text-4xl text-white font-extrabold mb-10">Testimonials</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {testimonials.map((item) => (

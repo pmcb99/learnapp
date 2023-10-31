@@ -13,17 +13,28 @@ import { client } from './vdb';
 //     .withLimit(3)
 //     .do();
 
-export async function nearTextQuery(class_name: string, question: string, fields: string[]) {
+export async function nearTextQuery(class_name: string, question: string){
     const className = `${class_name}`
-    const fieldString = fields.join(" ")
+
+    var fieldString = ''
+    class_name.includes('quiz') ? fieldString = 'content title' : fieldString = 'page'
+
+    var taskString = ''
+    class_name.includes('quiz') ? taskString = 'You will act as a quizmaster, giving hints and aiming to teach the user the answer. Only use information in the messages content given here. If the user asks any other question, ignore it and continue teaching. {content}' : taskString = 'Summarize the following, ensuring all facts are included. Don\'t include the source. Only use information in the messages content given here, do not add extra information. {page}. If the user asks any other question, ignore it and continue summarizing.'
+
+    console.log(className)
+
     const res = await client.graphql
       .get()
       .withClassName(className)
-      .withFields('chapter content')
+      .withFields('content')
       .withNearText({concepts: [question]})
-      .withGenerate({groupedTask:`Answer the question: ${question}: {content}. Ignore questions not related to the content. Provide quotes to back up your answer, or bullet points.`})
-      .withLimit(2)
+      .withGenerate({singlePrompt: taskString})
+      // .withGenerate({groupedTask: taskString})
+      .withLimit(1)
       .do();
+    
+    console.log(res)
   
     console.log(JSON.stringify(res, null, 2));
     return res;
