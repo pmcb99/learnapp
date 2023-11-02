@@ -83,7 +83,8 @@ export const Sidebar = ({
 
 
   return (
-    <div className="space-y-4 py-4 flex flex-col h-full dark:bg-slate-900">
+    
+    <div className="space-y-4 py-4 flex flex-col h-full bg-primary dark:bg-slate-900 fixed">
       <div className="px-3 py-2 flex-1">
 
 

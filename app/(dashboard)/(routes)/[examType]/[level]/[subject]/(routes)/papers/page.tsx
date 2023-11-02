@@ -49,6 +49,13 @@ export default async function HomePage(
             bgColor: "bg-blue-500",
             color: "text-blue-700"
         })));
+
+    // remove duplicate labels
+    items.forEach((item, index) => {
+        if (items.filter((item2) => item2.label === item.label).length > 1) {
+            items.splice(index, 1);
+        }
+    });
     }
 
   return (

@@ -13,7 +13,7 @@ const DashboardLayout = async ({
 
   return ( 
     <div className="h-full relative flex">
-      <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80 bg-primary">
+      <div className="hidden md:flex md:w-72 md:flex-col md:inset-y-0 z-80 ">
         <Sidebar isPro={isPro} apiLimitCount={apiLimitCount} />
       </div>
       <main className="flex-col w-full">
