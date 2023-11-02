@@ -39,12 +39,6 @@ const routes = [
     icon: Settings,
     href: '/settings',
   },
-  {
-    label: 'Biology',
-    icon: Dna,
-    href: '/lc/higher/biology',
-    color: "text-violet-500",
-  },
   // {
   //   label: 'Image Generation',
   //   icon: ImageIcon,
