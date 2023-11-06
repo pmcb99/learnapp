@@ -10,8 +10,11 @@ interface PaperVersionAndTypeTogglesProps {
 function getPaperVersionAndType(presignedUrl: PresignedUrl) {
   // name of version as a heading
   var resultObject: { [key: string]: string } = {};
-  if (presignedUrl.key.includes("paper-one")) {
-    resultObject["paperVersion"] = "Paper One";
+  if (presignedUrl.key.includes("ural")) {
+    resultObject["paperVersion"] = "Aural";
+  }
+  else if (presignedUrl.key.includes("paper-one")) {
+      resultObject["paperVersion"] = "Paper One";
   } else if (presignedUrl.key.includes("paper-two")) {
     resultObject["paperVersion"] = "Paper Two";
   } else if (presignedUrl.key.includes("sample-paper")) {

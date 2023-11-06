@@ -179,7 +179,6 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
       console.log(topic)
       const response = await axios.get("/api/documents/question-page/", { params: paramValues });
 
-      console.log("2Response:", response);
 
       if (currentPresignedUrl.key === undefined || currentPresignedUrl.key === null) {
         setCurrentPresignedUrl({
