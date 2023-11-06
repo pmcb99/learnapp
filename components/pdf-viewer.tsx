@@ -242,7 +242,7 @@ export default function PDFViewer(props: {
   );
 
   return (
-    <div className="flex-col w-full h-full relative overflow-hidden">
+    <div className="flex-col w-full h-full relative ">
       <Nav pageNumber={visiblePage} numPages={numPages} pdfName={`${props.year} - ${paperVersionVisible}`}/>
   
       <div>
