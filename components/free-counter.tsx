@@ -37,7 +37,11 @@ export const FreeCounter = ({
           <div className="text-center text-sm text-white mb-4 space-y-2">
             <p>
               {/* {apiLimitCount} / {MAX_FREE_COUNTS} Free Generations */}
-              Free access for now
+              Free laptop preview
+            </p>
+            <p>
+              {/* {apiLimitCount} / {MAX_FREE_COUNTS} Free Generations */}
+              Mobile coming soon
             </p>
             {/* <Progress className="h-3 border-white border" value={(apiLimitCount / MAX_FREE_COUNTS) * 100} /> */}
           </div>
