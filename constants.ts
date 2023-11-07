@@ -1,42 +1,28 @@
-import { AtomIcon, BookIcon, BookKey, BriefcaseIcon, Brush, CalculatorIcon, ChefHat, Code, Cog, Dna, FlagIcon, Globe, Globe2, Hammer, Hourglass, ImageIcon, JapaneseYen, LineChart, MessageSquare, Music, Music2, Orbit, Pencil, PizzaIcon, Sheet, Soup, Sun, Swords, TestTube, TestTubes, Vegan, VideoIcon } from "lucide-react";
+import { AtomIcon, BookIcon, BookKey, BriefcaseIcon, Brush, CalculatorIcon, ChefHat, Code, Cog, Coins, Dna, FlagIcon, Globe, Globe2, Hammer, Hourglass, ImageIcon, JapaneseYen, LineChart, Lock, LockIcon, MessageSquare, Music, Music2, Orbit, Pencil, PizzaIcon, Sheet, Soup, Sun, Swords, TestTube, TestTubes, Vegan, VideoIcon } from "lucide-react";
 
 export const MAX_FREE_COUNTS = 5;
 
-export const tools = [
+export const proFeatures = [
   {
-    label: 'Conversation',
-    icon: MessageSquare,
+    label: 'All questions by topic unlocked',
+    icon: LockIcon,
     href: '/conversation',
-    color: "text-violet-500",
+    color: "text-slate-500",
     bgColor: "bg-violet-500/10",
   },
   {
-    label: 'Music Generation',
-    icon: Music,
-    href: '/music',
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-500/10",
-  },
-  {
-    label: 'Image Generation',
-    icon: ImageIcon,
+    label: 'Discounted rate (€4.99/month)',
+    icon: Coins,
     color: "text-pink-700",
     bgColor: "bg-pink-700/10",
     href: '/image',
   },
   {
-    label: 'Video Generation',
-    icon: VideoIcon,
+    label: 'Beta access to AI chat features',
+    icon: MessageSquare,
     color: "text-orange-700",
     bgColor: "bg-orange-700/10",
     href: '/video',
-  },
-  {
-    label: 'Code Generation',
-    icon: Code,
-    color: "text-green-700",
-    bgColor: "bg-green-700/10",
-    href: '/code',
   },
 ];
 

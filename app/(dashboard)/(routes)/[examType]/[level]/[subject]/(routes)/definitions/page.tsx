@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-import { tools } from "@/constants";
+import { proFeatures } from "@/constants";
 import { lcSubjects } from "@/constants";
 import prismadb from "@/lib/prismadb";
 import CardList from "@/components/card-list";

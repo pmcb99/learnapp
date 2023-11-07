@@ -88,8 +88,9 @@ export const Sidebar = ({
             <Image fill alt="Logo" src="/logo-dark.png" className="scale-110" />
           </div>
           <h1 className={cn("text-2xl font-bold text-white", poppins.className)}>
-            Rewise
+            Rewise 
           </h1>
+          <h4 className="text-slate-600 pl-2">beta</h4>
         </Link>
 
 

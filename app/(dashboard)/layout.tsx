@@ -17,7 +17,7 @@ const DashboardLayout = async ({
       <div className="hidden md:flex md:w-72 inset-y-0 z-80 ">
         <Sidebar isPro={isPro} apiLimitCount={apiLimitCount} />
       </div>
-      <main className="flex-col w-full overflow-hidden">
+      <main className="flex-col w-full overflow-y-auto">
         <Navbar />
         {children}
       </main>

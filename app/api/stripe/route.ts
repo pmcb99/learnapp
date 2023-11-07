@@ -41,12 +41,12 @@ export async function GET() {
       line_items: [
         {
           price_data: {
-            currency: "USD",
+            currency: "EUR",
             product_data: {
               name: "Rewise Pro",
-              description: "Unlimited answers to your questions"
+              description: "Beta access to Rewise Pro"
             },
-            unit_amount: 1000,
+            unit_amount: 499,
             recurring: {
               interval: "month"
             }
