@@ -68,7 +68,7 @@ const SubjectPage = (params: {params: { subject: string, examType: string, level
           description=""
           icon={MessageSquare}
           iconColor="text-violet-500"
-          bgColor="bg-violet-500/10"
+          subject={params.params.subject}
         />
         <div className="ml-[200px]">
         <Button className="bg-primary mx-2 mb-8 w-[170px]" onClick={() => router.push(`/${params.params.examType}/${params.params.level}/${params.params.subject}/definitions`)}>
@@ -132,7 +132,7 @@ const SubjectPage = (params: {params: { subject: string, examType: string, level
             </div>
           )}
           {messages.length === 0 && !isLoading && (
-            <Empty label="No conversation started." />
+            <Empty label="No conversation started." subject={params.params.subject}/>
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
