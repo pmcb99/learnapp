@@ -128,7 +128,10 @@ const PaperQuestionsByTopicPageYear = ({
   }, [chosenTopicValue, year]);
 
   const findPageWithQuestion = async (topic: PaperQuestionsByTopic) => {
-    setYear(topic.year ? topic.year : 2023);
+
+    setYear(topic.year!);
+
+
 
     if (topic.examPaperPage) {
       if (topic.paperVersion === "sample-paper") {

@@ -46,6 +46,8 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
   const [open, setOpen] = useState(false);
   const [chosenTopicValue, setChosenTopicValue] = useState("");
   const [topicNames, setTopicNames] = useState<TopicName[]>([]);
+  const [filteredPresignedUrls, setFilteredPresignedUrls] = useState<PresignedUrl[]>([]); 
+
 
   const {
     examPaperPage,
@@ -117,7 +119,6 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
   const getTopicsForSubject = async () => {
     try {
       const apiEndpoint = `/api/topics/`;
-      console.log(params)
       const response = await axios.get(apiEndpoint, {
         params: {
           examType: params.examType,
@@ -128,26 +129,40 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
         },
       });
       response.data.topics ? setTopics(response.data.topics) : setTopics([]);
-      console.log("4Response:", response);
-      console.log(chosenTopicValue)
       return response.data;
     } catch (error: any) {
       toast.error("Failed to fetch topic names.");
     }
   };
 
-  useEffect(() => {
-    if (params.year) {
-      getTopicsForYear();
-    } else {
-      getTopicsForSubject();
-      getTopicsNamesForSubject();
+  const filterPresignedUrls = () => {
+    const filteredPresignedUrls = presignedUrls.filter((presignedUrl) => {
+        return presignedUrl.key.includes(year.toString());
+    });
+    console.log("filteredPresignedUrls", filteredPresignedUrls);
+    setFilteredPresignedUrls(filteredPresignedUrls);
+  }
+
+  const setCurrentExamPaper = () => {
+    const currentExamPaper = filteredPresignedUrls.find((presignedUrl) => {
+      return presignedUrl.key.includes('exam-paper');
     }
-  }, [params.year]);
+    );
+    if (currentExamPaper){
+    setCurrentPresignedUrl(currentExamPaper!);
+    }
+  }
+
+  useEffect(() => {
+      getTopicsForSubject();
+      filterPresignedUrls();
+  }, [year,chosenTopicValue]);
 
 
   const findPageWithQuestion = async (topic: PaperQuestionsByTopic) => {
-    setYear(year);
+
+    setYear(topic.year!);
+    console.log("topic", topic);
 
     if (topic.examPaperPage) {
       if (topic.paperVersion === "sample-paper") {
@@ -171,31 +186,13 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
         examType: params.examType,
         level: params.level,
         subject: params.subject,
-        year: year,
+        year: topic.year!,
         question: Number(topic.question),
         paperVersion: topic.paperVersion
       };
-      console.log(paramValues)
-      console.log(topic)
       const response = await axios.get("/api/documents/question-page/", { params: paramValues });
 
-
-      if (currentPresignedUrl.key === undefined || currentPresignedUrl.key === null) {
-        setCurrentPresignedUrl({
-          key: "",
-          url: "",
-          bucket: "",
-        });
-      }
-
-      // const requestedPresignedUrl = presignedUrls.find((presignedUrl) => presignedUrl.key.includes(`${year}/${topicPaperVersion}`))
-      // if (!requestedPresignedUrl) {
-      //   console.log("Something fucked up")
-      //   console.log("presignedUrls:", presignedUrls);
-      //   toast.error(".");
-      //   return;
-      // }
-      // setCurrentPresignedUrl(requestedPresignedUrl);
+      console.log("response", response);
 
       // find presigned url for this paper version
       response.data.pages.forEach((page: any) => {
@@ -215,10 +212,12 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
     }
   };
 
+
+
   return (
     <div className="flex flex-col h-full justify-center items-center">
       <div className="flex-1 flex flex-col items-center justify-between bg-gray-300 pb-4 rounded-xl">
-        <PaperVersionAndTypeToggles presignedUrls={presignedUrls} />
+        <PaperVersionAndTypeToggles presignedUrls={filteredPresignedUrls} />
       </div>
 
 

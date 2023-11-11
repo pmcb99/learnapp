@@ -18,6 +18,6 @@ export const client: WeaviateClient = weaviate.client({
     host: 'rewise-1i0b23tp.weaviate.network',
     apiKey: new ApiKey("m2OOZWQhfuh1Ip08u5TwkWjUFe8Xzri0MzvD"),
     headers: {
-        'X-OpenAI-Api-Key': "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"
+        'X-OpenAI-Api-Key': process.env.OPENAI_API_KEY!
     }
 });

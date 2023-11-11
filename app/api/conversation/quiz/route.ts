@@ -4,7 +4,7 @@ import { Configuration, OpenAIApi } from "openai";
 
 import { checkSubscription } from "@/lib/subscription";
 import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
-import { nearTextQuery } from "../(weaviate)/query";
+import { nearTextQuery } from "../../(weaviate)/query";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -48,10 +48,7 @@ export async function POST(
 
     const weaviateResponse = await nearTextQuery(routeName, `${lastUserMessage}`);
     // log each message in the data object
-    // const weaviateContent: string = weaviateResponse.data.Get.Lc_biology[0]["page"];
     const weaviateMessage: string = weaviateResponse.data.Get[routeName][0]["_additional"]["generate"]["singleResult"];
-    // const weaviateMessage: string = weaviateResponse.data.Get.Lc_biology_syllabus[0]["_additional"]["generate"]["grouped"];
-    console.log(weaviateMessage);
 
     // console.log(messages);
     // const response = await openai.createChatCompletion({

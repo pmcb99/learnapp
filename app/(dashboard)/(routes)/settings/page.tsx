@@ -14,6 +14,7 @@ const SettingsPage = async () => {
         <Heading
           title="Settings"
           description="Manage account settings."
+          subject='settings'
           icon={Settings}
           iconColor="text-gray-700"
           bgColor="bg-gray-700/10"
@@ -26,7 +27,7 @@ const SettingsPage = async () => {
           </div>
           <SubscriptionButton isPro={isPro} />
         </div>
-        <div className="">Got a question? Send us a message</div>
+        <div className="flex justify-end items-end h-full">Got a question? Send us a message</div>
       </div>
       <div className="flex pt-6">
         <Image

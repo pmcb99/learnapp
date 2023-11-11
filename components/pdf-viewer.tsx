@@ -62,7 +62,6 @@ export default function PDFViewer(props: {
   function getVisiblePage() {
     var visiblePage = 1;
     if (currentPresignedUrl.key.includes("exam-paper")) {
-      console.log("exam paper page", examPaperPage);
       visiblePage = examPaperPage;
     }
     else if (currentPresignedUrl.key.includes("sample-paper")) {

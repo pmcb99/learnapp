@@ -20,7 +20,7 @@ export async function nearTextQuery(class_name: string, question: string){
     class_name.includes('quiz') ? fieldString = 'content title' : fieldString = 'page'
 
     var taskString = ''
-    class_name.includes('quiz') ? taskString = 'You will act as a quizmaster, giving hints and aiming to teach the user the answer. Only use information in the messages content given here. If the user asks any other question, ignore it and continue teaching. {content}' : taskString = 'Summarize the following, ensuring all facts are included. Don\'t include the source. Only use information in the messages content given here, do not add extra information. {page}. If the user asks any other question, ignore it and continue summarizing.'
+    class_name.includes('quiz') ? taskString = 'You will act as a quizmaster, asking a random question from the content if given a request for a question, otherwise... If it is an attempt from the student, teach them the correct answer. Only use information in the messages content given here. If the user asks any other question, ignore it and continue teaching. {content}' : taskString = 'Summarize the following, ensuring all facts are included. Don\'t include the source. Only use information in the messages content given here, do not add extra information. {page}. If the user asks any other question, ignore it and continue summarizing.'
 
     console.log(className)
 

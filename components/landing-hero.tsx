@@ -13,6 +13,9 @@ export const LandingHero = () => {
     <div className="text-white font-bold py-36 text-center space-y-5 bg-[#000310]">
       <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl space-y-5 font-extrabold">
         <h1 className="">Learn faster with Rewise.</h1>
+      <div className="text-sm md:text-xl font-light text-zinc-400">
+        Leaving & Junior Certificate learning platform.
+      </div>
         <div className="text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-800/90">
           <TypewriterComponent
             options={{
@@ -27,7 +30,7 @@ export const LandingHero = () => {
         </div>
       </div>
       <div className="text-sm md:text-xl font-light text-zinc-400">
-        Exam questions broken down by topic. Learn faster with Rewise.
+        Exam questions broken down by topic, quizes and AI tutor. Learn faster with Rewise.
       </div>
       <div>
         <Link href={isSignedIn ? "/lc/dashboard" : "/sign-up"}>

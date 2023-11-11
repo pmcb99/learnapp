@@ -67,7 +67,7 @@ const SubjectPage = (params: {params: { subject: string, examType: string, level
         Back
       </Button>
         <Heading
-          title={params.params.subject.toUpperCase()}
+          title={`${params.params.subject.toUpperCase()} QUIZ`}
           description=""
           icon={MessageSquare}
           iconColor="text-violet-500"
@@ -82,10 +82,6 @@ const SubjectPage = (params: {params: { subject: string, examType: string, level
           Past Papers 
           <ArrowRight className="w-5 h-5" />
         </Button>
-        {/* <Button className="bg-primary mx-2 mb-8 w-[170px]" onClick={() => router.push(`/${params.params.examType}/${params.params.level}/${params.params.subject}/quiz`)}>
-          Quiz
-          <ArrowRight className="w-5 h-5" />
-        </Button> */}
         </div>
       </div>
 
