@@ -13,6 +13,7 @@ import { JC_BUCKET_NAME, LC_BUCKET_NAME } from "@/app/constants";
 import PDFViewer from "@/components/pdf-viewer";
 import PaperQuestionsByTopicPage from "@/components/paper-questions-by-topic-page";
 import { PresignedUrl } from "@/types/global";
+import PaperQuestionsByTopicPageYear from "@/components/paper-questions-by-topic-page-year";
 
 
 
@@ -75,6 +76,8 @@ const PaperViewPage = (params: {
     onSubmit();
   }, [year]);
 
+  console.log("presignedUrls:", presignedUrls);
+
   return (
     <div className="flex w-full">
 
@@ -92,7 +95,6 @@ const PaperViewPage = (params: {
           linkId=""
         />
         <div>
-
         </div>
       </div>
     </div>

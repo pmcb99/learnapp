@@ -40,14 +40,17 @@ interface PaperQuestionsByTopicPageProps {
   presignedUrls: PresignedUrl[];
 }
 
-
-const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTopicPageProps) => {
+const PaperQuestionsByTopicPage = ({
+  params,
+  presignedUrls,
+}: PaperQuestionsByTopicPageProps) => {
   const [topics, setTopics] = useState<PaperQuestionsByTopic[]>([]);
   const [open, setOpen] = useState(false);
   const [chosenTopicValue, setChosenTopicValue] = useState("");
   const [topicNames, setTopicNames] = useState<TopicName[]>([]);
-  const [filteredPresignedUrls, setFilteredPresignedUrls] = useState<PresignedUrl[]>([]); 
-
+  const [filteredPresignedUrls, setFilteredPresignedUrls] = useState<
+    PresignedUrl[]
+  >([]);
 
   const {
     examPaperPage,
@@ -61,7 +64,7 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
     currentPresignedUrl,
     setCurrentPresignedUrl,
     year,
-    setYear
+    setYear,
   } = useExamDocumentStore((state) => ({
     examPaperPage: state.examPaperPage,
     setExamPaperPage: state.setExamPaperPage,
@@ -74,7 +77,7 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
     currentPresignedUrl: state.currentPresignedUrl,
     setCurrentPresignedUrl: state.setCurrentPresignedUrl,
     year: state.year,
-    setYear: state.setYear
+    setYear: state.setYear,
   }));
 
   const getTopicsForYear = async () => {
@@ -93,7 +96,6 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
     topic: string;
   }
 
-
   const getTopicsNamesForSubject = async () => {
     try {
       const apiEndpoint = `/api/topics/`;
@@ -103,11 +105,13 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
           level: params.level,
           subject: params.subject,
           namesOnly: "true",
-          topic: chosenTopicValue
+          topic: chosenTopicValue,
         },
       });
       console.log("1Response:", response);
-      response.data.topics ? setTopicNames(response.data.topics) : setTopicNames([]);
+      response.data.topics
+        ? setTopicNames(response.data.topics)
+        : setTopicNames([]);
       setChosenTopicValue(response.data.topics[0].topic);
       return topics;
     } catch (error: any) {
@@ -125,7 +129,7 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
           level: params.level,
           subject: params.subject,
           namesOnly: "false",
-          topic: chosenTopicValue
+          topic: chosenTopicValue,
         },
       });
       response.data.topics ? setTopics(response.data.topics) : setTopics([]);
@@ -137,49 +141,53 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
 
   const filterPresignedUrls = () => {
     const filteredPresignedUrls = presignedUrls.filter((presignedUrl) => {
-        return presignedUrl.key.includes(year.toString());
+      return presignedUrl.key.includes(year.toString());
     });
     console.log("filteredPresignedUrls", filteredPresignedUrls);
     setFilteredPresignedUrls(filteredPresignedUrls);
-  }
+  };
 
   const setCurrentExamPaper = () => {
     const currentExamPaper = filteredPresignedUrls.find((presignedUrl) => {
-      return presignedUrl.key.includes('exam-paper');
+      return presignedUrl.key.includes("exam-paper");
+    });
+    if (currentExamPaper) {
+      setCurrentPresignedUrl(currentExamPaper!);
     }
-    );
-    if (currentExamPaper){
-    setCurrentPresignedUrl(currentExamPaper!);
-    }
-  }
+  };
 
   useEffect(() => {
-      getTopicsForSubject();
-      filterPresignedUrls();
-  }, [year,chosenTopicValue]);
+    getTopicsForSubject();
+    filterPresignedUrls();
+  }, [year, chosenTopicValue]);
 
+  useEffect(() => {
+    if (params.year) {
+      getTopicsForYear();
+    } else {
+      getTopicsNamesForSubject();
+    }
+  }, []);
 
   const findPageWithQuestion = async (topic: PaperQuestionsByTopic) => {
-
     setYear(topic.year!);
     console.log("topic", topic);
 
     if (topic.examPaperPage) {
       if (topic.paperVersion === "sample-paper") {
         setSamplePaperPage(topic.examPaperPage);
-      } 
+      }
       if (topic.paperVersion.includes("project")) {
         setSamplePaperPage(topic.examPaperPage);
-      } 
+      }
       if (topic.examPaperPage) {
         setExamPaperPage(topic.examPaperPage);
-      } 
+      }
       if (topic.markingSchemePage) {
         setMarkingSchemePage(topic.markingSchemePage);
-      } 
+      }
       return;
     }
-
 
     try {
       const paramValues = {
@@ -188,9 +196,11 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
         subject: params.subject,
         year: topic.year!,
         question: Number(topic.question),
-        paperVersion: topic.paperVersion
+        paperVersion: topic.paperVersion,
       };
-      const response = await axios.get("/api/documents/question-page/", { params: paramValues });
+      const response = await axios.get("/api/documents/question-page/", {
+        params: paramValues,
+      });
 
       console.log("response", response);
 
@@ -206,108 +216,107 @@ const PaperQuestionsByTopicPage = ({ params, presignedUrls }: PaperQuestionsByTo
           setProjectPaperPage(page.page);
         }
       });
-
     } catch (error: any) {
       console.log("Error:", error);
     }
   };
 
-
-
   return (
     <div className="flex flex-col h-full justify-center items-center">
       <div className="flex-1 flex flex-col items-center justify-between bg-gray-300 pb-4 rounded-xl">
-        <PaperVersionAndTypeToggles presignedUrls={filteredPresignedUrls} />
+        {params.year && (
+          <PaperVersionAndTypeToggles presignedUrls={presignedUrls} />
+        )}
+        {!params.year && (
+          <PaperVersionAndTypeToggles presignedUrls={filteredPresignedUrls} />
+        )}
       </div>
 
-
       {!params.year && (
-
         <div className="py-6">
+          <div className="flex-1 flex flex-col items-center justify-between bg-gray-300 py-4 rounded-xl">
+            <h3 className="flex font-bold text-xl justify-center items-center pb-4">
+              {" "}
+              Topics{" "}
+            </h3>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-[200px] justify-between"
+                >
+                  {chosenTopicValue
+                    ? topicNames.find(
+                        (topicName) => topicName.topic === chosenTopicValue
+                      )?.topic
+                    : "Select topic..."}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[200px] p-0">
+                <Command>
+                  <CommandInput placeholder="Search topic..." />
+                  <CommandEmpty>No topic found.</CommandEmpty>
 
-      <div className="flex-1 flex flex-col items-center justify-between bg-gray-300 py-4 rounded-xl">
-          <h3 className="flex font-bold text-xl justify-center items-center pb-4"> Topics </h3>
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={open}
-                className="w-[200px] justify-between"
-              >
-                {chosenTopicValue
-                  ? topicNames.find(
-                      (topicName) => topicName.topic === chosenTopicValue
-                    )?.topic
-                  : "Select topic..."}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
-
-              <Command>
-                <CommandInput placeholder="Search topic..." />
-                <CommandEmpty>No topic found.</CommandEmpty>
-
-                <CommandGroup>
-
-                  <ScrollArea>
-                  {topicNames.map((topicName) => (
-                    <CommandItem
-                      key={topicName.topic}
-                      onSelect={() => {
-                        setChosenTopicValue(topicName.topic);
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          chosenTopicValue === topicName.topic
-                            ? "opacity-100"
-                            : "opacity-0"
-                        )}
-                      />
-                      {topicName.topic}
-                    </CommandItem>
-                  ))}
-
-</ScrollArea>
-                </CommandGroup>
-
-              </Command>
-
-            </PopoverContent>
-
-          </Popover>
-        </div>
+                  <CommandGroup>
+                    <ScrollArea>
+                      {topicNames.map((topicName) => (
+                        <CommandItem
+                          key={topicName.topic}
+                          onSelect={() => {
+                            setChosenTopicValue(topicName.topic);
+                            setOpen(false);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              chosenTopicValue === topicName.topic
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                          {topicName.topic}
+                        </CommandItem>
+                      ))}
+                    </ScrollArea>
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
       )}
 
-
-{currentPresignedUrl && topics && (
-  <div className="flex-2 flex flex-col items-center justify-center">
-    <h2 className="font-bold text-2xl mb-4 pt-8">
-      {params && params.year ? "Topics" : "Questions"}
-    </h2>
-    <ScrollArea className="rounded-md border p-4 h-[440px] w-full">
-      <div className="flex flex-col items-center">
-        {topics.map((topic) => (
-          topic && currentPresignedUrl.key.includes(topic.paperVersion) && (
-            <Button
-              key={topic.id}
-              className="my-2 w-3/4 h-auto"
-              onClick={() => findPageWithQuestion && findPageWithQuestion(topic)}
-            >
-              {!params.year ? topic.year : ""} Q{topic.question} {topic.parts} - {topic.topic}
-            </Button>
-          )
-        ))}
-      </div>
-    </ScrollArea>
-  </div>
-)}
-
+      {currentPresignedUrl && topics && (
+        <div className="flex-2 flex flex-col items-center justify-center">
+          <h2 className="font-bold text-2xl mb-4 pt-8">
+            {params && params.year ? "Topics" : "Questions"}
+          </h2>
+          <ScrollArea className="rounded-md border p-4 h-[440px] w-full">
+            <div className="flex flex-col items-center">
+              {topics.map(
+                (topic) =>
+                  topic &&
+                  currentPresignedUrl.key.includes(topic.paperVersion) && (
+                    <Button
+                      key={topic.id}
+                      className="my-2 w-3/4 h-auto"
+                      onClick={() =>
+                        findPageWithQuestion && findPageWithQuestion(topic)
+                      }
+                    >
+                      {!params.year ? topic.year : ""} Q{topic.question}{" "}
+                      {topic.parts} - {topic.topic}
+                    </Button>
+                  )
+              )}
+            </div>
+          </ScrollArea>
+        </div>
+      )}
     </div>
   );
 };
