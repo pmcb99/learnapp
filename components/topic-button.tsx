@@ -1,35 +1,37 @@
-"use client";
 
-import toast from "react-hot-toast";
-import { Button } from "./ui/button";
-import { useTopicModal } from "@/hooks/use-topic-modal";
-import axios from "axios";
-import { useState } from "react";
-import { useProModal } from "@/hooks/use-pro-modal";
-import { TopicModal } from "./topic-modal";
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import PaperQuestionsByTopicPage from "./paper-questions-by-topic-page"
+import { PresignedUrl } from "@/types/global"
+import React from "react"
 
+interface TopicButtonProps {
+  topicComponent: any
+  topicComponentProps: any
+}
 
-const TopicButton = () => {
-  const topicModal = useTopicModal();
-  const proModal = useProModal();
-  const [loading, setLoading] = useState(false);
-
-
-  return ( 
-    <div>
-    {/* <Button variant="default" onClick={topicModal.onOpen} >
-      Switch Topics
-    </Button> */}
-
-    <Button variant="default" onClick={() => <TopicModal/>} >
-      Switch Topics
-    </Button>
-
-    <Button variant="default" onClick={proModal.onOpen} >
-      Switch Topics
-    </Button>
-</div>
+export function TopicButton(
+  props: TopicButtonProps
+) {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="ml-3 md:hidden" variant="outline">Browse Questions</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        {props.topicComponent && React.createElement(props.topicComponent, props.topicComponentProps)}
+      </DialogContent>
+    </Dialog>
   )
 }
- 
-export default TopicButton;

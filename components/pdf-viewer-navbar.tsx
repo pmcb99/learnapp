@@ -1,33 +1,48 @@
+import React from "react";
 import { Button } from "./ui/button";
+import { TopicButton } from "./topic-button";
 
 export function Nav({
     pageNumber,
     numPages,
     pdfName,
+    topicComponent,
+    topicComponentProps,
   }: {
     pageNumber: number;
     numPages: number;
     pdfName: string;
+    topicComponent: any;
+    topicComponentProps: any
   }) {
+    
+    const TopicComponent = topicComponent;
+
     return (
       <nav className="bg-primary w-full h-24 rounded-xl">
-        <div className="mx-auto px-2 sm:px-6 lg:px-8">
-          <div className="relative flex h-16 items-center justify-between">
-            <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-              <div className="flex flex-shrink-0 items-center">
+
+        <div className="mx-auto px-2 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
+
+          <div className="relative flex h-16 items-center justify-between text-center">
+            <div className="flex flex-1 items-center justify-center ">
+              <div className="flex flex-col flex-shrink-0 items-center justify-center">
                 <p className="text-2xl font-bold tracking-tighter text-white dark:text-black">
                   {pdfName.replace("_", " ")}
                 </p>
               </div>
+
+              <TopicButton topicComponent={TopicComponent} topicComponentProps={topicComponentProps}/>
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <div className="bg-primary/60 text-white rounded-md px-3 py-2 text-sm font-medium">
+            <div className="flex items-center ">
+              {/* <div className="bg-primary/60 text-white rounded-md px-3 py-2 text-sm font-medium">
                 <span>{pageNumber}</span>
                 <span className="text-gray-400"> / {numPages}</span>
-              </div>
+              </div> */}
             </div>
           </div>
+
         </div>
+
       </nav>
     );
   }

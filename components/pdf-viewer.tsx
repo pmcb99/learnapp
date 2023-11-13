@@ -7,6 +7,7 @@ import { Page, Document, pdfjs } from "react-pdf";
 import { Nav } from "./pdf-viewer-navbar";
 import { PresignedUrl } from "@/types/global";
 import toast from "react-hot-toast";
+import PaperQuestionsByTopicPage from "./paper-questions-by-topic-page";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 // import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 
@@ -19,6 +20,18 @@ interface CachedUrls {
   [key: string]: string;
 }
 
+interface PaperQuestionsByTopicPageProps {
+  params: {
+    paper: string;
+    subject: string;
+    level: string;
+    examType: string;
+    year: string;
+  };
+
+  presignedUrls: PresignedUrl[];
+}
+
 export default function PDFViewer(props: {
   presignedUrls: PresignedUrl[];
   bucket: BucketName; 
@@ -27,6 +40,9 @@ export default function PDFViewer(props: {
   documentId: string;
   viewId: string;
   linkId: string;
+  topicComponent: React.ComponentType<PaperQuestionsByTopicPageProps>;
+  topicComponentProps: PaperQuestionsByTopicPageProps;
+  params: any
 }) {
 
 
@@ -237,7 +253,13 @@ export default function PDFViewer(props: {
 
   return (
     <div className="flex-col w-full h-full relative">
-      <Nav pageNumber={visiblePage} numPages={numPages} pdfName={`${props.year} - ${paperVersionVisible}`}/>
+
+      <Nav 
+        topicComponent={PaperQuestionsByTopicPage} 
+        topicComponentProps={{ params: props.params, presignedUrls: props.presignedUrls }}
+        pageNumber={visiblePage} 
+        numPages={numPages} 
+        pdfName={`${props.year} - ${paperVersionVisible}`}/>
   
       <div>
           <div hidden={loading} className="flex items-center justify-center h-full">
