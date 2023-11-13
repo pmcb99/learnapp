@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, ChevronsUpDown } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 import {
   Command,
@@ -27,6 +28,7 @@ import toast from "react-hot-toast";
 
 import PaperVersionAndTypeToggles from "./paper-version-and-type-toggles";
 import { PresignedUrl } from "@/types/global";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 interface PaperQuestionsByTopicPageProps {
   params: {
@@ -51,6 +53,7 @@ const PaperQuestionsByTopicPage = ({
   const [filteredPresignedUrls, setFilteredPresignedUrls] = useState<
     PresignedUrl[]
   >([]);
+  const proModal = useProModal();
 
   const {
     examPaperPage,
@@ -84,7 +87,7 @@ const PaperQuestionsByTopicPage = ({
     try {
       const apiEndpoint = `/api/topics/${params.examType}/${params.level}/${params.subject}/${params.year}`;
       const response = await axios.get(apiEndpoint);
-      console.log("Rerjrsponse:", response);
+      console.log("Year Topic Response:", response);
       response.data.topics ? setTopics(response.data.topics) : setTopics([]);
       return topics;
     } catch (error: any) {
@@ -175,17 +178,27 @@ const PaperQuestionsByTopicPage = ({
 
     if (topic.examPaperPage) {
       if (topic.paperVersion === "sample-paper") {
-        setSamplePaperPage(topic.examPaperPage);
+        if (topic.examPaperPage === -1) {
+          setSamplePaperPage(1);
+        }
       }
       if (topic.paperVersion.includes("project")) {
         setSamplePaperPage(topic.examPaperPage);
+        topic.examPaperPage === -1 ? setSamplePaperPage(1) : setSamplePaperPage(topic.examPaperPage);
       }
       if (topic.examPaperPage) {
         setExamPaperPage(topic.examPaperPage);
+        if (topic.examPaperPage === -1) {
+          setExamPaperPage(1);
+          proModal.onOpen();
+        }
+        topic.examPaperPage === -1 ? setExamPaperPage(1) : setExamPaperPage(topic.examPaperPage);
       }
       if (topic.markingSchemePage) {
         setMarkingSchemePage(topic.markingSchemePage);
+        topic.markingSchemePage === -1 ? setMarkingSchemePage(1) : setMarkingSchemePage(topic.markingSchemePage);
       }
+
       return;
     }
 
@@ -303,11 +316,14 @@ const PaperQuestionsByTopicPage = ({
                   currentPresignedUrl.key.includes(topic.paperVersion) && (
                     <Button
                       key={topic.id}
-                      className="my-2 w-3/4 h-auto"
+                      className="my-2 h-auto w-auto"
                       onClick={() =>
                         findPageWithQuestion && findPageWithQuestion(topic)
                       }
                     >
+                      {/* {topic.examPaperPage === -1 && <h2 className="mr-2 text-blue-400 ">PRO</h2>} */}
+                      {topic.examPaperPage === -1 && <Badge variant="premium" className="uppercase text-sm mr-3 py-1 border border-purple">pro</Badge>}
+                      
                       {!params.year ? topic.year : ""} Q{topic.question}{" "}
                       {topic.parts} - {topic.topic}
                     </Button>

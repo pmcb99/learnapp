@@ -11,6 +11,8 @@ export async function GET(
   const keyDashed = searchParams.get('Prefix') as string;
   const keySlashed = keyDashed.replaceAll(/_/g, '/')
 
+  console.log("keySlashed", keySlashed)
+
   if (!bucket || !keyDashed) {
     return new NextResponse("[ERROR] Missing bucket or key.", { status: 400 });
   }
@@ -31,6 +33,8 @@ export async function GET(
     return new NextResponse("[ERROR] No files found.", { status: 404 });
   }
 
+  console.log(files)
+
   // filter any files that are not PDFs
   const filteredFiles = files.Contents.filter((file) => {
     // skip any undefined files
@@ -38,18 +42,18 @@ export async function GET(
   });
 
   // get the presigned URLs from redis
-  const redis = Redis.fromEnv();
-  const redisKey = `${bucket}:${keySlashed}`;
+  // const redis = Redis.fromEnv();
+  // const redisKey = `${bucket}:${keySlashed}`;
 
-  // const cachedValue = (await redis.get(redisKey)) as string | null;
-  const cachedValue = null;
+  // // const cachedValue = (await redis.get(redisKey)) as string | null;
+  // const cachedValue = null;
 
-  if (cachedValue != null) {
-    console.log("In Redis")
-    return NextResponse.json({ presignedUrls: cachedValue});
-  } else {
-    console.log("Not in Redis")
-  }
+  // if (cachedValue != null) {
+  //   console.log("In Redis")
+  //   return NextResponse.json({ presignedUrls: cachedValue});
+  // } else {
+  //   console.log("Not in Redis")
+  // }
 
   // iterate over files and create a presigned URL for each
   const presignedUrls = files.Contents
@@ -67,15 +71,15 @@ export async function GET(
     return new NextResponse("[ERROR] No presigned URLs found.", { status: 404 });
   }
 
-  (async () => {
-    try {
-      const data = await redis.set(redisKey, JSON.stringify(presignedUrls))
-      await redis.expire(redisKey, 3558)
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  })();
+  // (async () => {
+  //   try {
+  //     const data = await redis.set(redisKey, JSON.stringify(presignedUrls))
+  //     await redis.expire(redisKey, 3558)
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // })();
 
   return NextResponse.json({ presignedUrls });
 

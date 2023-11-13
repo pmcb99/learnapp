@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
+import { checkSubscription } from "@/lib/subscription";
 // import { redisClient } from "@/lib/redis";
 
 export const dynamic = 'force-dynamic'
@@ -13,6 +14,7 @@ export async function GET(req: Request) {
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
+
 
     const { searchParams } = new URL(req.url);
 
@@ -88,6 +90,11 @@ export async function GET(req: Request) {
       //   console.log("error", error);
       // }
 
+
+    // const freeTrial = await checkApiLimit();
+    const isPro = false;
+    // const isPro = await checkSubscription();
+
       console.log("no cached topics");
 
       const topics = await prismadb.paperQuestionsByTopic.findMany({
@@ -107,8 +114,24 @@ export async function GET(req: Request) {
           {
             parts: "desc"
           }
-        ]
+        ],
       });
+
+      if (!isPro) {
+        const first4Topics = topics.slice(0, 4);
+        var restOfTopics = topics.slice(4);
+  
+        restOfTopics = restOfTopics.map((topic) => {
+          return {
+            ...topic,
+            examPaperPage: -1,
+            markingSchemePage: -1,
+          };
+        });
+  
+        const lockedTopics = first4Topics.concat(restOfTopics);
+        return new NextResponse(JSON.stringify({ topics : lockedTopics }))
+      }
 
       // cache in redis indefinitely
       // try {

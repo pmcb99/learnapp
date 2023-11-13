@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import PaperVersionAndTypeToggles from "./paper-version-and-type-toggles";
 import { PresignedUrl } from "@/types/global";
 import TopicPaperToggle from "./paper-toggle-topics-page";
+import { Sparkle, SparkleIcon, Sparkles } from "lucide-react";
 
 interface PaperQuestionsByTopicPageProps {
   params: {

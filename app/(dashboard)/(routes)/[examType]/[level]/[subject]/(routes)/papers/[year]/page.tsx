@@ -14,6 +14,7 @@ import PDFViewer from "@/components/pdf-viewer";
 import PaperQuestionsByTopicPage from "@/components/paper-questions-by-topic-page";
 import { PresignedUrl } from "@/types/global";
 import PaperQuestionsByTopicPageYear from "@/components/paper-questions-by-topic-page-year";
+import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
 
 
 
@@ -33,7 +34,31 @@ const PaperViewPage = (params: {
 
   const [pageNumber, setPageNumber] = useState<number>(1);
 
-  const [year, setYear] = useState<number>(Number(params.params.year));
+  const {
+    setExamPaperPage,
+    setMarkingSchemePage,
+    setSamplePaperPage,
+    setProjectPaperPage,
+    currentPresignedUrl,
+    setCurrentPresignedUrl,
+    year,
+    setYear,
+  } = useExamDocumentStore((state) => ({
+    examPaperPage: state.examPaperPage,
+    setExamPaperPage: state.setExamPaperPage,
+    markingSchemePage: state.markingSchemePage,
+    setMarkingSchemePage: state.setMarkingSchemePage,
+    samplePaperPage: state.samplePaperPage,
+    setSamplePaperPage: state.setSamplePaperPage,
+    projectPaperPage: state.projectPaperPage,
+    setProjectPaperPage: state.setProjectPaperPage,
+    currentPresignedUrl: state.currentPresignedUrl,
+    setCurrentPresignedUrl: state.setCurrentPresignedUrl,
+    year: state.year,
+    setYear: state.setYear,
+  }));
+
+
 
   useEffect(() => {
     // Save scroll position
@@ -45,24 +70,17 @@ const PaperViewPage = (params: {
     window.scrollTo(0, scrollPosition);
   }, [scrollPosition]);
 
-  const bucket =
-    params.params.examType === "lc" ? LC_BUCKET_NAME : JC_BUCKET_NAME;
+  const bucket = params.params.examType === "lc" ? LC_BUCKET_NAME : JC_BUCKET_NAME;
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      prompt: "",
-    },
-  });
-
-  const isLoading = form.formState.isSubmitting;
-
-  const onSubmit = async () => {
+  const fetchPresignedUrls = async () => {
     try {
+      console.log(year)
       const response = await axios.get(
         `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.params.level}_${params.params.subject}_${year}_`
       );
       setPresignedUrls(response.data.presignedUrls);
+      console.log("pres", presignedUrls)
+      setCurrentExamPaper()
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
@@ -72,11 +90,28 @@ const PaperViewPage = (params: {
     }
   };
 
-  useEffect(() => {
-    onSubmit();
-  }, [year]);
+  const setCurrentExamPaper = () => {
+    if (presignedUrls && !currentPresignedUrl) {
+      setCurrentPresignedUrl(presignedUrls[0])
+    } else {
+    const examPaper = presignedUrls.find(
+      (presignedUrl) =>
+        presignedUrl.key.includes(year.toString()) &&
+        presignedUrl.key.includes("exam-paper")
+    );
+    examPaper ? setCurrentPresignedUrl(examPaper!) : console.log("no exam paper");
+    }
+  }
 
-  console.log("presignedUrls:", presignedUrls);
+  useEffect(() => {
+    setYear(Number(params.params.year));
+  }, [params.params.year]);
+
+  useEffect(() => {
+    setYear(Number(params.params.year))
+    fetchPresignedUrls();
+  }, []);
+
 
   return (
     <div className="flex w-full">

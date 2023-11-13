@@ -27,6 +27,9 @@ export async function GET(
     const examType = params.params.examType;
     const subject = params.params.subject;
 
+    const isPro = false;
+    // const isPro = await checkSubscription();
+
     const topics = await prismadb.paperQuestionsByTopic.findMany({
       where: {
         subject: subject,
@@ -43,6 +46,22 @@ export async function GET(
         }
     ],
     });
+
+    if (!isPro) {
+      const first4Topics = topics.slice(0, 4);
+      var restOfTopics = topics.slice(4);
+
+      restOfTopics = restOfTopics.map((topic) => {
+        return {
+          ...topic,
+          examPaperPage: -1,
+          markingSchemePage: -1,
+        };
+      });
+
+      const lockedTopics = first4Topics.concat(restOfTopics);
+      return new NextResponse(JSON.stringify({ topics : lockedTopics }))
+    }
 
     // const topics = await getTopicsForYear(Number(year), level, examType, subject);
     
