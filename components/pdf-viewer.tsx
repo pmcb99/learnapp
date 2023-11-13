@@ -272,7 +272,7 @@ export default function PDFViewer(props: {
                   className="flex items-center justify-center"
                 >
                   <Page
-                    className="flex overflow-hidden w-full items-center"
+                    className="overflow-hidden w-full items-center "
                     key={visiblePage}
                     pageNumber={visiblePage}
                     loading={<LoadingAnimation />}
