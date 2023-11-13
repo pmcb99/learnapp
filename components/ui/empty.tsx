@@ -4,7 +4,7 @@ import FallbackImage from "../fallback-image";
 
 interface EmptyProps {
   label: string;
-  subject: string;
+  subject?: string;
 }
 
 export const Empty = ({

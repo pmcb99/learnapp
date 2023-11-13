@@ -132,6 +132,9 @@ const PaperViewPage = (params: {
           documentId={params.params.paper}
           viewId=""
           linkId=""
+          params={params.params}
+          topicComponent={PaperQuestionsByTopicPage}
+          topicComponentProps={{ params: params.params, presignedUrls: presignedUrls }}
         />
         <div>
 
