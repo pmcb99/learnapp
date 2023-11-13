@@ -81,13 +81,14 @@ function PaperVersionAndTypeToggles(props: PaperVersionAndTypeTogglesProps) {
       {uniquePaperVersions.map((uniquePaperVersion: string) => (
         <div
           key={uniquePaperVersion}
-          className="flex flex-col items-center font-bold p-2"
+          className="flex flex-col items-center font-bold p-2 "
         >
-          <h3 className="">{uniquePaperVersion}</h3>
+          <h3 className="text-gray-900">{uniquePaperVersion}</h3>
           <div className="flex gap-x-2">
             {presignedUrlsByPaperVersion[uniquePaperVersion].map(
               (presignedUrl: PresignedUrl) => (
                 (presignedUrl && <Button
+                className="bg-gray-300"
                   key={presignedUrl.key}
                   onClick={() => setCurrentPresignedUrl(presignedUrl)}
                   disabled={currentPresignedUrl?.key === presignedUrl.key}

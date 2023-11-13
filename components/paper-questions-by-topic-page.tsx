@@ -236,7 +236,7 @@ const PaperQuestionsByTopicPage = ({
 
   return (
     <div className="flex flex-col h-full justify-center items-center">
-      <div className="flex-1 flex flex-col items-center justify-between bg-gray-300 pb-4 rounded-xl">
+      <div className="flex-1 flex flex-col items-center justify-between bg-primary pb-4 rounded-xl">
         {params.year && (
           <PaperVersionAndTypeToggles presignedUrls={presignedUrls} />
         )}
@@ -247,7 +247,7 @@ const PaperQuestionsByTopicPage = ({
 
       {!params.year && (
         <div className="py-6">
-          <div className="flex-1 flex flex-col items-center justify-between bg-gray-300 py-4 rounded-xl">
+          <div className="flex-1 flex flex-col items-center justify-between bg-primary py-4 rounded-xl">
             <h3 className="flex font-bold text-xl justify-center items-center pb-4">
               {" "}
               Topics{" "}

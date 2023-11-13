@@ -229,11 +229,6 @@ export default function PDFViewer(props: {
     return null;
   }
   
-
-  
-
-
-
   const LoadingAnimation = () => (
     <div className="flex items-center justify-center w-full h-full">
       <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
@@ -241,7 +236,7 @@ export default function PDFViewer(props: {
   );
 
   return (
-    <div className="flex-col w-full h-full relative ">
+    <div className="flex-col w-full h-full relative">
       <Nav pageNumber={visiblePage} numPages={numPages} pdfName={`${props.year} - ${paperVersionVisible}`}/>
   
       <div>
