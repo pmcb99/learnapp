@@ -3,28 +3,34 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const testimonials = [
+  // {
+  //   name: "Sam S.",
+  //   avatar: "J",
+  //   title: "Leaving Cert Student",
+  //   description: "Better and cheaper than what I tried before.",
+  // },
   {
-    name: "Sam S.",
+    name: "Ronan",
     avatar: "J",
-    title: "Leaving Cert Student",
-    description: "Better and cheaper than what I tried before.",
+    title: "Leaving Cert Student, Cork",
+    description: "So handy.",
   },
   {
-    name: "Shauna L.",
-    avatar: "J",
-    title: "Leaving Cert Student",
-    description: "The chat feature is so useful.",
-  },
-  {
-    name: "Jason D.",
-    avatar: "A",
-    title: "Grinds Teacher",
-    description: "Makes my job easier.",
-  },
-  {
-    name: "James M.",
+    name: "Gavin",
     avatar: "M",
-    title: "PE/Biology Teacher",
+    title: "Physics Teacher, Cavan",
+    description: "I recommend this to all my students.",
+  },
+  {
+    name: "Shauna",
+    avatar: "A",
+    title: "Student",
+    description: "It took the stress out of studying.",
+  },
+  {
+    name: "James",
+    avatar: "M",
+    title: "Biology Teacher, Dublin",
     description: "I recommend this to all my students.",
   },
 ];
@@ -32,7 +38,7 @@ const testimonials = [
 export const LandingContent = () => {
   return (
     <div className="px-10 pb-20 bg-[#000310]">
-      <h2 className="text-center text-4xl text-white font-extrabold mb-10">Testimonials</h2>
+      <h2 className="text-center text-4xl text-white font-extrabold mb-10">Reviews</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {testimonials.map((item) => (
           <Card key={item.description} className="bg-[#192339] border-none text-white">
