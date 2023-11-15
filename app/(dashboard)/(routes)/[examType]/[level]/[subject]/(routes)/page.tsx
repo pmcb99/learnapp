@@ -19,14 +19,14 @@ import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
-import { useProModal } from "@/hooks/use-pro-modal"
+import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "@/app/constants";
 import { getSubjectFromHref } from "@/constants";
 
-
-
-const SubjectPage = (params: {params: { subject: string, examType: string, level: string }}) => {
+const SubjectPage = (params: {
+  params: { subject: string; examType: string; level: string };
+}) => {
   const router = useRouter();
   const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
@@ -34,20 +34,25 @@ const SubjectPage = (params: {params: { subject: string, examType: string, level
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      prompt: ""
-    }
+      prompt: "",
+    },
   });
 
   const isLoading = form.formState.isSubmitting;
-  
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
+      const userMessage: ChatCompletionRequestMessage = {
+        role: "user",
+        content: values.prompt,
+      };
       const newMessages = [...messages, userMessage];
 
-      const response = await axios.post('/api/conversation', { messages: newMessages });
+      const response = await axios.post("/api/conversation", {
+        messages: newMessages,
+      });
       setMessages((current) => [...current, userMessage, response.data]);
-      
+
       form.reset();
     } catch (error: any) {
       if (error?.response?.status === 403) {
@@ -58,14 +63,16 @@ const SubjectPage = (params: {params: { subject: string, examType: string, level
     } finally {
       router.refresh();
     }
-  }
-  const questionExample = getSubjectFromHref(`/${params.params.subject}`)?.questionExample || "Ask a question";
-  return ( 
-    <div>
-      <div className="flex items-center pt-8">
-      <Button className="bg-primary mb-7" onClick={() => router.back()}>
-        Back
-      </Button>
+  };
+  const questionExample =
+    getSubjectFromHref(`/${params.params.subject}`)?.questionExample ||
+    "Ask a question";
+  return (
+    <div className="">
+      <div className="flex items-center pt-8 ">
+        <Button className="bg-primary mb-7" onClick={() => router.back()}>
+          Back
+        </Button>
         <Heading
           title={params.params.subject.toUpperCase()}
           description=""
@@ -73,16 +80,30 @@ const SubjectPage = (params: {params: { subject: string, examType: string, level
           iconColor="text-violet-500"
           subject={params.params.subject}
         />
-        <div className="ml-[200px]">
-        <Button className="bg-primary mx-2 mb-8 w-[170px]" onClick={() => router.push(`/${params.params.examType}/${params.params.level}/${params.params.subject}/definitions`)}>
-          Definitions
-          <ArrowRight className="w-5 h-5" />
-        </Button>
-        <Button className="bg-primary mx-2 mb-8 w-[170px]" onClick={() => router.push(`/${params.params.examType}/${params.params.level}/${params.params.subject}/papers`)}>
-          Past Papers 
-          <ArrowRight className="w-5 h-5" />
-        </Button>
-        {/* <Button className="bg-primary mx-2 mb-8 w-[170px]" onClick={() => router.push(`/${params.params.examType}/${params.params.level}/${params.params.subject}/quiz`)}>
+        <div className="w-full">
+          <Button
+            className="bg-primary mx-2 mb-8 w-[170px]"
+            onClick={() =>
+              router.push(
+                `/${params.params.examType}/${params.params.level}/${params.params.subject}/definitions`
+              )
+            }
+          >
+            Definitions
+            <ArrowRight className="w-5 h-5" />
+          </Button>
+          <Button
+            className="bg-primary mx-2 mb-8 w-[170px]"
+            onClick={() =>
+              router.push(
+                `/${params.params.examType}/${params.params.level}/${params.params.subject}/papers`
+              )
+            }
+          >
+            Past Papers
+            <ArrowRight className="w-5 h-5" />
+          </Button>
+          {/* <Button className="bg-primary mx-2 mb-8 w-[170px]" onClick={() => router.push(`/${params.params.examType}/${params.params.level}/${params.params.subject}/quiz`)}>
           Quiz
           <ArrowRight className="w-5 h-5" />
         </Button> */}
@@ -92,8 +113,8 @@ const SubjectPage = (params: {params: { subject: string, examType: string, level
       <div className="px-4 lg:px-8">
         <div>
           <Form {...form}>
-            <form 
-              onSubmit={form.handleSubmit(onSubmit)} 
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
               className="
                 rounded-lg 
                 border 
@@ -114,7 +135,7 @@ const SubjectPage = (params: {params: { subject: string, examType: string, level
                     <FormControl className="m-0 p-0">
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
-                        disabled={isLoading} 
+                        disabled={isLoading}
                         placeholder={questionExample}
                         {...field}
                       />
@@ -122,7 +143,12 @@ const SubjectPage = (params: {params: { subject: string, examType: string, level
                   </FormItem>
                 )}
               />
-              <Button className="col-span-12 lg:col-span-2 w-full" type="submit" disabled={isLoading} size="icon">
+              <Button
+                className="col-span-12 lg:col-span-2 w-full"
+                type="submit"
+                disabled={isLoading}
+                size="icon"
+              >
                 Ask
               </Button>
             </form>
@@ -135,29 +161,31 @@ const SubjectPage = (params: {params: { subject: string, examType: string, level
             </div>
           )}
           {messages.length === 0 && !isLoading && (
-            <Empty label="No conversation started." subject={params.params.subject}/>
+            <Empty
+              label="No conversation started."
+              subject={params.params.subject}
+            />
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
-              <div 
-                key={message.content} 
+              <div
+                key={message.content}
                 className={cn(
                   "p-8 w-full flex items-start gap-x-8 rounded-lg",
-                  message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
+                  message.role === "user"
+                    ? "bg-white border border-black/10"
+                    : "bg-muted"
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <p className="text-sm">
-                  {message.content}
-                </p>
+                <p className="text-sm">{message.content}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
     </div>
-   );
-}
- 
-export default SubjectPage;
+  );
+};
 
+export default SubjectPage;

@@ -33,7 +33,7 @@ export const LandingHero = () => {
         Exam questions broken down by topic, quizes and AI tutor. Learn faster with Rewise.
       </div>
       <div>
-        <Link href={isSignedIn ? "/lc/dashboard" : "/sign-up"}>
+        <Link href={isSignedIn ? "/lc/single-year" : "/sign-up"}>
           <Button variant="premium" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
             Get Started
           </Button>

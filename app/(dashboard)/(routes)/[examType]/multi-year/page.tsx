@@ -22,8 +22,11 @@ export default function HomePage() {
     <div>
       <div className="mb-8 space-y-4">
         <h2 className="text-2xl md:text-4xl font-bold text-center">
-          My Subjects
+          Subjects
         </h2>
+        <h3 className=" text-center text-slate-600">
+          Study each topic in depth, across multiple years of exam papers.
+        </h3>
         {/* <p className="text-muted-foreground font-light text-sm md:text-lg text-center">
           Chat with the smartest AI - Experience the power of AI
         </p> */}

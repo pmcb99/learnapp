@@ -1,14 +1,22 @@
-import { AtomIcon, BookIcon, BookKey, BriefcaseIcon, Brush, CalculatorIcon, ChefHat, Code, Cog, Coins, Dna, FlagIcon, Globe, Globe2, Hammer, Hourglass, ImageIcon, JapaneseYen, LineChart, Lock, LockIcon, MessageSquare, Music, Music2, Orbit, Pencil, PizzaIcon, Sheet, Soup, Sun, Swords, TestTube, TestTubes, Vegan, VideoIcon } from "lucide-react";
+import { AtomIcon, BookIcon, BookKey, BriefcaseIcon, Brush, CalculatorIcon, ChefHat, Code, Cog, Coins, Dna, EyeIcon, FlagIcon, Globe, Globe2, Hammer, Hourglass, ImageIcon, JapaneseYen, LineChart, Lock, LockIcon, MessageSquare, Music, Music2, Orbit, Pencil, PizzaIcon, Sheet, Soup, Sun, Swords, TestTube, TestTubes, Vegan, VideoIcon } from "lucide-react";
 
 export const MAX_FREE_COUNTS = 5;
 
 export const proFeatures = [
   {
-    label: 'All questions by topic unlocked',
+    label: 'All questions divided by topic',
     icon: LockIcon,
     href: '/conversation',
     color: "text-slate-500",
     bgColor: "bg-violet-500/10",
+  },
+  {
+    label: 'All topics that came up in each paper',
+    icon: EyeIcon,
+    href: '/conversation',
+    color: "text-slate-500",
+    bgColor: "bg-violet-500/10",
+    badge: 'New',
   },
   {
     label: 'Discounted rate (€4.99/month)',

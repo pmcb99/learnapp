@@ -16,22 +16,22 @@ import { useTheme } from "next-themes";
 const poppins = Montserrat ({ weight: '600', subsets: ['latin'] });
 
 const routes = [
-  {
-    label: 'Dashboard',
-    icon: LayoutDashboard,
-    href: '/lc/dashboard',
-    color: "text-sky-500"
-  },
+  // {
+  //   label: 'Dashboard',
+  //   icon: LayoutDashboard,
+  //   href: '/lc/single-year',
+  //   color: "text-sky-500"
+  // },
   {
     label: 'Papers by Year',
     icon: ImageIcon,
-    href: '/lc/higher/biology/papers',
+    href: '/lc/single-year',
     color: "text-pink-700",
   },
   {
     label: 'Papers by Topic',
     icon: ImageIcon,
-    href: '/lc/higher/biology/papers/topics',
+    href: '/lc/multi-year',
     color: "text-pink-700",
   },
   {
@@ -84,7 +84,7 @@ export const Sidebar = ({
 
 
 
-        <Link href="/lc/dashboard" className="flex items-center pl-3 mb-14">
+        <Link href="/lc/single-year" className="flex items-center pl-3 mb-14">
           <div className="relative h-9 w-9 ">
             <Image fill alt="Logo" src="/logo-dark.png" className="scale-110" />
           </div>

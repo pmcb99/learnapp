@@ -28,7 +28,7 @@ export const Heading = ({
           <Image src={`/subject-icons/${subject}-light.png`} width={50} height={50} alt="" className="dark:hidden"/>
           <Image src={`/subject-icons/${subject}-dark.png`} width={50} height={50} alt="" className="hidden dark:block"/>
         </div>
-        <div>
+        <div className="hidden md:block">
           <h2 className="text-3xl font-bold">{title}</h2>
           <p className="text-sm text-muted-foreground">
             {description}

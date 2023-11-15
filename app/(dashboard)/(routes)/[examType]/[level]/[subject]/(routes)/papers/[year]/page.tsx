@@ -58,7 +58,19 @@ const PaperViewPage = (params: {
     setYear: state.setYear,
   }));
 
+  // useEffect(() => {
+  //   setYear(Number(params.params.year!));
+  //   console.log("params", params.params.year)
+  //   console.log("year", year)
+  //   fetchPresignedUrls();
+  // }, [params.params.year]);
 
+  useEffect(() => {
+    setYear(Number(params.params.year!))
+    console.log("params", params.params.year)
+    console.log("year", year)
+    fetchPresignedUrls();
+  }, []);
 
   useEffect(() => {
     // Save scroll position
@@ -74,9 +86,8 @@ const PaperViewPage = (params: {
 
   const fetchPresignedUrls = async () => {
     try {
-      console.log(year)
       const response = await axios.get(
-        `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.params.level}_${params.params.subject}_${year}_`
+        `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.params.level}_${params.params.subject}_${params.params.year}_`
       );
       setPresignedUrls(response.data.presignedUrls);
       console.log("pres", presignedUrls)
@@ -103,14 +114,6 @@ const PaperViewPage = (params: {
     }
   }
 
-  useEffect(() => {
-    setYear(Number(params.params.year));
-  }, [params.params.year]);
-
-  useEffect(() => {
-    setYear(Number(params.params.year))
-    fetchPresignedUrls();
-  }, []);
 
 
   return (
