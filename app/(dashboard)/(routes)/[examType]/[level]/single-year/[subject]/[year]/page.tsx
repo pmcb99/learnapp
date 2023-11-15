@@ -35,23 +35,11 @@ const PaperViewPage = (params: {
   const [pageNumber, setPageNumber] = useState<number>(1);
 
   const {
-    setExamPaperPage,
-    setMarkingSchemePage,
-    setSamplePaperPage,
-    setProjectPaperPage,
     currentPresignedUrl,
     setCurrentPresignedUrl,
     year,
     setYear,
   } = useExamDocumentStore((state) => ({
-    examPaperPage: state.examPaperPage,
-    setExamPaperPage: state.setExamPaperPage,
-    markingSchemePage: state.markingSchemePage,
-    setMarkingSchemePage: state.setMarkingSchemePage,
-    samplePaperPage: state.samplePaperPage,
-    setSamplePaperPage: state.setSamplePaperPage,
-    projectPaperPage: state.projectPaperPage,
-    setProjectPaperPage: state.setProjectPaperPage,
     currentPresignedUrl: state.currentPresignedUrl,
     setCurrentPresignedUrl: state.setCurrentPresignedUrl,
     year: state.year,
@@ -65,12 +53,7 @@ const PaperViewPage = (params: {
   //   fetchPresignedUrls();
   // }, [params.params.year]);
 
-  useEffect(() => {
-    setYear(Number(params.params.year!))
-    console.log("params", params.params.year)
-    console.log("year", year)
-    fetchPresignedUrls();
-  }, []);
+
 
   useEffect(() => {
     // Save scroll position
@@ -89,9 +72,7 @@ const PaperViewPage = (params: {
       const response = await axios.get(
         `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.params.level}_${params.params.subject}_${params.params.year}_`
       );
-      setPresignedUrls(response.data.presignedUrls);
-      console.log("pres", presignedUrls)
-      setCurrentExamPaper()
+        setPresignedUrls(response.data.presignedUrls);
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
@@ -102,7 +83,10 @@ const PaperViewPage = (params: {
   };
 
   const setCurrentExamPaper = () => {
-    if (presignedUrls && !currentPresignedUrl) {
+    if (!presignedUrls) {
+      return 
+    }
+    else if (presignedUrls && !currentPresignedUrl) {
       setCurrentPresignedUrl(presignedUrls[0])
     } else {
     const examPaper = presignedUrls.find(
@@ -114,7 +98,17 @@ const PaperViewPage = (params: {
     }
   }
 
+  useEffect(() => {
+    setYear(Number(params.params.year))
+    fetchPresignedUrls();
+  }, []);
 
+  useEffect(() => {
+    if (presignedUrls.length > 0) {
+      setCurrentExamPaper();
+    }
+    console.log("presignedUrls", presignedUrls)
+  }, [presignedUrls]);
 
   return (
     <div className="flex w-full gap-x-4">
@@ -127,7 +121,7 @@ const PaperViewPage = (params: {
           presignedUrls={presignedUrls}
           bucket={bucket}
           paperName={params.params.paper}
-          year={year}
+          year={Number(params.params.year)}
           documentId={params.params.paper}
           viewId=""
           linkId=""

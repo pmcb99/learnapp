@@ -4,31 +4,31 @@ export const MAX_FREE_COUNTS = 5;
 
 export const proFeatures = [
   {
-    label: 'All questions divided by topic',
+    label: 'All questions broken down by topic each year',
     icon: LockIcon,
     href: '/conversation',
-    color: "text-slate-500",
+    color: "text-blue-700",
     bgColor: "bg-violet-500/10",
   },
   {
-    label: 'All topics that came up in each paper',
+    label: 'Topic breakdown for individual papers',
     icon: EyeIcon,
     href: '/conversation',
-    color: "text-slate-500",
+    color: "text-blue-700",
     bgColor: "bg-violet-500/10",
     badge: 'New',
   },
   {
     label: 'Discounted rate (€4.99/month)',
     icon: Coins,
-    color: "text-pink-700",
+    color: "text-blue-700",
     bgColor: "bg-pink-700/10",
     href: '/image',
   },
   {
     label: 'Beta access to AI chat features',
     icon: MessageSquare,
-    color: "text-orange-700",
+    color: "text-blue-700",
     bgColor: "bg-orange-700/10",
     href: '/video',
   },

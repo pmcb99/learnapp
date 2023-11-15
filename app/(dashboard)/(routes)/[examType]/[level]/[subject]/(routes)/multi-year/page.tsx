@@ -39,7 +39,7 @@ export default async function HomePage(
     }
 
     // Check if files.Contents exists and is an array
-    const hrefPrefix = `/${params.params.examType}/${params.params.level}/${params.params.subject}/papers/`
+    const hrefPrefix = `/${params.params.examType}/${params.params.level}/${params.params.subject}/single-paper/`
     if (Array.isArray(examPaperKeys) && examPaperKeys.length > 0) {
         //cleanup filename was used for sections but now we try keep each year to a single paper by combining
         items.push(...examPaperKeys.map(file => ({

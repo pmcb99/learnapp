@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from 'next/font/google'
-import { Code, Dna, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, Sun, Moon, VideoIcon } from "lucide-react";
+import { Code, Dna, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, Sun, Moon, VideoIcon, Speaker } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
@@ -12,6 +12,7 @@ import { Accordion } from "./ui/accordion";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { useTheme } from "next-themes";
+import { Badge } from "./ui/badge";
 
 const poppins = Montserrat ({ weight: '600', subsets: ['latin'] });
 
@@ -23,21 +24,37 @@ const routes = [
   //   color: "text-sky-500"
   // },
   {
+    label: 'Chat',
+    icon: Speaker,
+    href: '/lc/higher/chat',
+    color: "text-pink-700",
+    imageIcon: "/icons/chat-book-dark.png"
+  },
+  // {
+  //   label: 'Quiz',
+  //   icon: ImageIcon,
+  //   href: '/lc/higher/single-year',
+  //   color: "text-pink-700",
+  // },
+  {
     label: 'Papers by Year',
     icon: ImageIcon,
-    href: '/lc/single-year',
+    href: '/lc/higher/single-year',
     color: "text-pink-700",
+    imageIcon: "/icons/open-book-dark.png"
   },
   {
     label: 'Papers by Topic',
     icon: ImageIcon,
-    href: '/lc/multi-year',
+    href: '/lc/higher/multi-year',
     color: "text-pink-700",
+    imageIcon: "/icons/book-stack-dark.png"
   },
   {
     label: 'Settings',
     icon: Settings,
     href: '/settings',
+    imageIcon: "/icons/settings-dark.png"
   },
   // {
   //   label: 'Image Generation',
@@ -78,7 +95,6 @@ export const Sidebar = ({
 
   return (
     <div className="flex">
-    <div>Hi</div>
     <div className="space-y-4 py-4 flex flex-col h-full bg-primary dark:bg-slate-900 fixed">
       <div className="px-3 py-2 flex-1">
 
@@ -107,8 +123,12 @@ export const Sidebar = ({
               )}
             >
               <div className="flex items-center flex-1">
-                <route.icon className={cn("h-5 w-5 mr-3", route.color)} />
+                {/* <route.icon className={cn("h-5 w-5 mr-3", route.color)} /> */}
+                <Image src={route.imageIcon || ""} alt="" width={50} height={50} className=""/>
                 {route.label}
+                {/* {route.label === 'Chat' && (
+                  <Badge className="ml-4 mt-1 uppercase" variant="secondary">beta</Badge>
+                )} */}
               </div>
             </Link>
           ))}

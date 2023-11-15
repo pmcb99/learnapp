@@ -83,7 +83,7 @@ function PaperVersionAndTypeToggles(props: PaperVersionAndTypeTogglesProps) {
           key={uniquePaperVersion}
           className="flex flex-col items-center font-bold p-2 "
         >
-          <h3 className="text-gray-900">{uniquePaperVersion}</h3>
+          <h3 className="text-white dark:text-gray-900">{uniquePaperVersion}</h3>
           <div className="flex gap-x-2">
             {presignedUrlsByPaperVersion[uniquePaperVersion].map(
               (presignedUrl: PresignedUrl) => (

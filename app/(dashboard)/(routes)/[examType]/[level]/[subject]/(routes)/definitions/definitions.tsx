@@ -14,12 +14,12 @@ interface DefinitionListProps {
 
 const DefinitionList: React.FC<DefinitionListProps> = ({ definitions }) => {
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
+    <div className="p-8 bg-transparent min-h-screen">
       {definitions.map((definition, index) => (
         <div className="" key={index}>
           <div
             key={index}
-            className="mb-4 bg-white p-4 rounded shadow hover:shadow-lg transition-shadow duration-200"
+            className="mb-4 bg-transparent p-4 rounded shadow hover:shadow-lg transition-shadow duration-200"
           >
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1" className="w-full">
@@ -37,7 +37,6 @@ const DefinitionList: React.FC<DefinitionListProps> = ({ definitions }) => {
         </div>
       ))}
 
-      <footer className="mt-10 text-center text-foreground">© Rewise</footer>
     </div>
   );
 };

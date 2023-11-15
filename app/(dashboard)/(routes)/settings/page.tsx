@@ -9,8 +9,8 @@ const SettingsPage = async () => {
   const isPro = await checkSubscription();
 
   return (
-    <div className="flex ">
-      <div className="">
+    <div className="">
+      <div className="h-full">
         <Heading
           title="Settings"
           description="Manage account settings."
@@ -27,9 +27,8 @@ const SettingsPage = async () => {
           </div>
           <SubscriptionButton isPro={isPro} />
         </div>
-        <div className="flex justify-end items-end h-full">Got a question? Send us a message</div>
       </div>
-      <div className="flex pt-6">
+      <div className="flex pt-6 items-center justify-center">
         <Image
           src="/beta-lab.png"
           className="rounded-full"
@@ -39,6 +38,7 @@ const SettingsPage = async () => {
           alt=":)"
         />
       </div>
+      <footer className="mr-4 mt-5 text-right text-foreground text-xs">Send us a message</footer>
     </div>
   );
 };

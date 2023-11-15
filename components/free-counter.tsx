@@ -43,7 +43,7 @@ export const FreeCounter = ({
             </p>
             {/* <Progress className="h-3 border-white border" value={(apiLimitCount / MAX_FREE_COUNTS) * 100} /> */}
           </div>
-          <Button onClick={proModal.onOpen} variant="premium" className="w-full">
+          <Button onClick={proModal.onOpen} variant="premium" className="w-full text-white">
             Upgrade
             <Zap className="w-4 h-4 ml-2 fill-white" />
           </Button>

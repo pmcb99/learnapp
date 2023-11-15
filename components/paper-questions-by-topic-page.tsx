@@ -162,7 +162,7 @@ const PaperQuestionsByTopicPage = ({
   useEffect(() => {
     getTopicsForSubject();
     filterPresignedUrls();
-  }, [year, chosenTopicValue]);
+  }, [year, params.year, chosenTopicValue]);
 
   useEffect(() => {
     if (params.year) {
