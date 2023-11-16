@@ -27,7 +27,7 @@ const DefinitionList: React.FC<DefinitionListProps> = ({ definitions }) => {
                   {definition.term}
                 </AccordionTrigger>
                 <AccordionContent className="text-xl">
-                  <div className="flex rounded bg-slate-300 items-center">
+                  <div className="flex rounded items-center">
                     <div>{definition.definition}</div>
                   </div>
                 </AccordionContent>

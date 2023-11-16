@@ -31,7 +31,7 @@ export default function HomePage() {
           Chat with the smartest AI - Experience the power of AI
         </p> */}
       </div>
-      <div className="grid grid-cols-2 px-4 md:px-20 lg:px-32 space-y-4">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-2 px-20 lg:px-32">
         {lcSubjects.map((subject) => (
           <Card onClick={() => router.push(`${hrefPrefix}/single-year/${subject.href}/`)} key={subject.href} className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer">
             <div className="flex items-center gap-x-4">
@@ -42,7 +42,7 @@ export default function HomePage() {
               <div>
 
               </div>
-              <div className="font-semibold">
+              <div className="font-semibold sm:overflow-hidden text-lg">
                 {subject.label}
               </div>
             </div>
@@ -53,3 +53,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+

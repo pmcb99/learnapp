@@ -48,9 +48,13 @@ const SubjectPage = (params: {
       };
       const newMessages = [...messages, userMessage];
 
-      const response = await axios.post("/api/conversation", {
+      const response = await axios.post("/api/chat", {
         messages: newMessages,
+        subject: params.params.subject,
       });
+
+      console.log("response", response.data)
+
       setMessages((current) => [...current, userMessage, response.data]);
 
       form.reset();
@@ -58,7 +62,7 @@ const SubjectPage = (params: {
       if (error?.response?.status === 403) {
         proModal.onOpen();
       } else {
-        toast.error("Something went wrong.");
+        toast.error("Chat for this subject is coming in the next few weeks!");
       }
     } finally {
       router.refresh();
@@ -171,10 +175,10 @@ const SubjectPage = (params: {
               <div
                 key={message.content}
                 className={cn(
-                  "p-8 w-full flex items-start gap-x-8 rounded-lg",
+                  "p-8 w-full flex gap-x-8 rounded-lg items-center",
                   message.role === "user"
-                    ? "bg-white border border-black/10"
-                    : "bg-muted"
+                    ? "bg-slate-800 text-white border border-black/10 dark:bg-slate-900"
+                    : "bg-muted dark:text-white"
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
