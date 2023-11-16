@@ -107,7 +107,6 @@ const PaperViewPage = (params: {
     if (presignedUrls.length > 0) {
       setCurrentExamPaper();
     }
-    console.log("presignedUrls", presignedUrls)
   }, [presignedUrls]);
 
   return (

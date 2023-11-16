@@ -33,7 +33,6 @@ export async function GET(
     return new NextResponse("[ERROR] No files found.", { status: 404 });
   }
 
-  console.log(files)
 
   // filter any files that are not PDFs
   const filteredFiles = files.Contents.filter((file) => {

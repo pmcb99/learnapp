@@ -53,8 +53,6 @@ const SubjectPage = (params: {
         subject: params.params.subject,
       });
 
-      console.log("response", response.data)
-
       setMessages((current) => [...current, userMessage, response.data]);
 
       form.reset();

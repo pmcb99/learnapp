@@ -87,7 +87,6 @@ const PaperQuestionsByTopicPage = ({
     try {
       const apiEndpoint = `/api/topics/${params.examType}/${params.level}/${params.subject}/${params.year}`;
       const response = await axios.get(apiEndpoint);
-      console.log("Year Topic Response:", response);
       response.data.topics ? setTopics(response.data.topics) : setTopics([]);
       return topics;
     } catch (error: any) {
@@ -111,7 +110,6 @@ const PaperQuestionsByTopicPage = ({
           topic: chosenTopicValue,
         },
       });
-      console.log("1Response:", response);
       response.data.topics
         ? setTopicNames(response.data.topics)
         : setTopicNames([]);
@@ -146,7 +144,6 @@ const PaperQuestionsByTopicPage = ({
     const filteredPresignedUrls = presignedUrls.filter((presignedUrl) => {
       return presignedUrl.key.includes(year.toString());
     });
-    console.log("filteredPresignedUrls", filteredPresignedUrls);
     setFilteredPresignedUrls(filteredPresignedUrls);
   };
 
@@ -174,7 +171,6 @@ const PaperQuestionsByTopicPage = ({
 
   const findPageWithQuestion = async (topic: PaperQuestionsByTopic) => {
     setYear(topic.year!);
-    console.log("topic", topic);
 
     if (topic.examPaperPage) {
       if (topic.paperVersion === "sample-paper") {
@@ -215,7 +211,6 @@ const PaperQuestionsByTopicPage = ({
         params: paramValues,
       });
 
-      console.log("response", response);
 
       // find presigned url for this paper version
       response.data.pages.forEach((page: any) => {

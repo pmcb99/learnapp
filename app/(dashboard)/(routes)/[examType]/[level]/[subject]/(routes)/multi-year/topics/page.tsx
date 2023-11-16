@@ -113,9 +113,6 @@ const PaperViewPage = (params: {
     setCurrentExamPaper();
   }, [presignedUrls, year]);
 
-  // console.log("presignedUrls", presignedUrls)
-  // console.log("year", year)
-  // console.log("curr", currentPresignedUrl)
 
   return (
     <div className="flex w-full">

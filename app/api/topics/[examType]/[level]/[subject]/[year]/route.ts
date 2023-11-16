@@ -3,6 +3,23 @@ import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
 
+function parseQuestion(question) {
+  const match = question.match(/^(\d+)([a-zA-Z]*)$/);
+  const numericPart = match ? parseInt(match[1], 10) : 0;
+  const alphabeticPart = match && match[2] ? match[2] : '';
+  return { numericPart, alphabeticPart };
+}
+
+function customSort(a, b) {
+  const parsedA = parseQuestion(a.question);
+  const parsedB = parseQuestion(b.question);
+
+  if (parsedA.numericPart !== parsedB.numericPart) {
+    return parsedA.numericPart - parsedB.numericPart;
+  }
+
+  return parsedA.alphabeticPart.localeCompare(parsedB.alphabeticPart);
+}
 
 export async function GET(
   req: Request,
@@ -46,6 +63,8 @@ export async function GET(
         }
     ],
     });
+
+    topics.sort(customSort);
 
     if (!isPro) {
       const first4Topics = topics.slice(0, 4);

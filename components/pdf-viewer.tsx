@@ -222,7 +222,6 @@ export default function PDFViewer(props: {
 
   }, [props.presignedUrls]);
 
-  // console.log("cachedUrls", cachedUrls);
 
   // render the page only if document is loaded
 

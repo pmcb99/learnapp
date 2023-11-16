@@ -7,6 +7,29 @@ import { checkSubscription } from "@/lib/subscription";
 
 export const dynamic = 'force-dynamic'
 
+
+function parseQuestion(question) {
+  const match = question.match(/^(\d+)([a-zA-Z]*)$/);
+  const numericPart = match ? parseInt(match[1], 10) : 0;
+  const alphabeticPart = match && match[2] ? match[2] : '';
+  console.log(`Question: ${question}, Numeric: ${numericPart}, Alphabetic: ${alphabeticPart}`);
+  return { numericPart, alphabeticPart };
+}
+
+function customSort(a, b) {
+  const parsedA = parseQuestion(a.question);
+  const parsedB = parseQuestion(b.question);
+
+  if (parsedA.numericPart !== parsedB.numericPart) {
+    console.log(`Comparing by numeric: ${parsedA.numericPart} vs ${parsedB.numericPart}`);
+    return parsedA.numericPart - parsedB.numericPart;
+  }
+
+  console.log(`Comparing by alphabetic: ${parsedA.alphabeticPart} vs ${parsedB.alphabeticPart}`);
+  return parsedA.alphabeticPart.localeCompare(parsedB.alphabeticPart);
+}
+
+
 export async function GET(req: Request) {
   try {
     const { userId } = auth();
@@ -25,9 +48,7 @@ export async function GET(req: Request) {
     const topic = searchParams.get("topic") as string;
 
     // get topic names from db if namesOnly is true
-    console.log("namesOnly", namesOnly)
     if (namesOnly === "true") {
-      console.log("with names")
 
     //   // check redis cache
     //   try {
@@ -44,7 +65,7 @@ export async function GET(req: Request) {
     //   }
 
       // redis cache miss, get from db
-      const topics = await prismadb.paperQuestionsByTopic.findMany({
+      var topics = await prismadb.paperQuestionsByTopic.findMany({
         where: {
           subject: subject,
           level: level,
@@ -56,7 +77,6 @@ export async function GET(req: Request) {
         distinct: ["topic"],
       });
 
-      console.log("topics", topics);
 
       // cache in redis indefinitely
       // try {
@@ -116,6 +136,9 @@ export async function GET(req: Request) {
           }
         ],
       });
+
+
+      topics.sort(customSort);
 
       if (!isPro) {
         const first4Topics = topics.slice(0, 4);

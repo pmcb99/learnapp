@@ -31,7 +31,6 @@ export async function POST(req: Request) {
 
   const lastMessage = messages[messages.length - 1]['content'] as string;
 
-  console.log(lastMessage);
 
   if (!userId) {
     return new NextResponse("Unauthorized", { status: 401 });

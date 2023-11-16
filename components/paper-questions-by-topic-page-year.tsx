@@ -108,7 +108,6 @@ const PaperQuestionsByTopicPageYear = ({
         },
       });
       response.data.topics ? setTopics(response.data.topics) : setTopics([]);
-      console.log(chosenTopicValue);
       return response.data;
     } catch (error: any) {
       toast.error("Failed to fetch topic names.");
@@ -159,8 +158,6 @@ const PaperQuestionsByTopicPageYear = ({
         question: Number(topic.question),
         paperVersion: topic.paperVersion,
       };
-      console.log(paramValues);
-      console.log(topic);
       const response = await axios.get("/api/documents/question-page/", {
         params: paramValues,
       });

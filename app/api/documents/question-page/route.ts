@@ -49,13 +49,6 @@ export async function GET(
     const question = searchParams.get('question') as string;
     const paperVersion = searchParams.get('paperVersion') as string;
 
-    console.log('year', year)
-    console.log('level', level)
-    console.log('examType', examType)
-    console.log('subject', subject)
-    console.log('question', question)
-    console.log('paperVersion', paperVersion)
-
     const pages = await prismadb.questionsByPage.findMany({
       where: {
         subject: subject,
@@ -71,7 +64,6 @@ export async function GET(
     });
 
 
-    console.log('pages', pages)
     
     return new NextResponse(JSON.stringify({ pages }))
 

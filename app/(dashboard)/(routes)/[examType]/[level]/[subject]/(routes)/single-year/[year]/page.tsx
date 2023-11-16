@@ -48,8 +48,6 @@ const PaperViewPage = (params: {
 
   // useEffect(() => {
   //   setYear(Number(params.params.year!));
-  //   console.log("params", params.params.year)
-  //   console.log("year", year)
   //   fetchPresignedUrls();
   // }, [params.params.year]);
 
@@ -107,7 +105,6 @@ const PaperViewPage = (params: {
     if (presignedUrls.length > 0) {
       setCurrentExamPaper();
     }
-    console.log("presignedUrls", presignedUrls)
   }, [presignedUrls]);
 
   return (
