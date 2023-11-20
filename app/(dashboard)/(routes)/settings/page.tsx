@@ -38,7 +38,7 @@ const SettingsPage = async () => {
           alt=":)"
         />
       </div>
-      <footer className="mr-4 mt-5 text-right text-foreground text-xs">Send us a message</footer>
+      <footer className="mr-4 mt-7 text-right text-foreground text-xs">Send us a message</footer>
     </div>
   );
 };

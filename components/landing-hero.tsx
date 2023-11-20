@@ -30,7 +30,7 @@ export const LandingHero = () => {
         </div>
       </div>
       <div className="text-sm md:text-xl font-light text-zinc-400">
-        Exam questions broken down by topic, quizes and AI tutor. Learn faster with Rewise.
+        Exam questions broken down by topic, quizes and AI tutor.
       </div>
       <div>
         <Link href={isSignedIn ? "/lc/higher/chat" : "/sign-up"}>

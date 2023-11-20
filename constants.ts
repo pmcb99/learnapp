@@ -19,7 +19,7 @@ export const proFeatures = [
     badge: 'New',
   },
   {
-    label: 'Discounted rate (€4.99/month)',
+    label: 'Early bird discounted rate (€4.99/month)',
     icon: Coins,
     color: "text-blue-700",
     bgColor: "bg-pink-700/10",
