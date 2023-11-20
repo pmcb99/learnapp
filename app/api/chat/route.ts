@@ -19,10 +19,6 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
   });
 
-// const instructionMessage: ChatCompletionRequestMessage = {
-// role: "system",
-// content: "You are a code generator. You must answer only in markdown code snippets. Use code comments for explanations."
-// };
 
 export async function POST(req: Request) {
   const { userId } = auth();
@@ -68,20 +64,21 @@ export async function POST(req: Request) {
   const content = searchResult[0]['payload']!['content']
   console.log(content);
 
-  const newMessages = [
-    {
-        "role": "system",
-        "content": `You are a tutor for the Leaving Certificate. Only use information in the 'Content' to answer the question, text. If a question not related to the subject ${subject}, tell them you can only help with 'this subject'.`
-    },
-    {
-        "role": "user",
-        "content": `Question: ${lastMessage} Content: ${content}. Provide an answer to the question: `
-    }
-  ]
 
-  const chatResponse = await openai.chat.completions.create({
-  model: "gpt-3.5-turbo",
-  messages: newMessages!,
+  const newMessages: OpenAI.Chat.ChatCompletionCreateParams = {
+    messages: [    {
+      role: "system",
+      content: `You are a tutor for the Leaving Certificate. Only use information in the 'Content' to answer the question, text. If a question not related to the subject ${subject}, tell them you can only help with 'this subject'.`
+  },
+  {
+      role: "user",
+      content: `Question: ${lastMessage} Content: ${content}. Provide an answer to the question: `
+  }],
+    model: 'gpt-3.5-turbo',
+  };
+
+  const chatResponse: OpenAI.Chat.ChatCompletion = await openai.chat.completions.create({
+    ...newMessages,
   max_tokens: 300
   });
 

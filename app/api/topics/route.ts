@@ -8,7 +8,7 @@ import { checkSubscription } from "@/lib/subscription";
 export const dynamic = 'force-dynamic'
 
 
-function parseQuestion(question) {
+function parseQuestion(question: any) {
   const match = question.match(/^(\d+)([a-zA-Z]*)$/);
   const numericPart = match ? parseInt(match[1], 10) : 0;
   const alphabeticPart = match && match[2] ? match[2] : '';
@@ -16,7 +16,7 @@ function parseQuestion(question) {
   return { numericPart, alphabeticPart };
 }
 
-function customSort(a, b) {
+function customSort(a: any, b: any) {
   const parsedA = parseQuestion(a.question);
   const parsedB = parseQuestion(b.question);
 
