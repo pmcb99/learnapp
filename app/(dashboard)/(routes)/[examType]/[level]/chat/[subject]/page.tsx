@@ -97,7 +97,7 @@ const SubjectPage = (params: {
             className="bg-primary mx-2 mb-8 w-[170px]"
             onClick={() =>
               router.push(
-                `/${params.params.examType}/${params.params.level}/${params.params.subject}/single-paper`
+                `/${params.params.examType}/${params.params.level}/multi-year/${params.params.subject}/`
               )
             }
           >
