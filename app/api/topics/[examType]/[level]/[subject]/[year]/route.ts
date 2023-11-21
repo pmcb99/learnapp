@@ -45,8 +45,8 @@ export async function GET(
     const examType = params.params.examType;
     const subject = params.params.subject;
 
-    // const isPro = true;
-    const isPro = await checkSubscription();
+    const isPro = true;
+    // const isPro = await checkSubscription();
 
     const topics = await prismadb.paperQuestionsByTopic.findMany({
       where: {
@@ -84,6 +84,7 @@ export async function GET(
     }
 
     // const topics = await getTopicsForYear(Number(year), level, examType, subject);
+    console.log('topics', topics)
     
     return new NextResponse(JSON.stringify({ topics : topics }))
 
