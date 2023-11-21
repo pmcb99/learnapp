@@ -2,6 +2,7 @@ import { auth, currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
+import { checkSubscription } from "@/lib/subscription";
 
 function parseQuestion(question: any) {
   const match = question.match(/^(\d+)([a-zA-Z]*)$/);
@@ -44,8 +45,8 @@ export async function GET(
     const examType = params.params.examType;
     const subject = params.params.subject;
 
-    const isPro = false;
-    // const isPro = await checkSubscription();
+    // const isPro = true;
+    const isPro = await checkSubscription();
 
     const topics = await prismadb.paperQuestionsByTopic.findMany({
       where: {
