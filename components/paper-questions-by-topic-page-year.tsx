@@ -201,7 +201,7 @@ const PaperQuestionsByTopicPageYear = ({
 
       {currentPresignedUrl && topics && (
         <div className="flex-2 flex flex-col items-center justify-center">
-          <h2 className="font-bold text-2xl mb-4 pt-8">
+          <h2 className="font-bold text-2xl mb-4 pt-8 text-secondary">
             {params && params.year ? "Topics" : "Questions"}
           </h2>
           <ScrollArea className="rounded-md border p-4 h-[440px] w-full">

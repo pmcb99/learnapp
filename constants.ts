@@ -226,6 +226,14 @@ export const lcSubjects = [
     bgColor: "bg-gray-700/10",
     href: '/home-economics',
   },
+  {
+    label: "Physical Education",
+    icon: FlagIcon,
+    color: "text-green-800",
+    imageIconPath: "/subject-icons/physical-education-light.png",
+    bgColor: "bg-green-800/10",
+    href: '/physical-education',
+  }
   // {
   //   label: 'Art',
   //   icon: Brush,

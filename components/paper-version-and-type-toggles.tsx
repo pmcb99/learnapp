@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { PresignedUrl } from "@/types/global";
 import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
+import { Check, CheckCheckIcon, CheckCircle, CheckIcon } from "lucide-react";
 
 interface PaperVersionAndTypeTogglesProps {
   presignedUrls: PresignedUrl[];
@@ -94,6 +95,7 @@ function PaperVersionAndTypeToggles(props: PaperVersionAndTypeTogglesProps) {
                   disabled={currentPresignedUrl?.key === presignedUrl.key}
                 >
                   {getPaperVersionAndType(presignedUrl).paperType}
+                  {currentPresignedUrl?.key === presignedUrl.key && <CheckIcon/>}
                 </Button>)
               )
             )}

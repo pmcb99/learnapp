@@ -33,12 +33,12 @@ export function Nav({
 
               <TopicButton topicComponent={TopicComponent} topicComponentProps={topicComponentProps}/>
             </div>
-            <div className="flex items-center ">
-              <div className="bg-primary/60 text-black rounded-md px-3 py-2 text-sm font-medium">
-                <span>{pageNumber}</span>
-                <span className="text-black-400"> / {numPages}</span>
-              </div>
-            </div>
+            {/* <div className="flex items-center ">
+              <div className="bg-primary/60 text-black rounded-md px-3 py-2 text-sm font-medium"> */}
+                {/* <span>{pageNumber}</span> */}
+                {/* <span className="text-black-400"> / {numPages}</span> */}
+              {/* </div> */}
+            {/* </div> */}
           </div>
 
         </div>

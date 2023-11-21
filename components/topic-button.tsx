@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label"
 import PaperQuestionsByTopicPage from "./paper-questions-by-topic-page"
 import { PresignedUrl } from "@/types/global"
 import React from "react"
+import { ScrollArea } from "./ui/scroll-area"
 
 interface TopicButtonProps {
   topicComponent: any
@@ -29,8 +30,10 @@ export function TopicButton(
       <DialogTrigger asChild>
         <Button className="ml-3 md:hidden" variant="outline">Browse Questions</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="h-full mb-5">
+        <ScrollArea className="h-full">
         {props.topicComponent && React.createElement(props.topicComponent, props.topicComponentProps)}
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   )

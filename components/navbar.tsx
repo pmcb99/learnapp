@@ -17,8 +17,8 @@ const Navbar = async () => {
 
   return ( 
     <div className="flex items-center p-4">
-      <MobileSidebar isPro={isPro} apiLimitCount={apiLimitCount} />
       <div className="md:hidden gap-x-4">
+      <MobileSidebar isPro={isPro} apiLimitCount={apiLimitCount} />
       </div>
       <div className="flex w-full items-center gap-x-4 justify-end">
         <ThemeSwitcherButton />

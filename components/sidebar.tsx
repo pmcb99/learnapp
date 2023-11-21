@@ -84,10 +84,12 @@ const routes = [
 
 export const Sidebar = ({
   apiLimitCount = 0,
-  isPro = false
+  isPro = false,
+  setIsOpen
 }: {
   apiLimitCount: number;
   isPro: boolean;
+  setIsOpen: any
 }) => {
   const pathname = usePathname();
 
@@ -117,6 +119,7 @@ export const Sidebar = ({
             <Link
               key={route.href} 
               href={route.href}
+              onClick={() => setIsOpen(false)}
               className={cn(
                 "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer rounded-lg transition dark: text-white",
                 pathname === route.href ? "bg-white/10" : "",

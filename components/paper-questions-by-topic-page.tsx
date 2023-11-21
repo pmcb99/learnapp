@@ -53,6 +53,7 @@ const PaperQuestionsByTopicPage = ({
   const [filteredPresignedUrls, setFilteredPresignedUrls] = useState<
     PresignedUrl[]
   >([]);
+  const [chosenQuestion, setChosenQuestion] = useState<PaperQuestionsByTopic>();
   const proModal = useProModal();
 
   const {
@@ -164,8 +165,8 @@ const PaperQuestionsByTopicPage = ({
     if (params.year) {
       getTopicsForYear();
     } else {
-      getTopicsNamesForSubject();
       getTopicsForSubject();
+      filterPresignedUrls();
     }
   }, [year, params.year, chosenTopicValue]);
 
@@ -179,6 +180,10 @@ const PaperQuestionsByTopicPage = ({
 
   const findPageWithQuestion = async (topic: PaperQuestionsByTopic) => {
     setYear(topic.year!);
+    setChosenQuestion(topic);
+
+    console.log("topic", topic.id);
+    console.log("topic.ex", chosenQuestion?.id);
 
     if (topic.examPaperPage) {
       if (topic.paperVersion === "sample-paper") {
@@ -251,9 +256,8 @@ const PaperQuestionsByTopicPage = ({
       {!params.year && (
         <div className="py-6">
           <div className="flex-1 flex flex-col items-center justify-between bg-primary py-4 rounded-xl">
-            <h3 className="flex font-bold text-xl justify-center items-center pb-4">
-              {" "}
-              Topics{" "}
+            <h3 className="flex font-bold text-xl justify-center items-center pb-4 text-secondary">
+              Topics
             </h3>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
@@ -319,7 +323,8 @@ const PaperQuestionsByTopicPage = ({
                   currentPresignedUrl.key.includes(topic.paperVersion) && (
                     <Button
                       key={topic.id}
-                      className="my-2 h-auto w-auto"
+                      className={"my-2 h-auto w-auto bg-blue-100"}
+                      disabled={chosenQuestion?.id === topic.id}
                       onClick={() =>
                         findPageWithQuestion && findPageWithQuestion(topic)
                       }
@@ -329,6 +334,7 @@ const PaperQuestionsByTopicPage = ({
                       
                       {!params.year ? topic.year : ""} Q{topic.question}{" "}
                       {topic.parts} - {topic.topic}
+                      {chosenQuestion?.id === topic.id && <Check className="ml-2 h-4 w-4" />}
                     </Button>
                   )
               )}

@@ -44,6 +44,7 @@ export const TopicModal = (
   return (
     <Dialog open={topicModal.isOpen} onOpenChange={topicModal.onClose}>
       <DialogContent>
+        <div className="h-5">
         <DialogHeader>
           <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2">
             <div className="flex items-center gap-x-2 font-bold text-xl">
@@ -60,6 +61,7 @@ export const TopicModal = (
             <Zap className="w-4 h-4 ml-2 fill-white" />
           </Button>
         </DialogFooter>
+      </div>
       </DialogContent>
     </Dialog>
   );
