@@ -5,6 +5,7 @@ import DefinitionList from '../../definitions';
 interface DefinitionPageProps {
     params: {
         topic: string;
+        subject: string;
     }
 };
 
@@ -12,11 +13,12 @@ const DefinitionPage: React.FC<DefinitionPageProps> = async ({
     params
 }
 ) => {
+    console.log(params);
     // replace dashes with spaces and convert to uppercase
     const topicKey = params.topic.replace(/-/g, ' ').toUpperCase();
     const definitions = await prismadb.definition.findMany({
         where: {
-            topic: topicKey
+            subject: params.subject 
         }
     });
     

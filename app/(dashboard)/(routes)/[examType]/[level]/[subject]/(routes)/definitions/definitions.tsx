@@ -18,7 +18,7 @@ const DefinitionList: React.FC<DefinitionListProps> = ({ definitions }) => {
       {definitions.map((definition, index) => (
         <div className="" key={index}>
           <div
-            key={index}
+            key={definition.id}
             className="mb-4 bg-transparent p-4 rounded shadow hover:shadow-lg transition-shadow duration-200"
           >
             <Accordion type="single" collapsible>

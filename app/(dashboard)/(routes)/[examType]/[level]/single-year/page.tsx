@@ -27,6 +27,9 @@ export default function HomePage() {
         <h3 className=" text-center text-slate-600">
           Learn what topics come up each year, and get familiar with the paper structure.
         </h3>
+        <h4 className=" text-center text-slate-300">
+          More subjects coming next week...
+        </h4>
         {/* <p className="text-muted-foreground font-light text-sm md:text-lg text-center">
           Chat with the smartest AI - Experience the power of AI
         </p> */}

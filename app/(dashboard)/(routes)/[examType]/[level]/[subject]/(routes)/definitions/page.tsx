@@ -19,6 +19,9 @@ export default async function HomePage(
     select: {
       topic: true,
     },
+    where: {
+      subject: params.subject,
+    },
     distinct: ["topic"]
   });
 
@@ -30,7 +33,7 @@ export default async function HomePage(
     color: "text-white",
   }));
   
-  const heading = "Past Papers"
+  const heading = "Definitions"
 
   return (
     <CardList heading={heading} items={topicCardListProps} />

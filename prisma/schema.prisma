@@ -46,11 +46,11 @@ model User {
 }
 
 model Definition {
-  id         String             @id @default(cuid())
+  id         String @id @default(cuid())
   term       String
   definition String
   keyword    String
-  subject    Definition_subject
+  subject    String @db.VarChar(100)
   topic      String
 }
 
@@ -127,37 +127,6 @@ enum ExamPaper_subject {
 }
 
 enum UserSubject_subject {
-  ENGLISH
-  IRISH
-  MATHEMATICS
-  FRENCH
-  GERMAN
-  SPANISH
-  ITALIAN
-  RUSSIAN
-  JAPANESE
-  PHYSICS
-  CHEMISTRY
-  BIOLOGY
-  AGRICULTURAL_SCIENCE
-  APPLIED_MATHEMATICS
-  PHYSICS_AND_CHEMISTRY
-  ACCOUNTING
-  BUSINESS
-  ECONOMICS
-  GEOGRAPHY
-  HISTORY
-  CLASSICAL_STUDIES
-  CONSTRUCTION_STUDIES
-  ENGINEERING
-  DESIGN_AND_COMMUNICATION_GRAPHICS
-  HOME_ECONOMICS
-  ART
-  MUSIC
-  RELIGIOUS_EDUCATION
-}
-
-enum Definition_subject {
   ENGLISH
   IRISH
   MATHEMATICS

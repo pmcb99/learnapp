@@ -35,7 +35,8 @@ export const proFeatures = [
 ];
 
 export const subjectsWithDefinitions = [
-  "lc_biology"
+  "lc_biology",
+  "lc_chemistry"
 ]
 
 
@@ -48,14 +49,14 @@ export const lcSubjects = [
     bgColor: "bg-blue-500/10",
     href: '/english',
   },
-  {
-    label: 'Irish',
-    icon: Soup,
-    color: "text-green-500",
-    imageIconPath: "/subject-icons/irish-light.png",
-    bgColor: "bg-green-500/10",
-    href: '/irish',
-  },
+  // {
+  //   label: 'Irish',
+  //   icon: Soup,
+  //   color: "text-green-500",
+  //   imageIconPath: "/subject-icons/irish-light.png",
+  //   bgColor: "bg-green-500/10",
+  //   href: '/irish',
+  // },
   {
     label: 'Mathematics',
     icon: CalculatorIcon,
@@ -64,14 +65,14 @@ export const lcSubjects = [
     bgColor: "bg-yellow-500/10",
     href: '/mathematics',
   },
-  {
-    label: 'French',
-    icon: Globe2,
-    imageIconPath: "/subject-icons/french-light.png",
-    color: "text-pink-500",
-    bgColor: "bg-pink-500/10",
-    href: '/french',
-  },
+  // {
+  //   label: 'French',
+  //   icon: Globe2,
+  //   imageIconPath: "/subject-icons/french-light.png",
+  //   color: "text-pink-500",
+  //   bgColor: "bg-pink-500/10",
+  //   href: '/french',
+  // },
   // {
   //   label: 'German',
   //   icon: Globe2,
@@ -85,20 +86,6 @@ export const lcSubjects = [
   //   color: "text-red-500",
   //   bgColor: "bg-red-500/10",
   //   href: '/spanish',
-  // },
-  // {
-  //   label: 'Italian',
-  //   icon: PizzaIcon,
-  //   color: "text-red-600",
-  //   bgColor: "bg-red-600/10",
-  //   href: '/italian',
-  // },
-  // {
-  //   label: 'Japanese',
-  //   icon: JapaneseYen,
-  //   color: "text-purple-500",
-  //   bgColor: "bg-purple-500/10",
-  //   href: '/japanese',
   // },
   {
     label: 'Physics',
@@ -159,14 +146,14 @@ export const lcSubjects = [
     bgColor: "bg-gray-500/10",
     href: '/accounting',
   },
-  {
-    label: 'Business',
-    icon: BriefcaseIcon,
-    color: "text-gray-600",
-    imageIconPath: "/subject-icons/economics-light.png",
-    bgColor: "bg-gray-600/10",
-    href: '/business',
-  },
+  // {
+  //   label: 'Business',
+  //   icon: BriefcaseIcon,
+  //   color: "text-gray-600",
+  //   imageIconPath: "/subject-icons/economics-light.png",
+  //   bgColor: "bg-gray-600/10",
+  //   href: '/business',
+  // },
   {
     label: 'Economics',
     icon: LineChart,
@@ -214,22 +201,22 @@ export const lcSubjects = [
     bgColor: "bg-gray-800/10",
     href: '/engineering',
   },
-  {
-    label: 'Design and Communication Graphics',
-    icon: Pencil,
-    color: "text-yellow-700",
-    imageIconPath: "/subject-icons/design-and-communication-graphics-light.png",
-    bgColor: "bg-yellow-700/10",
-    href: '/design-and-communication-graphics',
-  },
-  {
-    label: 'Home Economics',
-    icon: ChefHat,
-    color: "text-gray-700",
-    imageIconPath: "/subject-icons/home-economics-light.png",
-    bgColor: "bg-gray-700/10",
-    href: '/home-economics',
-  },
+  // {
+  //   label: 'Design and Communication Graphics',
+  //   icon: Pencil,
+  //   color: "text-yellow-700",
+  //   imageIconPath: "/subject-icons/design-and-communication-graphics-light.png",
+  //   bgColor: "bg-yellow-700/10",
+  //   href: '/design-and-communication-graphics',
+  // },
+  // {
+  //   label: 'Home Economics',
+  //   icon: ChefHat,
+  //   color: "text-gray-700",
+  //   imageIconPath: "/subject-icons/home-economics-light.png",
+  //   bgColor: "bg-gray-700/10",
+  //   href: '/home-economics',
+  // },
   {
     label: "Physical Education",
     icon: FlagIcon,

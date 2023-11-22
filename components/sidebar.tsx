@@ -89,7 +89,7 @@ export const Sidebar = ({
 }: {
   apiLimitCount: number;
   isPro: boolean;
-  setIsOpen: any
+  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const pathname = usePathname();
 
@@ -119,7 +119,7 @@ export const Sidebar = ({
             <Link
               key={route.href} 
               href={route.href}
-              onClick={() => setIsOpen(false)}
+              onClick={() => setIsOpen && setIsOpen(false)}
               className={cn(
                 "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer rounded-lg transition dark: text-white",
                 pathname === route.href ? "bg-white/10" : "",
