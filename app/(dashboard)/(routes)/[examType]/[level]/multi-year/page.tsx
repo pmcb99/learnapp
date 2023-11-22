@@ -34,10 +34,10 @@ export default function HomePage() {
           Chat with the smartest AI - Experience the power of AI
         </p> */}
       </div>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-2 px-20 lg:px-32 ">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-x-2 gap-y-2 px-20 lg:px-32 ">
         {lcSubjects.map((subject) => (
-          <Card onClick={() => router.push(`${hrefPrefix}/multi-year/${subject.href}`)} key={subject.href} className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer">
-            <div className="flex items-center gap-x-4">
+          <Card onClick={() => router.push(`${hrefPrefix}/multi-year/${subject.href}`)} key={subject.href} className="p-4 border-slate-700 flex items-center justify-between hover:shadow-md hover:scale-105 transition cursor-pointer">
+            <div className="flex md:justify-center md:items-center gap-x-4 w-auto md:flex-row flex-col ">
               <div className="font-semibold">
                 <Image src={subject.imageIconPath || ""} alt="" width={50} height={50} className="dark:hidden"/>
                 <Image src={subject.imageIconPath.replace("light","dark") || ""} alt="" width={50} height={50} className="hidden dark:block"/>
