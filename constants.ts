@@ -34,6 +34,10 @@ export const proFeatures = [
   },
 ];
 
+export const subjectsWithDefinitions = [
+  "lc_biology"
+]
+
 
 export const lcSubjects = [
   {

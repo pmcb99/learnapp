@@ -15,7 +15,7 @@ const DashboardLayout = async ({
     <div className="h-full relative flex">
       {/* <div className="hidden md:flex md:w-72 md:flex-col md:inset-y-0 z-80 "> */}
       <div className="hidden md:flex md:w-72 inset-y-0 z-80 ">
-        <Sidebar isPro={isPro} apiLimitCount={apiLimitCount} />
+        <Sidebar isPro={isPro} apiLimitCount={apiLimitCount} setIsOpen={false}/>
       </div>
       <main className="flex-col w-full overflow-y-auto">
         <Navbar />

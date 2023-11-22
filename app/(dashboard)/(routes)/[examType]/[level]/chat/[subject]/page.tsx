@@ -21,7 +21,7 @@ import { Empty } from "@/components/ui/empty";
 import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "@/app/constants";
-import { getSubjectFromHref } from "@/constants";
+import { getSubjectFromHref, subjectsWithDefinitions } from "@/constants";
 
 const SubjectPage = (params: {
   params: { subject: string; examType: string; level: string };
@@ -38,6 +38,14 @@ const SubjectPage = (params: {
   });
 
   const isLoading = form.formState.isSubmitting;
+
+  //check if subjectWithDefinitions contains 'lc_biology'
+  const showDefinitions = subjectsWithDefinitions.includes(
+    `${params.params.examType}_${params.params.subject}`
+  );
+
+  console.log(showDefinitions);
+  console.log(`${params.params.examType}_${params.params.subject}`)
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -82,7 +90,7 @@ const SubjectPage = (params: {
           subject={params.params.subject}
         />
         <div className="w-full">
-          <Button
+          {showDefinitions && <Button
             className="bg-primary mx-2 mb-8 w-[170px]"
             onClick={() =>
               router.push(
@@ -92,7 +100,7 @@ const SubjectPage = (params: {
           >
             Definitions
             <ArrowRight className="w-5 h-5" />
-          </Button>
+          </Button>}
           <Button
             className="bg-primary mx-2 mb-8 w-[170px]"
             onClick={() =>
