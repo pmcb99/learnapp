@@ -262,22 +262,22 @@ export default function PDFViewer(props: {
   
       <div>
           <div hidden={loading} className="flex items-center justify-center h-full">
-            <div className="flex items-center justify-between w-full absolute z-10 px-2">
+            <div className="flex items-center justify-between w-full absolute z-10 px-2 md:pt-0 pt-24">
               <button
                 onClick={goToPreviousPage}
                 disabled={visiblePage <= 1}
                 className="relative h-[calc(100vh - 64px)] px-2 py-24 text-gray-400 hover:text-gray-50 focus:z-20"
               >
-                <span className="sr-only">Previous</span>
-                <ChevronLeftIcon className="h-10 w-10" aria-hidden="true" />
+                <span className="md:hidden">Previous</span>
+                <ChevronLeftIcon className="h-10 w-10 md:pb-0 pb-5 hover:text-red-500 hover:scale-110 transition" aria-hidden="true" />
               </button>
               <button
                 onClick={goToNextPage}
                 disabled={visiblePage >= numPages!}
                 className="relative px-2 py-24 text-gray-400 hover:text-gray-50 focus:z-20"
               >
-                <span className="sr-only">Next</span>
-                <ChevronRightIcon className="h-10 w-10" aria-hidden="true" />
+                <span className="md:hidden">Next</span>
+                <ChevronRightIcon className="h-10 w-10 md:pb-0 pb-5 hover:text-red-500 hover:scale-110 transition" aria-hidden="true" />
               </button>
             </div>
   
@@ -290,10 +290,10 @@ export default function PDFViewer(props: {
                   loading={<LoadingAnimation />}
                   // options={options}
                   renderMode="canvas"
-                  className="flex items-center justify-center"
+                  className="flex items-center justify-center scale-50 md:scale-100 md:relative absolute top-0 "
                 >
                   <Page
-                    className="overflow-hidden w-full items-center "
+                    className="overflow-hidden w-full items-center"
                     key={visiblePage}
                     pageNumber={visiblePage}
                     loading={<LoadingAnimation />}

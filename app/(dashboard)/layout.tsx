@@ -20,7 +20,7 @@ const DashboardLayout = async ({
       <main className="flex-col w-full overflow-y-auto">
         <Navbar />
         {children}
-        <footer className="mt-10 text-center text-foreground">© Rewise</footer>
+        <footer className="mt-10 text-center text-foreground md:block hidden">© Rewise</footer>
       </main>
     </div>
    );
