@@ -21,8 +21,11 @@ export const LandingHero = () => {
           <TypewriterComponent
             options={{
               strings: [
-                "Stop wasting time.",
-                "Start learning fast.",
+                "\"Summarize Hamlet Act 1 Scene 1.\"",
+                "\"Quiz me on volcanos.\"",
+                "\"Explain the laws of motion.\"",
+                "\"What is DNA made of?.\"",
+                "\"Who invented the lightbulb?\"",
               ],
               autoStart: true,
               loop: true,
