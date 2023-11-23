@@ -19,7 +19,7 @@ const testimonials = [
     name: "Gavin",
     avatar: "M",
     title: "Physics Teacher, Cavan",
-    description: "I recommend this to all my students.",
+    description: "I love how it teaches the paper structure.",
   },
   {
     name: "Shauna",
@@ -28,9 +28,9 @@ const testimonials = [
     description: "It took the stress out of studying.",
   },
   {
-    name: "James",
+    name: "Stephen",
     avatar: "M",
-    title: "Biology Teacher, Dublin",
+    title: "Maths Teacher, Dublin",
     description: "I recommend this to all my students.",
   },
 ];

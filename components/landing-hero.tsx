@@ -3,6 +3,7 @@
 import TypewriterComponent from "typewriter-effect";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 
@@ -32,15 +33,19 @@ export const LandingHero = () => {
       <div className="text-sm md:text-xl font-light text-zinc-400">
         Exam questions broken down by topic, quizzes and AI tutor.
       </div>
-      <div>
+      <div className="text-white-400 text-xs md:text-lg font-normal">
+        Try for free.
+      </div>
+      <div className="grid grid-cols-3">
+        <div className="flex items-center justify-center">
+        <Image src="/landing/papers-overlay.png" className="" width={150} height={150} alt='wkw'/>
+        </div>
         <Link href={isSignedIn ? "/lc/higher/chat" : "/sign-up"}>
           <Button variant="premium" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
             Get Started
           </Button>
         </Link>
-      </div>
-      <div className="text-zinc-400 text-xs md:text-sm font-normal">
-        Try for free.
+        <Image src="/landing/owl.png" className="" width={300} height={200} alt='wkw'/>
       </div>
     </div>
   );
