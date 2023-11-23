@@ -16,6 +16,7 @@ import PaperQuestionsByTopicPage from "./paper-questions-by-topic-page"
 import { PresignedUrl } from "@/types/global"
 import React from "react"
 import { ScrollArea } from "./ui/scroll-area"
+import { Menu } from "lucide-react"
 
 interface TopicButtonProps {
   topicComponent: any
@@ -28,7 +29,10 @@ export function TopicButton(
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="ml-3 md:hidden" variant="outline">Browse Questions</Button>
+        <Button className="md:hidden gap-x-3" variant="outline">
+          Browse Questions
+          {<Menu className="w-5 h-5 " />}
+          </Button>
       </DialogTrigger>
       <DialogContent className="h-full mb-5">
         <ScrollArea className="h-full">

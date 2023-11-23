@@ -258,11 +258,15 @@ export default function PDFViewer(props: {
         topicComponentProps={{ params: props.params, presignedUrls: props.presignedUrls }}
         pageNumber={visiblePage} 
         numPages={numPages} 
-        pdfName={`${props.year} - ${paperVersionVisible}`}/>
+        pdfName={`${props.year} - ${paperVersionVisible}`}
+        nextPageFunc={goToNextPage}
+        prevPageFunc={goToPreviousPage}
+        visiblePage={visiblePage}
+        />
   
       <div>
-          <div hidden={loading} className="flex items-center justify-center h-full">
-            <div className="flex items-center justify-between w-full absolute z-10 px-2 md:pt-0 pt-24">
+          <div hidden={loading} className="flex flex-col md:flex-row items-center justify-center h-full">
+            {/* <div className="flex items-center justify-between w-full md:absolute relative z-10 px-2">
               <button
                 onClick={goToPreviousPage}
                 disabled={visiblePage <= 1}
@@ -279,7 +283,7 @@ export default function PDFViewer(props: {
                 <span className="md:hidden">Next</span>
                 <ChevronRightIcon className="h-10 w-10 md:pb-0 pb-5 hover:text-red-500 hover:scale-110 transition" aria-hidden="true" />
               </button>
-            </div>
+            </div> */}
   
             <div className="flex items-center justify-center w-full h-full">
               <div className="flex items-center justify-center w-full h-full">
