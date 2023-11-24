@@ -77,7 +77,8 @@ export default function PDFViewer(props: {
 
   function getVisiblePage() {
     var visiblePage = 1;
-    if (currentPresignedUrl.key.includes("exam-paper")) {
+    
+    if (currentPresignedUrl.key.includes("exam-paper/")) {
       visiblePage = examPaperPage;
     }
     else if (currentPresignedUrl.key.includes("sample-paper")) {
@@ -86,8 +87,11 @@ export default function PDFViewer(props: {
     else if (currentPresignedUrl.key.includes("coursework-project")) {
       visiblePage = projectPaperPage;
     }
-    else {
+    else if (currentPresignedUrl.key.includes("marking-scheme/")) {
       visiblePage = markingSchemePage;
+    }
+    else {
+      visiblePage = examPaperPage;
     }
     if (visiblePage > numPages) {
       visiblePage = 1;
@@ -154,7 +158,10 @@ export default function PDFViewer(props: {
   function flipToAdjacentPage(increment_or_decrement: string) {
     const adjustmentAmount = increment_or_decrement === "increment" ? 1 : -1;
 
+    console.log(currentPresignedUrl.key)
+
     if (currentPresignedUrl.key.includes("exam-paper")) {
+      console.log("examPaperPage", examPaperPage);
       setExamPaperPage(examPaperPage + adjustmentAmount)
     }
     else if (currentPresignedUrl.key.includes("sample-paper")) {
@@ -167,7 +174,9 @@ export default function PDFViewer(props: {
       setMarkingSchemePage(markingSchemePage + adjustmentAmount)
     }
     else {
-      toast.error("Something went wrong.");
+      setExamPaperPage(examPaperPage + adjustmentAmount)
+
+    console.log('here1')
     }
   }
 

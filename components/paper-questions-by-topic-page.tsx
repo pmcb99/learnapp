@@ -22,7 +22,7 @@ import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { PaperQuestionsByTopic } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -135,7 +135,15 @@ const PaperQuestionsByTopicPage = ({
           topic: chosenTopicValue,
         },
       });
+      console.log({
+        examType: params.examType,
+        level: params.level,
+        subject: params.subject,
+        namesOnly: "false",
+        topic: chosenTopicValue,
+      })
       console.log("response.data.topics2", response.data.topics);
+      console.log("response.data", response.data);
       response.data.topics ? setTopics(response.data.topics) : setTopics([]);
       return response.data;
     } catch (error: any) {
@@ -152,7 +160,7 @@ const PaperQuestionsByTopicPage = ({
 
   const setCurrentExamPaper = () => {
     const currentExamPaper = filteredPresignedUrls.find((presignedUrl) => {
-      return presignedUrl.key.includes("exam-paper");
+      return presignedUrl.key.includes("exam-paper/");
     });
     if (currentExamPaper) {
       setCurrentPresignedUrl(currentExamPaper!);
@@ -178,12 +186,15 @@ const PaperQuestionsByTopicPage = ({
     }
   }, []);
 
+  useEffect(() => {
+    console.log(currentPresignedUrl);
+  }, [currentPresignedUrl]);
+
   const findPageWithQuestion = async (topic: PaperQuestionsByTopic) => {
     setYear(topic.year!);
     setChosenQuestion(topic);
 
-    console.log("topic", topic.id);
-    console.log("topic.ex", chosenQuestion?.id);
+    console.log("topic", topic);
 
     if (topic.examPaperPage) {
       if (topic.paperVersion === "sample-paper") {
@@ -191,10 +202,19 @@ const PaperQuestionsByTopicPage = ({
           setSamplePaperPage(1);
         }
       }
+
       if (topic.paperVersion.includes("project")) {
         setSamplePaperPage(topic.examPaperPage);
         topic.examPaperPage === -1 ? setSamplePaperPage(1) : setSamplePaperPage(topic.examPaperPage);
       }
+
+
+      if (topic.paperVersion.includes("aural")) {
+        setExamPaperPage(topic.examPaperPage);
+        topic.examPaperPage === -1 ? setExamPaperPage(1) : setExamPaperPage(topic.examPaperPage);
+      }
+
+
       if (topic.examPaperPage) {
         setExamPaperPage(topic.examPaperPage);
         if (topic.examPaperPage === -1) {
@@ -227,13 +247,13 @@ const PaperQuestionsByTopicPage = ({
 
       // find presigned url for this paper version
       response.data.pages.forEach((page: any) => {
-        if (page.paperType === "exam-paper") {
+        if (page.paperType === "exam-paper/") {
           setExamPaperPage(page.page);
-        } else if (page.paperType === "marking-scheme") {
+        } else if (page.paperType === "marking-scheme/") {
           setMarkingSchemePage(page.page);
-        } else if (page.paperType === "sample-paper") {
+        } else if (page.paperType === "sample-paper/") {
           setSamplePaperPage(page.page);
-        } else if (page.paperType === "project") {
+        } else if (page.paperType === "project/") {
           setProjectPaperPage(page.page);
         }
       });

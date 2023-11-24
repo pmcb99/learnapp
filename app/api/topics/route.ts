@@ -9,10 +9,10 @@ export const dynamic = 'force-dynamic'
 
 
 function parseQuestion(question: any) {
+  if (!question) return { numericPart: 0, alphabeticPart: '' };
   const match = question.match(/^(\d+)([a-zA-Z]*)$/);
   const numericPart = match ? parseInt(match[1], 10) : 0;
   const alphabeticPart = match && match[2] ? match[2] : '';
-  console.log(`Question: ${question}, Numeric: ${numericPart}, Alphabetic: ${alphabeticPart}`);
   return { numericPart, alphabeticPart };
 }
 
@@ -21,11 +21,9 @@ function customSort(a: any, b: any) {
   const parsedB = parseQuestion(b.question);
 
   if (parsedA.numericPart !== parsedB.numericPart) {
-    console.log(`Comparing by numeric: ${parsedA.numericPart} vs ${parsedB.numericPart}`);
     return parsedA.numericPart - parsedB.numericPart;
   }
 
-  console.log(`Comparing by alphabetic: ${parsedA.alphabeticPart} vs ${parsedB.alphabeticPart}`);
   return parsedA.alphabeticPart.localeCompare(parsedB.alphabeticPart);
 }
 
@@ -112,7 +110,7 @@ export async function GET(req: Request) {
 
 
     // const freeTrial = await checkApiLimit();
-    const isPro = false;
+    const isPro = true;
     // const isPro = await checkSubscription();
 
       console.log("no cached topics");

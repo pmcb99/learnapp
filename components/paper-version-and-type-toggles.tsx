@@ -33,9 +33,9 @@ function getPaperVersionAndType(presignedUrl: PresignedUrl) {
     resultObject["paperType"] = "Day Two";
   } else if (presignedUrl.key.includes("Day-3")) {
     resultObject["paperType"] = "Day Three";
-  } else if (presignedUrl.key.includes("exam-paper")) {
+  } else if (presignedUrl.key.includes("exam-paper/")) {
     resultObject["paperType"] = "Exam Paper";
-  } else if (presignedUrl.key.includes("marking-scheme")) {
+  } else if (presignedUrl.key.includes("marking-scheme/")) {
     resultObject["paperType"] = "Marking Scheme";
   } else {
     resultObject["paperType"] = "Paper";
@@ -76,6 +76,8 @@ function PaperVersionAndTypeToggles(props: PaperVersionAndTypeTogglesProps) {
       setCurrentPresignedUrl: state.setCurrentPresignedUrl,
     })
   );
+
+  console.log("currentPresignedUrl", currentPresignedUrl);
 
   return (
     <>

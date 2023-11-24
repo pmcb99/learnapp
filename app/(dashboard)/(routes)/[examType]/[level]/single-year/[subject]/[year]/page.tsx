@@ -90,7 +90,7 @@ const PaperViewPage = (params: {
     const examPaper = presignedUrls.find(
       (presignedUrl) =>
         presignedUrl.key.includes(year.toString()) &&
-        presignedUrl.key.includes("exam-paper")
+        presignedUrl.key.includes("exam-paper/")
     );
     examPaper ? setCurrentPresignedUrl(examPaper!) : console.log("no exam paper");
     }
