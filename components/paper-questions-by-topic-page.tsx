@@ -281,7 +281,7 @@ const PaperQuestionsByTopicPage = ({
                   <CommandEmpty>No topic found.</CommandEmpty>
 
                   <CommandGroup>
-                    <ScrollArea>
+                    <ScrollArea className="h-[340px]">
                       {topicNames.map((topicName) => (
                         <CommandItem
                           key={topicName.topic}
