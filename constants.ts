@@ -65,14 +65,14 @@ export const lcSubjects = [
     bgColor: "bg-yellow-500/10",
     href: '/mathematics',
   },
-  // {
-  //   label: 'French',
-  //   icon: Globe2,
-  //   imageIconPath: "/subject-icons/french-light.png",
-  //   color: "text-pink-500",
-  //   bgColor: "bg-pink-500/10",
-  //   href: '/french',
-  // },
+  {
+    label: 'French',
+    icon: Globe2,
+    imageIconPath: "/subject-icons/french-light.png",
+    color: "text-pink-500",
+    bgColor: "bg-pink-500/10",
+    href: '/french',
+  },
   // {
   //   label: 'German',
   //   icon: Globe2,
