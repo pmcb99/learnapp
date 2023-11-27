@@ -104,10 +104,10 @@ export const Sidebar = ({
 
         <Link href="/lc/single-year" className="flex items-center pl-3 mb-14">
           <div className="relative h-9 w-9 ">
-            <Image fill alt="Logo" src="/logo-dark.png" className="scale-110" />
+            <Image fill alt="Logo" src="/logoR-dark.png" className="scale-110" />
           </div>
           <h1 className={cn("text-2xl font-bold text-white", poppins.className)}>
-            Rewise 
+            ewise 
           </h1>
           <h4 className="text-slate-600 pl-2">beta</h4>
         </Link>

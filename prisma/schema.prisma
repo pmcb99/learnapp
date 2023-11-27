@@ -43,6 +43,7 @@ model User {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   subjects  UserSubject[]
+  checkoutCode String?
 }
 
 model Definition {

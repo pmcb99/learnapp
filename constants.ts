@@ -48,15 +48,17 @@ export const lcSubjects = [
     imageIconPath: "/subject-icons/english-light.png",
     bgColor: "bg-blue-500/10",
     href: '/english',
+    questionExample: 'What happens Hamlet in Act 1 Scene 1?',
   },
-  // {
-  //   label: 'Irish',
-  //   icon: Soup,
-  //   color: "text-green-500",
-  //   imageIconPath: "/subject-icons/irish-light.png",
-  //   bgColor: "bg-green-500/10",
-  //   href: '/irish',
-  // },
+  {
+    label: 'Irish',
+    icon: Soup,
+    color: "text-green-500",
+    imageIconPath: "/subject-icons/irish-light.png",
+    bgColor: "bg-green-500/10",
+    href: '/irish',
+    questionExample: 'What is the Irish for "I am living in an apartment"?',
+  },
   {
     label: 'Mathematics',
     icon: CalculatorIcon,
@@ -72,6 +74,7 @@ export const lcSubjects = [
     color: "text-pink-500",
     bgColor: "bg-pink-500/10",
     href: '/french',
+    questionExample: 'What is the French for "I am going to the cinema"?',
   },
   // {
   //   label: 'German',
@@ -80,13 +83,15 @@ export const lcSubjects = [
   //   bgColor: "bg-brown-500/10",
   //   href: '/german',
   // },
-  // {
-  //   label: 'Spanish',
-  //   icon: Sun,
-  //   color: "text-red-500",
-  //   bgColor: "bg-red-500/10",
-  //   href: '/spanish',
-  // },
+  {
+    label: 'Spanish',
+    icon: Sun,
+    color: "text-red-500",
+    imageIconPath: "/subject-icons/spanish-light.png",
+    bgColor: "bg-red-500/10",
+    href: '/spanish',
+    questionExample: 'What is the Spanish for "I am going to the party"?',
+  },
   {
     label: 'Physics',
     icon: AtomIcon,
@@ -121,6 +126,7 @@ export const lcSubjects = [
     imageIconPath: "/subject-icons/agricultural-science-light.png",
     bgColor: "bg-green-700/10",
     href: '/agricultural-science',
+    questionExample: 'Explain what 10-10-20 means.',
   },
   {
     label: 'Applied Mathematics',
@@ -145,15 +151,17 @@ export const lcSubjects = [
     imageIconPath: "/subject-icons/accounting-light.png",
     bgColor: "bg-gray-500/10",
     href: '/accounting',
+    questionExample: 'What is a balance sheet?',
   },
-  // {
-  //   label: 'Business',
-  //   icon: BriefcaseIcon,
-  //   color: "text-gray-600",
-  //   imageIconPath: "/subject-icons/economics-light.png",
-  //   bgColor: "bg-gray-600/10",
-  //   href: '/business',
-  // },
+  {
+    label: 'Business',
+    icon: BriefcaseIcon,
+    color: "text-gray-600",
+    imageIconPath: "/subject-icons/economics-light.png",
+    bgColor: "bg-gray-600/10",
+    href: '/business',
+    questionExample: 'What is a sole trader?',
+  },
   {
     label: 'Economics',
     icon: LineChart,
@@ -161,6 +169,7 @@ export const lcSubjects = [
     imageIconPath: "/subject-icons/economics-light.png",
     bgColor: "bg-pink-600/10",
     href: '/economics',
+    questionExample: 'What is the difference between a recession and a depression?',
   },
   {
     label: 'Construction Studies',
@@ -169,6 +178,7 @@ export const lcSubjects = [
     imageIconPath: "/subject-icons/construction-studies-light.png",
     bgColor: "bg-pink-600/10",
     href: '/construction-studies',
+    questionExample: "What is a birds mouth?",
   },
   {
     label: 'Geography',
@@ -177,6 +187,7 @@ export const lcSubjects = [
     imageIconPath: "/subject-icons/geography-light.png",
     bgColor: "bg-blue-700/10",
     href: '/geography',
+    questionExample: 'What is a drumlin?',
   },
   {
     label: 'History',
@@ -185,6 +196,7 @@ export const lcSubjects = [
     imageIconPath: "/subject-icons/history-light.png",
     bgColor: "bg-red-700/10",
     href: '/history',
+    questionExample: 'What is the significance of the Battle of the Boyne?',
   },
   // {
   //   label: 'Classical Studies',
@@ -200,6 +212,7 @@ export const lcSubjects = [
     imageIconPath: "/subject-icons/engineering-light.png",
     bgColor: "bg-gray-800/10",
     href: '/engineering',
+    questionExample: "What are the main safety precautions when using a lathe?",
   },
   // {
   //   label: 'Design and Communication Graphics',
