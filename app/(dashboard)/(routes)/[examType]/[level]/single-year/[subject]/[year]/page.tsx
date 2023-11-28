@@ -110,7 +110,7 @@ const PaperViewPage = (params: {
   return (
     <div className="flex w-full gap-x-4">
 
-      <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80">
+      <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80 ml-3">
         <PaperQuestionsByTopicPage params={params.params} presignedUrls={presignedUrls}/>
       </div>
       <div className="h-full w-full">

@@ -12,6 +12,7 @@ export async function GET(
   const keySlashed = keyDashed.replaceAll(/_/g, '/')
 
   console.log("keySlashed", keySlashed)
+  console.log("keySlashed", keySlashed)
 
   if (!bucket || !keyDashed) {
     return new NextResponse("[ERROR] Missing bucket or key.", { status: 400 });

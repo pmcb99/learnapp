@@ -37,7 +37,7 @@ export function Nav({
 
       <Button onClick={prevPageFunc}
         disabled={visiblePage <= 1}
-        className="focus:z-20 gap-x-3"
+        className="focus:z-20 gap-x-3 ml-4"
         variant={"outline"}
       >
         {<ArrowLeft className="w-5 h-5" />}

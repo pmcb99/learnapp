@@ -1,6 +1,6 @@
 import { AtomIcon, BookIcon, BookKey, BriefcaseIcon, Brush, CalculatorIcon, ChefHat, Code, Cog, Coins, Dna, EyeIcon, FlagIcon, Globe, Globe2, Hammer, Hourglass, ImageIcon, JapaneseYen, LineChart, Lock, LockIcon, MessageSquare, Music, Music2, Orbit, Pencil, PizzaIcon, Sheet, Soup, Sun, Swords, TestTube, TestTubes, Vegan, VideoIcon } from "lucide-react";
 
-export const MAX_FREE_COUNTS = 5;
+export const MAX_FREE_COUNTS = 100;
 
 export const proFeatures = [
   {
@@ -19,14 +19,14 @@ export const proFeatures = [
     badge: 'New',
   },
   {
-    label: 'Early bird discounted rate (€4.99/month)',
+    label: 'Early bird discounted rate (€7.99/month) for life.',
     icon: Coins,
     color: "text-blue-700",
     bgColor: "bg-pink-700/10",
     href: '/image',
   },
   {
-    label: 'Beta access to AI chat features',
+    label: 'Full access to AI chat feature.',
     icon: MessageSquare,
     color: "text-blue-700",
     bgColor: "bg-orange-700/10",
@@ -157,7 +157,7 @@ export const lcSubjects = [
     label: 'Business',
     icon: BriefcaseIcon,
     color: "text-gray-600",
-    imageIconPath: "/subject-icons/economics-light.png",
+    imageIconPath: "/subject-icons/business-light.png",
     bgColor: "bg-gray-600/10",
     href: '/business',
     questionExample: 'What is a sole trader?',
@@ -222,14 +222,14 @@ export const lcSubjects = [
   //   bgColor: "bg-yellow-700/10",
   //   href: '/design-and-communication-graphics',
   // },
-  // {
-  //   label: 'Home Economics',
-  //   icon: ChefHat,
-  //   color: "text-gray-700",
-  //   imageIconPath: "/subject-icons/home-economics-light.png",
-  //   bgColor: "bg-gray-700/10",
-  //   href: '/home-economics',
-  // },
+  {
+    label: 'Home Economics',
+    icon: ChefHat,
+    color: "text-gray-700",
+    imageIconPath: "/subject-icons/home-economics-light.png",
+    bgColor: "bg-gray-700/10",
+    href: '/home-economics',
+  },
   {
     label: "Physical Education",
     icon: FlagIcon,

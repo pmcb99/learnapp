@@ -30,9 +30,6 @@ export default function HomePage() {
         <h3 className=" text-center text-slate-600">
           Ask questions and get specific answers based on the Leaving Cert curriculum.
         </h3>
-        <h4 className=" text-center text-slate-300">
-          More subjects coming next week...
-        </h4>
         {/* <p className="text-muted-foreground font-light text-sm md:text-lg text-center">
           Chat with the smartest AI - Experience the power of AI
         </p> */}

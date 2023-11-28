@@ -110,8 +110,8 @@ export async function GET(req: Request) {
 
 
     // const freeTrial = await checkApiLimit();
-    const isPro = true;
-    // const isPro = await checkSubscription();
+    // const isPro = true;
+    const isPro = await checkSubscription();
 
       console.log("no cached topics");
 

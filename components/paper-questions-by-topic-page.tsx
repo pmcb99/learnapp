@@ -88,7 +88,6 @@ const PaperQuestionsByTopicPage = ({
     try {
       const apiEndpoint = `/api/topics/${params.examType}/${params.level}/${params.subject}/${params.year}`;
       const response = await axios.get(apiEndpoint);
-      console.log("response.data.topics", response.data.topics);
       response.data.topics ? setTopics(response.data.topics) : null;
       return topics;
     } catch (error: any) {
@@ -142,8 +141,6 @@ const PaperQuestionsByTopicPage = ({
         namesOnly: "false",
         topic: chosenTopicValue,
       })
-      console.log("response.data.topics2", response.data.topics);
-      console.log("response.data", response.data);
       response.data.topics ? setTopics(response.data.topics) : setTopics([]);
       return response.data;
     } catch (error: any) {
@@ -343,7 +340,7 @@ const PaperQuestionsByTopicPage = ({
                   currentPresignedUrl.key.includes(topic.paperVersion) && (
                     <Button
                       key={topic.id}
-                      className={"my-2 h-auto w-auto bg-blue-100"}
+                      className={"my-2 h-auto w-auto bg-primary"}
                       disabled={chosenQuestion?.id === topic.id}
                       onClick={() =>
                         findPageWithQuestion && findPageWithQuestion(topic)

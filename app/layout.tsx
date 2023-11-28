@@ -6,6 +6,7 @@ import { ToasterProvider } from '@/components/toaster-provider'
 import { ModalProvider } from '@/components/modal-provider'
 import { CrispProvider } from '@/components/crisp-provider'
 import { ThemeProvider } from '@/components/theme-provider'
+import Provider from "@/app/_trpc/Provider";
 
 import './globals.css'
 
@@ -34,7 +35,7 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-          {children}
+          <Provider>{children}</Provider>
           </ThemeProvider>
         </body>
       </html>

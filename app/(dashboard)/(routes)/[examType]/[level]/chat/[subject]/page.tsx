@@ -44,8 +44,6 @@ const SubjectPage = (params: {
     `${params.params.examType}_${params.params.subject}`
   );
 
-  console.log(showDefinitions);
-  console.log(`${params.params.examType}_${params.params.subject}`)
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -78,7 +76,7 @@ const SubjectPage = (params: {
     "Ask a question";
   return (
     <div className="">
-      <div className="flex items-center pt-8 ">
+      <div className="flex items-center pt-8 ml-5">
         <Button className="bg-primary mb-7" onClick={() => router.back()}>
           Back
         </Button>

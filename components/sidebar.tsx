@@ -85,14 +85,15 @@ const routes = [
 export const Sidebar = ({
   apiLimitCount = 0,
   isPro = false,
+  userHasAccessCode = false,
   setIsOpen
 }: {
   apiLimitCount: number;
   isPro: boolean;
+  userHasAccessCode: boolean;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const pathname = usePathname();
-
 
 
   return (
@@ -109,7 +110,7 @@ export const Sidebar = ({
           <h1 className={cn("text-2xl font-bold text-white", poppins.className)}>
             ewise 
           </h1>
-          <h4 className="text-slate-600 pl-2">beta</h4>
+          {/* <h4 className="text-slate-600 pl-2">beta</h4> */}
         </Link>
 
 
@@ -140,6 +141,7 @@ export const Sidebar = ({
       <FreeCounter 
         apiLimitCount={apiLimitCount} 
         isPro={isPro}
+        userHasAccessCode={userHasAccessCode}
       />
     </div>
     </div>

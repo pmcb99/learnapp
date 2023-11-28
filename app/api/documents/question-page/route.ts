@@ -63,8 +63,6 @@ export async function GET(
       }
     });
 
-    console.log('pages', pages)
-    
     return new NextResponse(JSON.stringify({ pages }))
 
   } catch (error) {

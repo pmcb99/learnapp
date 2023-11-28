@@ -4,6 +4,7 @@ import { Heading } from "@/components/heading";
 import { SubscriptionButton } from "@/components/subscription-button";
 import { checkSubscription } from "@/lib/subscription";
 import Image from "next/image";
+import AccessCodeForm from "@/components/access-form";
 
 const SettingsPage = async () => {
   const isPro = await checkSubscription();
@@ -22,21 +23,22 @@ const SettingsPage = async () => {
         <div className="px-4 lg:px-8 space-y-4">
           <div className="text-muted-foreground text-sm">
             {isPro
-              ? "You are currently on a Pro plan (beta)."
-              : "You are currently on a free plan. Join the beta to get access to all features."}
+              ? "You are currently on a Pro plan."
+              : "You are currently on a free plan."}
           </div>
           <SubscriptionButton isPro={isPro} />
+          <AccessCodeForm />
         </div>
       </div>
       <div className="flex pt-6 items-center justify-center">
-        <Image
+        {/* <Image
           src="/beta-lab.png"
           className="rounded-full"
           width={300}
           height={100}
           objectFit="cover"
           alt=":)"
-        />
+        /> */}
       </div>
       <footer className="mr-4 mt-7 text-right text-foreground text-xs">Send us a message</footer>
     </div>

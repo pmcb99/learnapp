@@ -29,17 +29,24 @@ export default async function HomePage(
         }
     }
 
+
     // Check if files.Contents exists and is an array
     const hrefPrefix = `/${params.params.examType}/${params.params.level}/single-year/`
     if (Array.isArray(examPaperKeys) && examPaperKeys.length > 0) {
         //cleanup filename was used for sections but now we try keep each year to a single paper by combining
         items.push(...examPaperKeys.map(file => ({
-            label: `${file.Key?.split('/')[2]}${cleanUpFileName(file.Key?.split('/')[4] || '')}` || '',
+            label: `${file.Key?.split('/')[2]}`,
             key: `${file.Key}`,
             href: `${hrefPrefix}/${params.params.subject}/${file.Key?.split('/')[2]}${cleanUpFileName(file.Key?.split('/')[4] || '')}`,
             bgColor: "bg-blue-500",
             color: "text-blue-700"
         })));
+
+
+    items.forEach((item, index) => {
+        console.log(item.label)
+    });
+
 
     // remove duplicate labels
     items.forEach((item, index) => {

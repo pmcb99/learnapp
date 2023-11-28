@@ -11,6 +11,22 @@ export const checkSubscription = async () => {
     return false;
   }
 
+  // check if user model has checkoutCode
+  const user = await prismadb.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      checkoutCode: true,
+    },
+  });
+
+  console.log("user", user);
+  console.log("user?.checkoutCode", user?.checkoutCode);
+  if (user?.checkoutCode) {
+    return true;
+  }
+
   const userSubscription = await prismadb.userSubscription.findUnique({
     where: {
       userId: userId,
@@ -33,3 +49,26 @@ export const checkSubscription = async () => {
 
   return !!isValid;
 };
+
+export const checkIfUserHasAccessCode = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return false;
+  }
+
+  const user = await prismadb.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      checkoutCode: true,
+    },
+  });
+
+  if (user?.checkoutCode) {
+    return true;
+  }
+
+  return false;
+}

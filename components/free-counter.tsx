@@ -6,16 +6,26 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { checkIfUserHasAccessCode } from "@/lib/subscription";
 
 export const FreeCounter = ({
   isPro = false,
   apiLimitCount = 0,
+  userHasAccessCode = false
 }: {
   isPro: boolean,
   apiLimitCount: number
+  userHasAccessCode: boolean
 }) => {
   const [mounted, setMounted] = useState(false);
   const proModal = useProModal();
+
+
+  console.log("apiLimitCount", apiLimitCount);
+  console.log("MAX_FREE_COUNTS", MAX_FREE_COUNTS);
+  console.log("isPro", isPro);
+  console.log("userHasAccessCode", userHasAccessCode);
+
 
   useEffect(() => {
     setMounted(true);
@@ -25,8 +35,7 @@ export const FreeCounter = ({
     return null;
   }
   
-
-  if (isPro) {
+  if (userHasAccessCode) {
     return null;
   }
 
@@ -36,12 +45,12 @@ export const FreeCounter = ({
         <CardContent className="py-6">
           <div className="text-center text-sm text-white mb-4 space-y-2">
             <p>
-              {/* {apiLimitCount} / {MAX_FREE_COUNTS} Free Generations */}
+              {apiLimitCount} / {MAX_FREE_COUNTS} Free Chats Left
             </p>
             <p>
               {/* {apiLimitCount} / {MAX_FREE_COUNTS} Free Generations */}
             </p>
-            {/* <Progress className="h-3 border-white border" value={(apiLimitCount / MAX_FREE_COUNTS) * 100} /> */}
+            <Progress className="h-3 border-white border" value={(apiLimitCount / MAX_FREE_COUNTS) * 100} />
           </div>
           <Button onClick={proModal.onOpen} variant="premium" className="w-full text-white">
             Upgrade
