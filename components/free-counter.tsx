@@ -21,11 +21,6 @@ export const FreeCounter = ({
   const proModal = useProModal();
 
 
-  console.log("apiLimitCount", apiLimitCount);
-  console.log("MAX_FREE_COUNTS", MAX_FREE_COUNTS);
-  console.log("isPro", isPro);
-  console.log("userHasAccessCode", userHasAccessCode);
-
 
   useEffect(() => {
     setMounted(true);

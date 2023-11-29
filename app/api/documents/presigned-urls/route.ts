@@ -11,8 +11,6 @@ export async function GET(
   const keyDashed = searchParams.get('Prefix') as string;
   const keySlashed = keyDashed.replaceAll(/_/g, '/')
 
-  console.log("keySlashed", keySlashed)
-  console.log("keySlashed", keySlashed)
 
   if (!bucket || !keyDashed) {
     return new NextResponse("[ERROR] Missing bucket or key.", { status: 400 });

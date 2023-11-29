@@ -76,13 +76,15 @@ export const lcSubjects = [
     href: '/french',
     questionExample: 'What is the French for "I am going to the cinema"?',
   },
-  // {
-  //   label: 'German',
-  //   icon: Globe2,
-  //   color: "text-brown-500",
-  //   bgColor: "bg-brown-500/10",
-  //   href: '/german',
-  // },
+  {
+    label: 'German',
+    icon: Globe2,
+    color: "text-brown-500",
+    imageIconPath: "/subject-icons/german-light.png",
+    bgColor: "bg-brown-500/10",
+    href: '/german',
+    questionExample: 'What is the German for "I am going to the cinema"?',
+  },
   {
     label: 'Spanish',
     icon: Sun,

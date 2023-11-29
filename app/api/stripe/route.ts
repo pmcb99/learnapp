@@ -46,7 +46,7 @@ export async function GET() {
               name: "Rewise Pro",
               description: "Beta access to Rewise Pro"
             },
-            unit_amount: 499,
+            unit_amount: 799,
             recurring: {
               interval: "month"
             }

@@ -80,7 +80,7 @@ const PaperViewPage = (params: {
     // sets presignedUrls to contain ALL papers for that subject and level
     try {
       const response = await axios.get(
-        `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.params.level}_${params.params.subject}`
+        `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.params.level}_${params.params.subject}_`
       );
       setPresignedUrls(response.data.presignedUrls);
     } catch (error: any) {

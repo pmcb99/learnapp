@@ -43,11 +43,6 @@ export default async function HomePage(
         })));
 
 
-    items.forEach((item, index) => {
-        console.log(item.label)
-    });
-
-
     // remove duplicate labels
     items.forEach((item, index) => {
         if (items.filter((item2) => item2.label === item.label).length > 1) {

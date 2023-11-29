@@ -22,7 +22,7 @@ import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { PaperQuestionsByTopic } from "@prisma/client";
-import { use, useEffect, useState } from "react";
+import { Suspense, use, useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -241,16 +241,18 @@ const PaperQuestionsByTopicPage = ({
         params: paramValues,
       });
 
+      console.log("response2§", response);
+
 
       // find presigned url for this paper version
       response.data.pages.forEach((page: any) => {
-        if (page.paperType === "exam-paper/") {
+        if (page.paperType === "exam-paper") {
           setExamPaperPage(page.page);
-        } else if (page.paperType === "marking-scheme/") {
+        } else if (page.paperType === "marking-scheme") {
           setMarkingSchemePage(page.page);
-        } else if (page.paperType === "sample-paper/") {
+        } else if (page.paperType === "sample-paper") {
           setSamplePaperPage(page.page);
-        } else if (page.paperType === "project/") {
+        } else if (page.paperType === "project") {
           setProjectPaperPage(page.page);
         }
       });

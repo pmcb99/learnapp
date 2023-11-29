@@ -1,19 +1,14 @@
 "use client";
 
-import * as z from "zod";
 import axios from "axios";
-import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useProModal } from "@/hooks/use-pro-modal";
 
-import { formSchema } from "@/app/constants";
 import { JC_BUCKET_NAME, LC_BUCKET_NAME } from "@/app/constants";
 import PDFViewer from "@/components/pdf-viewer";
 import PaperQuestionsByTopicPage from "@/components/paper-questions-by-topic-page";
 import { PresignedUrl } from "@/types/global";
-import PaperQuestionsByTopicPageYear from "@/components/paper-questions-by-topic-page-year";
 import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
 
 
