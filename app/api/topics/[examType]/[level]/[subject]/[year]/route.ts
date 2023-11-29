@@ -83,9 +83,6 @@ export async function GET(
       return new NextResponse(JSON.stringify({ topics : lockedTopics }))
     }
 
-    // const topics = await getTopicsForYear(Number(year), level, examType, subject);
-    console.log('topics', topics)
-    
     return new NextResponse(JSON.stringify({ topics : topics }))
 
   } catch (error) {

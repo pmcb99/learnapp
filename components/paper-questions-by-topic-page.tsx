@@ -183,15 +183,9 @@ const PaperQuestionsByTopicPage = ({
     }
   }, []);
 
-  useEffect(() => {
-    console.log(currentPresignedUrl);
-  }, [currentPresignedUrl]);
-
   const findPageWithQuestion = async (topic: PaperQuestionsByTopic) => {
     setYear(topic.year!);
     setChosenQuestion(topic);
-
-    console.log("topic", topic);
 
     if (topic.examPaperPage) {
       if (topic.paperVersion === "sample-paper") {
@@ -240,8 +234,6 @@ const PaperQuestionsByTopicPage = ({
       const response = await axios.get("/api/documents/question-page/", {
         params: paramValues,
       });
-
-      console.log("response2§", response);
 
 
       // find presigned url for this paper version

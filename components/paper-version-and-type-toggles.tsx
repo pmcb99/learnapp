@@ -77,8 +77,6 @@ function PaperVersionAndTypeToggles(props: PaperVersionAndTypeTogglesProps) {
     })
   );
 
-  console.log("currentPresignedUrl", currentPresignedUrl);
-
   return (
     <>
       {uniquePaperVersions.map((uniquePaperVersion: string) => (

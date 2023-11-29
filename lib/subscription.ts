@@ -21,8 +21,6 @@ export const checkSubscription = async () => {
     },
   });
 
-  console.log("user", user);
-  console.log("user?.checkoutCode", user?.checkoutCode);
   if (user?.checkoutCode) {
     return true;
   }

@@ -158,10 +158,7 @@ export default function PDFViewer(props: {
   function flipToAdjacentPage(increment_or_decrement: string) {
     const adjustmentAmount = increment_or_decrement === "increment" ? 1 : -1;
 
-    console.log(currentPresignedUrl.key)
-
     if (currentPresignedUrl.key.includes("exam-paper")) {
-      console.log("examPaperPage", examPaperPage);
       setExamPaperPage(examPaperPage + adjustmentAmount)
     }
     else if (currentPresignedUrl.key.includes("sample-paper")) {
