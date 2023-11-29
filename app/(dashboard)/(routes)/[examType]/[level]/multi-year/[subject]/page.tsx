@@ -14,7 +14,7 @@ import { PresignedUrl } from "@/types/global";
 import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
 import PaperViewPage from "@/components/paper-view-page";
 import { revalidatePath } from "next/cache";
-import { getSubjectPresignedUrls } from "./server";
+import { getPresignedUrls } from "../../server";
 
 interface PageParams {
   examType: string;
@@ -30,12 +30,11 @@ export default async function MultiYearPage({
   params: PageParams;
 }) {
   const bucketName = getBucketName(params.examType);
-  const allSubjectPresignedUrls: PresignedUrl[] = await getSubjectPresignedUrls(
+  const allSubjectPresignedUrls: PresignedUrl[] = await getPresignedUrls(
     params.level,
     params.subject,
     bucketName
   )
 
-  console.log("allSubjectPresignedUrls: ", allSubjectPresignedUrls[0]);
-  return <PaperViewPage params={params} />;
+  return <PaperViewPage params={params} presignedUrls={allSubjectPresignedUrls} />;
 }

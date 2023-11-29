@@ -16,21 +16,20 @@ import { PresignedUrl } from "@/types/global";
 import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
 
 interface PageParams {
-    examType: string;
-    level: string;
-    subject: string;
-    year: string;
-    paper: string;
-  }
+  examType: string;
+  level: string;
+  subject: string;
+  year: string;
+  paper: string;
+}
 
-const PaperViewPage = ({ params }: { params: PageParams }) => {
-  const proModal = useProModal();
-  const [presignedUrls, setPresignedUrls] = useState<PresignedUrl[]>([]);
-
-  const [scrollPosition, setScrollPosition] = useState(0);
-
-  const [pageNumber, setPageNumber] = useState<number>(1);
-
+const PaperViewPage = ({
+  params,
+  presignedUrls,
+}: {
+  params: PageParams;
+  presignedUrls: PresignedUrl[];
+}) => {
   const {
     setExamPaperPage,
     setMarkingSchemePage,
@@ -55,70 +54,44 @@ const PaperViewPage = ({ params }: { params: PageParams }) => {
     setYear: state.setYear,
   }));
 
-  useEffect(() => {
-    // Save scroll position
-    setScrollPosition(window.scrollY);
-  }, [pageNumber]); // assuming pageNumber change triggers the re-render
-
-  useEffect(() => {
-    // Restore scroll position
-    window.scrollTo(0, scrollPosition);
-  }, [scrollPosition]);
-
-  const bucket =
-    params.examType === "lc" ? LC_BUCKET_NAME : JC_BUCKET_NAME;
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      prompt: "",
-    },
-  });
+  const bucket = params.examType === "lc" ? LC_BUCKET_NAME : JC_BUCKET_NAME;
 
 
-  const fetchPresignedUrls = async () => {
-    // sets presignedUrls to contain ALL papers for that subject and level
-    try {
-      const response = await axios.get(
-        `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${params.level}_${params.subject}_`
-      );
-      setPresignedUrls(response.data.presignedUrls);
-    } catch (error: any) {
-      if (error?.response?.status === 403) {
-        proModal.onOpen();
+  const setCurrentExamPaper = () => {
+
+    presignedUrls.forEach((presignedUrl) => {
+      console.log(presignedUrl.key);
+    });
+
+    if (presignedUrls && !currentPresignedUrl) {
+      setCurrentPresignedUrl(presignedUrls[0]);
+    } else {
+      // set new current presigned url to the same paperVersion as the current one
+      if (currentPresignedUrl.key.includes("paper-two")) {
+        const paperTwo = presignedUrls.find((presignedUrl) =>
+          presignedUrl.key.includes("paper-two") && presignedUrl.key.includes(year.toString())
+        );
+        paperTwo ? setCurrentPresignedUrl(paperTwo!) : console.log("no paper");
       } else {
-        toast.error("Something went wrong.");
+        const paperOne = presignedUrls.find((presignedUrl) =>
+          presignedUrl.key.includes("paper-one") && presignedUrl.key.includes(year.toString())
+        );
+        paperOne ? setCurrentPresignedUrl(paperOne!) : console.log("no paper");
       }
     }
   };
-
-  const setCurrentExamPaper = () => {
-    if (presignedUrls && !currentPresignedUrl) {
-      setCurrentPresignedUrl(presignedUrls[0])
-    } else {
-    const examPaper = presignedUrls.find(
-      (presignedUrl) =>
-        presignedUrl.key.includes(year.toString()) &&
-        presignedUrl.key.includes("exam-paper/")
-    );
-    examPaper ? setCurrentPresignedUrl(examPaper!) : console.log("no exam paper");
-    }
-  }
-
-  useEffect(() => {
-    fetchPresignedUrls();
-  }, []);
 
   useEffect(() => {
     setCurrentExamPaper();
   }, [presignedUrls, year]);
 
-
   return (
     <div className="flex w-full">
-
       <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80">
-        <PaperQuestionsByTopicPage params={params} presignedUrls={presignedUrls}/>
+        <PaperQuestionsByTopicPage
+          params={params}
+          presignedUrls={presignedUrls}
+        />
       </div>
       <div className="h-full w-full">
         <PDFViewer
@@ -133,9 +106,7 @@ const PaperViewPage = ({ params }: { params: PageParams }) => {
           topicComponent={PaperQuestionsByTopicPage}
           topicComponentProps={{ params: params, presignedUrls: presignedUrls }}
         />
-        <div>
-
-        </div>
+        <div></div>
       </div>
     </div>
   );

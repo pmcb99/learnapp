@@ -1,12 +1,13 @@
 import { s3 } from "@/app/api/(s3)/client";
+import { PresignedUrl } from "@/types/global";
 import { auth } from "@clerk/nextjs";
 import { Redis } from "@upstash/redis/nodejs";
 import axios from "axios";
 
-export const getSubjectPresignedUrls = async (level: string, subject: string, bucket: string) => {
+export const getPresignedUrls = async (level: string, subject: string, bucket: string, year?: string | null) => {
   // sets presignedUrls to contain ALL papers for that subject and level
   // const url = `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${level}_${subject}_2022`;
-  const keySlashed = `${level}/${subject}`
+  const keySlashed = year ? `${level}/${subject}/${year}` : `${level}/${subject}`
 
   if (!bucket || !keySlashed) {
     throw new Error("[ERROR] Missing bucket or key.");
@@ -32,19 +33,18 @@ export const getSubjectPresignedUrls = async (level: string, subject: string, bu
   const redis = Redis.fromEnv();
   const redisKey = `${bucket}:${keySlashed}`;
 
-  const cachedValue = (await redis.get(redisKey)) as string | null;
-  // const cachedValue = null;
+  const cachedValue = (await redis.get(redisKey)) as PresignedUrl[] | null;
 
   if (cachedValue != null) {
     console.log("In Redis")
-    const presignedUrls: Presig = JSON.parse(cachedValue)
-    return { presignedUrls: JSON.parse(cachedValue) };
+    const presignedUrls: PresignedUrl[] = cachedValue;
+    return presignedUrls;
   } else {
     console.log("Not in Redis")
   }
 
   // iterate over files and create a presigned URL for each
-  const presignedUrls = files.Contents
+  const presignedUrls: PresignedUrl[] = files.Contents
   .filter((file) => file.Key && file.Key.endsWith(".pdf")) // filter any files that do not end with ".pdf"
   .map((file) => {
     const url = s3.getSignedUrl("getObject", {
