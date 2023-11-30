@@ -30,12 +30,15 @@ export const MobileSidebar = ({
 
   return (
     <Sheet open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
-      <SheetTrigger>
-        <Button onClick={()=>setIsOpen(!isOpen)} variant="ghost" size="icon" className="md:hidden">
+      <SheetTrigger className="">
+        <div className="flex items-center justify-center pr-3 hover:bg-slate-300 hover:bg-opacity-30 rounded-md">
+        <Button onClick={()=>setIsOpen(!isOpen)} variant="ghost" size="icon" className="gap-x-2 hover:bg-transparent">
           <Menu />
         </Button>
+        Menu
+        </div>
       </SheetTrigger>
-      <SheetContent side="left" className="p-0 h-full">
+      <SheetContent side="left" className="p-0 w-full">
         <Sidebar isPro={isPro} apiLimitCount={apiLimitCount} setIsOpen={setIsOpen} userHasAccessCode={userHasAccessCode}/>
       </SheetContent>
     </Sheet>

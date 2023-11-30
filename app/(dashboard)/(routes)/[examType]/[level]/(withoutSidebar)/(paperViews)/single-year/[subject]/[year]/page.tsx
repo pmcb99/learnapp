@@ -14,7 +14,7 @@ import { PresignedUrl } from "@/types/global";
 import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
 import PaperViewPage from "@/components/paper-view-page";
 import { revalidatePath } from "next/cache";
-import { getPresignedUrls } from "../../../server";
+import { getPresignedUrls } from "../../../../../server";
 
 interface PageParams {
   examType: string;

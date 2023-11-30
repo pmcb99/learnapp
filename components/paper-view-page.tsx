@@ -14,7 +14,6 @@ import PDFViewer from "@/components/pdf-viewer";
 import PaperQuestionsByTopicPage from "@/components/paper-questions-by-topic-page";
 import { PresignedUrl } from "@/types/global";
 import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
-import { useSidebarStore } from "@/hooks/sidebar-store";
 
 interface PageParams {
   examType: string;
@@ -54,25 +53,6 @@ const PaperViewPage = ({
     year: state.year,
     setYear: state.setYear,
   }));
-
-
-  const {
-    sidebarShown,
-    changeSidebarShown
-  } = useSidebarStore((state) => ({
-    sidebarShown: state.sidebarShown,
-    changeSidebarShown: state.changeSidebarShown
-  }));
-
-  // hide sidebar on mount
-  useEffect(() => {
-    changeSidebarShown(false);
-
-    return () => {
-      changeSidebarShown(true);
-    }
-  }
-  , []);
 
   const bucket = params.examType === "lc" ? LC_BUCKET_NAME : JC_BUCKET_NAME;
 
