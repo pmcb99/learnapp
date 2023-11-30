@@ -14,6 +14,7 @@ import PDFViewer from "@/components/pdf-viewer";
 import PaperQuestionsByTopicPage from "@/components/paper-questions-by-topic-page";
 import { PresignedUrl } from "@/types/global";
 import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
+import { useSidebarStore } from "@/hooks/sidebar-store";
 
 interface PageParams {
   examType: string;
@@ -54,6 +55,25 @@ const PaperViewPage = ({
     setYear: state.setYear,
   }));
 
+
+  const {
+    sidebarShown,
+    changeSidebarShown
+  } = useSidebarStore((state) => ({
+    sidebarShown: state.sidebarShown,
+    changeSidebarShown: state.changeSidebarShown
+  }));
+
+  // hide sidebar on mount
+  useEffect(() => {
+    changeSidebarShown(false);
+
+    return () => {
+      changeSidebarShown(true);
+    }
+  }
+  , []);
+
   const bucket = params.examType === "lc" ? LC_BUCKET_NAME : JC_BUCKET_NAME;
 
 
@@ -63,6 +83,7 @@ const PaperViewPage = ({
       console.log(presignedUrl.key);
     });
 
+    console.log("current presigned url: ", currentPresignedUrl);
     if (presignedUrls && !currentPresignedUrl) {
       setCurrentPresignedUrl(presignedUrls[0]);
     } else {
@@ -72,6 +93,13 @@ const PaperViewPage = ({
           presignedUrl.key.includes("paper-two") && presignedUrl.key.includes(year.toString())
         );
         paperTwo ? setCurrentPresignedUrl(paperTwo!) : console.log("no paper");
+      }
+        else if (currentPresignedUrl.key.includes("aural")) {
+          console.log("aural");
+          const aural = presignedUrls.find((presignedUrl) =>
+            presignedUrl.key.includes("aural") && presignedUrl.key.includes(year.toString())
+          );
+          aural ? setCurrentPresignedUrl(aural!) : console.log("no paper");
       } else {
         const paperOne = presignedUrls.find((presignedUrl) =>
           presignedUrl.key.includes("paper-one") && presignedUrl.key.includes(year.toString())
