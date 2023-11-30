@@ -5,7 +5,7 @@ import { getApiLimitCount } from "@/lib/api-limit";
 import { cn } from "@/lib/utils";
 import { headers } from "next/headers";
 
-const DashboardLayout = async ({
+const SidebarLayout = async ({
   children,
 }: {
   children: React.ReactNode
@@ -13,9 +13,6 @@ const DashboardLayout = async ({
   const apiLimitCount = await getApiLimitCount();
   const isPro = await checkSubscription();
   const userHasAccessCode = await checkIfUserHasAccessCode();
-
-  const headersList = headers();
-  const heads = headers()
 
   return ( 
     <div className="h-full relative flex">
@@ -32,4 +29,4 @@ const DashboardLayout = async ({
    );
 }
  
-export default DashboardLayout;
+export default SidebarLayout;
