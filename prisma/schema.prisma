@@ -38,12 +38,12 @@ model UserSubject {
 }
 
 model User {
-  id        String        @id @default(cuid())
-  email     String        @unique
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  subjects  UserSubject[]
+  id           String        @id @default(cuid())
+  email        String        @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   checkoutCode String?
+  subjects     UserSubject[]
 }
 
 model Definition {
@@ -89,6 +89,16 @@ model QuestionsByPage {
   subject      String? @db.VarChar(255)
   paperType    String? @db.VarChar(255)
   paperVersion String? @db.VarChar(255)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model Definitions {
+  id         Int    @id @default(autoincrement())
+  term       String
+  definition String @db.LongText
+  keyword    String
+  subject    String @db.VarChar(100)
+  topic      String
 }
 
 enum Level {

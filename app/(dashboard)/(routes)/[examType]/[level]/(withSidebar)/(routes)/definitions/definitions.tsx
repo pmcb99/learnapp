@@ -1,4 +1,4 @@
-import { Definition } from "@prisma/client";
+import { Definition, Definitions } from "@prisma/client";
 import React from "react";
 
 import {
@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/accordion";
 
 interface DefinitionListProps {
-  definitions: Definition[];
+  definitions: Definitions[];
 }
 
 const DefinitionList: React.FC<DefinitionListProps> = ({ definitions }) => {

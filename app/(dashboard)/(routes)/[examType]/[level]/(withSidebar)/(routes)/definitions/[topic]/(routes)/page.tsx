@@ -15,11 +15,13 @@ const DefinitionPage: React.FC<DefinitionPageProps> = async ({
 ) => {
     // replace dashes with spaces and convert to uppercase
     const topicKey = params.topic.replace(/-/g, ' ').toUpperCase();
-    const definitions = await prismadb.definition.findMany({
+    const definitions = await prismadb.definitions.findMany({
         where: {
             subject: params.subject 
         }
     });
+
+    console.log("definitions: ", definitions);
     
     return (
         <DefinitionList definitions={definitions}/>

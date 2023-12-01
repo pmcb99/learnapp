@@ -15,7 +15,7 @@ export default async function HomePage(
   { params }: { params: { examType: string; level: string, subject: string } }
 ) {
   // create a list of unique topics
-  const uniqueTopics = await prismadb.definition.findMany({
+  const uniqueTopics = await prismadb.definitions.findMany({
     select: {
       topic: true,
     },
@@ -29,7 +29,7 @@ export default async function HomePage(
     //convert topic to kebab case
     href: `/lc/higher/${params.subject}/definitions/${topic.topic.replace(/\s+/g, '-').toLowerCase()}`,
     label: topic.topic,
-    bgColor: "bg-blue-500",
+    bgColor: "bg-primary",
     color: "text-white",
   }));
   

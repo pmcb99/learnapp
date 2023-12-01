@@ -36,7 +36,8 @@ export const proFeatures = [
 
 export const subjectsWithDefinitions = [
   "lc_biology",
-  "lc_chemistry"
+  "lc_chemistry",
+  "lc_physics",
 ]
 
 
@@ -216,14 +217,14 @@ export const lcSubjects = [
     href: '/engineering',
     questionExample: "What are the main safety precautions when using a lathe?",
   },
-  // {
-  //   label: 'Design and Communication Graphics',
-  //   icon: Pencil,
-  //   color: "text-yellow-700",
-  //   imageIconPath: "/subject-icons/design-and-communication-graphics-light.png",
-  //   bgColor: "bg-yellow-700/10",
-  //   href: '/design-and-communication-graphics',
-  // },
+  {
+    label: 'Design and Communication Graphics',
+    icon: Pencil,
+    color: "text-yellow-700",
+    imageIconPath: "/subject-icons/design-and-communication-graphics-light.png",
+    bgColor: "bg-yellow-700/10",
+    href: '/design-and-communication-graphics',
+  },
   {
     label: 'Home Economics',
     icon: ChefHat,
@@ -239,7 +240,16 @@ export const lcSubjects = [
     imageIconPath: "/subject-icons/physical-education-light.png",
     bgColor: "bg-green-800/10",
     href: '/physical-education',
-  }
+  },
+  {
+    label: 'Technology',
+    icon: BookKey,
+    color: "text-blue-800",
+    bgColor: "bg-blue-800/10",
+    href: '/technology',
+    questionExample: 'What is a cam?',
+    imageIconPath: "/subject-icons/technology-light.png",
+  },
   // {
   //   label: 'Art',
   //   icon: Brush,
