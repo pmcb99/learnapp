@@ -1,6 +1,13 @@
 import { AtomIcon, BookIcon, BookKey, BriefcaseIcon, Brush, CalculatorIcon, ChefHat, Code, Cog, Coins, Dna, EyeIcon, FlagIcon, Globe, Globe2, Hammer, Hourglass, ImageIcon, JapaneseYen, LineChart, Lock, LockIcon, MessageSquare, Music, Music2, Orbit, Pencil, PizzaIcon, Sheet, Soup, Sun, Swords, TestTube, TestTubes, Vegan, VideoIcon } from "lucide-react";
+import { env } from "process";
 
-export const MAX_FREE_COUNTS = 10;
+var environment = 'production';
+try {
+  environment = process.env.ENVIRONMENT!;
+} catch (error) {
+  console.log("Environment variable not set.");
+}
+export const MAX_FREE_COUNTS = environment === 'production' ? 10 : 1000;
 
 export const proFeatures = [
   {
