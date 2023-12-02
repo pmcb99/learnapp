@@ -34,7 +34,7 @@ export const LandingHero = () => {
         </div>
       </div>
       <div className="text-sm md:text-xl font-light text-zinc-400">
-        Exam questions broken down by topic, quizzes and AI tutor.
+        Exam questions broken down by topic, and AI tutor.
       </div>
       <div className="text-white-400 text-xs md:text-lg font-normal">
         Try for free.
