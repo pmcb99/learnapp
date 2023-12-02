@@ -208,13 +208,6 @@ export const lcSubjects = [
     href: '/history',
     questionExample: 'What is the significance of the Battle of the Boyne?',
   },
-  // {
-  //   label: 'Classical Studies',
-  //   icon: Swords,
-  //   color: "text-white",
-  //   bgColor: "bg-gray-700/10",
-  //   href: '/classical-studies',
-  // },
   {
     label: 'Engineering',
     icon: Cog,
@@ -271,13 +264,33 @@ export const lcSubjects = [
   //   bgColor: "bg-purple-700/10",
   //   href: '/music',
   // },
-  // {
-  //   label: 'Religious Education',
-  //   icon: BookKey,
-  //   color: "text-blue-800",
-  //   bgColor: "bg-blue-800/10",
-  //   href: '/religious-education',
-  // },
+  {
+    label: 'Politics and Society',
+    icon: Swords,
+    color: "text-white",
+    imageIconPath: "/subject-icons/politics-and-society-light.png",
+    bgColor: "bg-gray-700/10",
+    href: '/politics-and-society',
+    questionExample: "What is the Dáil?",
+  },
+  {
+    label: 'Religious Education',
+    icon: BookKey,
+    color: "text-blue-800",
+    imageIconPath: "/subject-icons/religious-education-light.png",
+    bgColor: "bg-blue-800/10",
+    href: '/religious-education',
+    questionExample: "What is monotheism?",
+  },
+  {
+    label: 'Classical Studies',
+    icon: Swords,
+    color: "text-white",
+    imageIconPath: "/subject-icons/classical-studies-light.png",
+    bgColor: "bg-gray-700/10",
+    href: '/classical-studies',
+    questionExample: "What did Plato introduce to the world?",
+  },
 ];
 
 export function getSubjectsFromHref(href: string) {

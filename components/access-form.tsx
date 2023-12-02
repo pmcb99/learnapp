@@ -19,6 +19,7 @@ import { trpc } from "@/app/_trpc/client";
 import { auth, currentUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   code: z.string().min(2, {
@@ -42,7 +43,11 @@ export function AccessCodeForm() {
     onError: (error) => {
       // Handle error response
       setResponseMessage(error.message);
-      toast.error(error.message);
+      // reset response message after 5 seconds
+      setTimeout(() => {
+        setResponseMessage("");
+      }, 5000);
+      // toast.error(error.message);
     },
   });
 
@@ -92,9 +97,9 @@ export function AccessCodeForm() {
                 <FormControl>
                 <Input {...field} {...form.register('code')} />
                 </FormControl>
-                <FormDescription>
-                  Enter your pre-mocks access code here.
-                </FormDescription>
+                {responseMessage && (<FormDescription className={cn("text-red-500")}>
+                  Invalid access code.
+                </FormDescription>)}
                 <FormMessage />
               </FormItem>
             )}
