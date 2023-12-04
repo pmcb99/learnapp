@@ -46,12 +46,20 @@ const SubjectPage = (params: {
 
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-
     try {
       const userMessage: any = {
         role: "user",
         content: values.prompt,
       };
+
+      // // validate if values are of type formSchema
+      // try {
+      //   formSchema.parse(values);
+      // } catch (error) {
+      //   toast.error("Please enter a valid question.");
+      //   return;
+      // }
+
       const newMessages = [...messages, userMessage];
 
       const response = await axios.post("/api/chat", {

@@ -94,14 +94,14 @@ const PaperViewPage = ({
   }, [presignedUrls, year]);
 
   return (
-    <div className="flex w-full">
-      <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80">
+    <div className="flex w-full gap-x-3 justify-center">
+      <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80 ml-5">
         <PaperQuestionsByTopicPage
           params={params}
           presignedUrls={presignedUrls}
         />
       </div>
-      <div className="h-full w-full">
+      <div className="h-full w-auto ">
         <PDFViewer
           presignedUrls={presignedUrls}
           bucket={bucket}

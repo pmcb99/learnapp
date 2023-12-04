@@ -250,13 +250,15 @@ export const lcSubjects = [
     questionExample: 'What is a cam?',
     imageIconPath: "/subject-icons/technology-light.png",
   },
-  // {
-  //   label: 'Art',
-  //   icon: Brush,
-  //   color: "text-indigo-600",
-  //   bgColor: "bg-indigo-600/10",
-  //   href: '/art',
-  // },
+  {
+    label: 'Art',
+    icon: Brush,
+    color: "text-indigo-600",
+    bgColor: "bg-indigo-600/10",
+    imageIconPath: "/subject-icons/art-light.png",
+    href: '/art',
+    questionExample: "What is cubism?"
+  },
   // {
   //   label: 'Music',
   //   icon: Music2,
@@ -282,15 +284,15 @@ export const lcSubjects = [
     href: '/religious-education',
     questionExample: "What is monotheism?",
   },
-  {
-    label: 'Classical Studies',
-    icon: Swords,
-    color: "text-white",
-    imageIconPath: "/subject-icons/classical-studies-light.png",
-    bgColor: "bg-gray-700/10",
-    href: '/classical-studies',
-    questionExample: "What did Plato introduce to the world?",
-  },
+  // {
+  //   label: 'Classical Studies',
+  //   icon: Swords,
+  //   color: "text-white",
+  //   imageIconPath: "/subject-icons/classical-studies-light.png",
+  //   bgColor: "bg-gray-700/10",
+  //   href: '/classical-studies',
+  //   questionExample: "What did Plato introduce to the world?",
+  // },
 ];
 
 export function getSubjectsFromHref(href: string) {

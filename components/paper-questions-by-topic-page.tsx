@@ -334,7 +334,7 @@ const PaperQuestionsByTopicPage = ({
                   currentPresignedUrl.key.includes(topic.paperVersion) && (
                     <Button
                       key={topic.id}
-                      className={"my-2 h-auto w-auto bg-primary"}
+                      className={"my-2 h-auto w-full bg-primary"}
                       disabled={chosenQuestion?.id === topic.id}
                       onClick={() =>
                         findPageWithQuestion && findPageWithQuestion(topic)

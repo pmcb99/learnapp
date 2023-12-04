@@ -25,7 +25,7 @@ export function Nav({
   const TopicComponent = topicComponent;
 
   return (
-    <nav className="flex md:flex-row flex-col bg-primary w-full md:h-24 rounded-xl items-center justify-center text-center gap-y-2 h-auto md:py-0 py-4">
+    <nav className="flex md:flex-row flex-col bg-primary w-full md:h-24 rounded-xl items-center justify-center text-center gap-y-2 h-auto md:py-0 py-4 px-4">
       <div>
         <p className="text-2xl font-bold text-white dark:text-black">
           {pdfName.replace("_", " ")}

@@ -67,9 +67,9 @@ export async function POST(req: Request) {
 
   const restrainedPrompt = `You are a tutor for the Leaving Certificate. Only use information in the 'Content' to answer the question. If a question not related to the subject ${subject} or the content, tell the student they need to ask their teacher to be sure. Question: ${lastMessage} Content: ${content}. Provide an answer to the question: `
 
-  const unrestrainedPrompt = `You are a tutor for the Leaving Certificate. Use the 'Content' and your knowledge to answer the question. If a question not related to the subject of study ${subject}, tell them you they should check with their teacher. Question: ${lastMessage} Content: ${content}. Provide an answer to the question: `
+  const unrestrainedPrompt = `You are a tutor for the Leaving Certificate. If a question not related to the subject of study ${subject}, tell them you they should check with their teacher. If the question does not relate to the content, answer the question based on your knowledge instead of the content. Question: ${lastMessage} Content: ${content}. Provide an answer to the question: `
 
-  const unrestrainedSubjects = ['english','irish','french','spanish','german']
+  const unrestrainedSubjects = ['english','irish','french','spanish','german', 'history']
 
   const prompt = unrestrainedSubjects.includes(subject) ? unrestrainedPrompt : restrainedPrompt
 
@@ -77,10 +77,11 @@ export async function POST(req: Request) {
 
 
   const newMessages: OpenAI.Chat.ChatCompletionCreateParams = {
-    messages: [    {
-      role: "system",
-      content: prompt
-  },
+  //   messages: [    {
+  //     role: "system",
+  //     content: prompt
+  // },
+    messages: [ ...messages,
   {
       role: "user",
       content: `Question: ${lastMessage} Content: ${content}. Provide an answer to the question: `
