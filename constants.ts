@@ -48,7 +48,7 @@ export const subjectsWithDefinitions = [
 ]
 
 
-export const lcSubjects = [
+export const lcHigherSubjects = [
   {
     label: 'English',
     icon: BookIcon,
@@ -57,6 +57,10 @@ export const lcSubjects = [
     bgColor: "bg-blue-500/10",
     href: '/english',
     questionExample: 'What happens Hamlet in Act 1 Scene 1?',
+    questionExamples: [
+      "What happens Hamlet in Act 1 Scene 1?",
+      "What was the question in 2018 Section 1?",
+      "What is the main theme of Hopkins' poem 'No worst, there is none'?"]
   },
   {
     label: 'Irish',
@@ -66,6 +70,10 @@ export const lcSubjects = [
     bgColor: "bg-green-500/10",
     href: '/irish',
     questionExample: 'What is the Irish for "I am living in an apartment"?',
+    questionExamples: [
+      "How can I count to ten in Irish?",
+      "What topics came up in the 2019 paper?",
+      "How do I say 'I am really happy today' in Irish?"]
   },
   {
     label: 'Mathematics',
@@ -74,6 +82,10 @@ export const lcSubjects = [
     imageIconPath: "/subject-icons/mathematics-light.png",
     bgColor: "bg-yellow-500/10",
     href: '/mathematics',
+    questionExamples: [
+      "What is the empirical rule?",
+      "Explain the difference between orthocentre and circumcentre.",
+      "What is a theorem?"]
   },
   {
     label: 'French',
@@ -110,6 +122,10 @@ export const lcSubjects = [
     bgColor: "bg-purple-600/10",
     href: '/physics',
     questionExample: 'What is the speed of light?',
+    questionExamples: [
+      "What is the difference in reflection and refraction?",
+      "What came up in 2015 Question 2?",
+      "Explain how electrons behave like waves."]
   },
   {
     label: 'Chemistry',
@@ -296,9 +312,11 @@ export const lcSubjects = [
 ];
 
 export function getSubjectsFromHref(href: string) {
-  return lcSubjects.filter((subject) => subject.href === href);
+  return lcHigherSubjects.filter((subject) => subject.href === href);
 }
 
 export function getSubjectFromHref(href: string) {
-  return lcSubjects.find((subject) => subject.href === href);
+  const level = href.split('/')[1];
+  const subjectPath = href.split('/')[2];
+  return lcHigherSubjects.find((subject) => subject.href === `/${subjectPath}`);
 }

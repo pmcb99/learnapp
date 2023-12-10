@@ -8,7 +8,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 import { proFeatures } from "@/constants";
-import { lcSubjects as lcSubjects } from "@/constants";
+import { lcHigherSubjects as lcHigherSubjects } from "@/constants";
 
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -46,7 +46,7 @@ export default function HomePage() {
         </div>
       </div>
       <div className="grid grid-cols-2 md:px-20 lg:px-32 space-y-4">
-        {lcSubjects.map((subject) => (
+        {lcHigherSubjects.map((subject) => (
           <Card
             onClick={() => router.push(`${hrefPrefix}${subject.href}`)}
             key={subject.href}

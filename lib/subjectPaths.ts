@@ -1,7 +1,7 @@
-import { lcSubjects } from "@/constants"
+import { lcHigherSubjects } from "@/constants"
 
 export const getSubjectParams = async () => {
-    return lcSubjects.map((subject) => {
+    return lcHigherSubjects.map((subject) => {
         return {
             params: {
                 subjectName: subject.label,

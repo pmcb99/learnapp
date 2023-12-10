@@ -8,7 +8,7 @@ import Image from "next/image"
 import { cn } from "@/lib/utils";
 
 import { proFeatures } from "@/constants";
-import { lcSubjects } from "@/constants";
+import { lcHigherSubjects } from "@/constants";
 
 
 export default function HomePage() {
@@ -32,7 +32,7 @@ export default function HomePage() {
         </p> */}
       </div>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-x-2 gap-y-2 px-20 lg:px-32 ">
-        {lcSubjects.map((subject) => (
+        {lcHigherSubjects.map((subject) => (
           <Card onClick={() => router.push(`${hrefPrefix}/single-year/${subject.href}/`)} key={subject.href} className="p-4 border-slate-700 flex items-center justify-between hover:shadow-md hover:scale-105 transition cursor-pointer">
             <div className="flex md:justify-center md:items-center gap-x-4 w-auto md:flex-row flex-col ">
               <div className="font-semibold">

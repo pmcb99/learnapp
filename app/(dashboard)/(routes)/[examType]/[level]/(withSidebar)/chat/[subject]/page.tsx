@@ -2,8 +2,13 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { ArrowRight, MessageSquare, SeparatorVertical } from "lucide-react";
-import { useForm } from "react-hook-form";
+import {
+  ArrowRight,
+  ArrowUp,
+  MessageSquare,
+  SeparatorVertical,
+} from "lucide-react";
+import { UseFormReturn, useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -22,6 +27,13 @@ import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "@/app/constants";
 import { getSubjectFromHref, subjectsWithDefinitions } from "@/constants";
+import React from "react";
+import QuestionExamples from "../question-examples";
+
+
+
+
+
 
 const SubjectPage = (params: {
   params: { subject: string; examType: string; level: string };
@@ -30,12 +42,29 @@ const SubjectPage = (params: {
   const proModal = useProModal();
   const [messages, setMessages] = useState<any[]>([]);
 
+  const subjectObject = getSubjectFromHref(
+    `/${params.params.examType}/${params.params.subject}`
+  );
+
+  console.log(subjectObject);
+
+  // const [questionExample, setQuestionExample] = useState<string>(
+  //   getSubjectFromHref(`/${params.params.subject}`)?.questionExample ||
+  //     "Ask a question"
+  // );
+  const [questionExamplesVisible, setQuestionExamplesVisible] = useState<boolean>(
+    true
+  );
+
+  const askButtonRef = React.useRef<HTMLButtonElement>(null);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       prompt: "",
     },
   });
+
 
   const isLoading = form.formState.isSubmitting;
 
@@ -44,8 +73,10 @@ const SubjectPage = (params: {
     `${params.params.examType}_${params.params.subject}`
   );
 
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+
+    setQuestionExamplesVisible(false);
+
     try {
       const userMessage: any = {
         role: "user",
@@ -80,9 +111,12 @@ const SubjectPage = (params: {
       router.refresh();
     }
   };
-  const questionExample =
-    getSubjectFromHref(`/${params.params.subject}`)?.questionExample ||
-    "Ask a question";
+
+  function askQuestionOnClick(question: string) {
+    form.setValue("prompt", question);
+    askButtonRef.current?.click();
+  }
+
   return (
     <div className="">
       <div className="flex items-center pt-8 ml-5">
@@ -97,17 +131,19 @@ const SubjectPage = (params: {
           subject={params.params.subject}
         />
         <div className="w-full">
-          {showDefinitions && <Button
-            className="bg-primary mx-2 mb-8 w-[170px]"
-            onClick={() =>
-              router.push(
-                `/${params.params.examType}/${params.params.level}/${params.params.subject}/definitions`
-              )
-            }
-          >
-            Definitions
-            <ArrowRight className="w-5 h-5" />
-          </Button>}
+          {showDefinitions && (
+            <Button
+              className="bg-primary mx-2 mb-8 w-[170px]"
+              onClick={() =>
+                router.push(
+                  `/${params.params.examType}/${params.params.level}/${params.params.subject}/definitions`
+                )
+              }
+            >
+              Definitions
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          )}
           <Button
             className="bg-primary mx-2 mb-8 w-[170px]"
             onClick={() =>
@@ -152,7 +188,7 @@ const SubjectPage = (params: {
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
-                        placeholder={questionExample}
+                        placeholder={""}
                         {...field}
                       />
                     </FormControl>
@@ -164,12 +200,16 @@ const SubjectPage = (params: {
                 type="submit"
                 disabled={isLoading}
                 size="icon"
+                ref={askButtonRef}
               >
                 Ask
               </Button>
             </form>
           </Form>
         </div>
+
+        {questionExamplesVisible && subjectObject?.questionExamples && <QuestionExamples questions={subjectObject.questionExamples} askQuestionOnClick={askQuestionOnClick}/>}
+
         <div className="space-y-4 mt-4">
           {isLoading && (
             <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">

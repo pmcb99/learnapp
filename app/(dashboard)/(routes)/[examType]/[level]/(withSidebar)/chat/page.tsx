@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import Image from "next/image"
 
-import { lcSubjects } from "@/constants";
+import { lcHigherSubjects } from "@/constants";
 
 import { Badge } from "@/components/ui/badge";
 
@@ -35,7 +35,7 @@ export default function HomePage() {
         </p> */}
       </div>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-x-2 gap-y-2 px-20 lg:px-32 ">
-        {lcSubjects.map((subject) => (
+        {lcHigherSubjects.map((subject) => (
           <Card onClick={() => router.push(`${hrefPrefix}/chat/${subject.href}/`)} key={subject.href} className="p-4 border-slate-700 flex items-center justify-between hover:shadow-md hover:scale-105 transition cursor-pointer">
             <div className="flex md:justify-center md:items-center gap-x-4 w-auto md:flex-row flex-col ">
               <div className="font-semibold">
