@@ -3,11 +3,19 @@
 import * as z from "zod";
 import axios from "axios";
 import {
+  AlertCircle,
   ArrowRight,
   ArrowUp,
   MessageSquare,
   SeparatorVertical,
 } from "lucide-react";
+
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+
 import { UseFormReturn, useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -29,8 +37,7 @@ import { formSchema } from "@/app/constants";
 import { getSubjectFromHref, subjectsWithDefinitions } from "@/constants";
 import React from "react";
 import QuestionExamples from "../question-examples";
-
-
+import { isWarningInString, removeWarningFromString } from "./functions";
 
 
 
@@ -52,9 +59,8 @@ const SubjectPage = (params: {
   //   getSubjectFromHref(`/${params.params.subject}`)?.questionExample ||
   //     "Ask a question"
   // );
-  const [questionExamplesVisible, setQuestionExamplesVisible] = useState<boolean>(
-    true
-  );
+  const [questionExamplesVisible, setQuestionExamplesVisible] =
+    useState<boolean>(true);
 
   const askButtonRef = React.useRef<HTMLButtonElement>(null);
 
@@ -65,7 +71,6 @@ const SubjectPage = (params: {
     },
   });
 
-
   const isLoading = form.formState.isSubmitting;
 
   //check if subjectWithDefinitions contains 'lc_biology'
@@ -74,7 +79,6 @@ const SubjectPage = (params: {
   );
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-
     setQuestionExamplesVisible(false);
 
     try {
@@ -105,7 +109,7 @@ const SubjectPage = (params: {
       if (error?.response?.status === 403) {
         proModal.onOpen();
       } else {
-        toast.error("Chat for this subject is coming in the next few weeks!");
+        toast.error("An error occurred. Please try again.");
       }
     } finally {
       router.refresh();
@@ -119,8 +123,8 @@ const SubjectPage = (params: {
 
   return (
     <div className="">
-      <div className="flex items-center pt-8 ml-5">
-        <Button className="bg-primary mb-7" onClick={() => router.back()}>
+      <div className="flex items-center pt-8 ml-5 gap-x-4">
+        <Button className="bg-primary mb-7 ml-3" onClick={() => router.back()}>
           Back
         </Button>
         <Heading
@@ -130,7 +134,7 @@ const SubjectPage = (params: {
           iconColor="text-violet-500"
           subject={params.params.subject}
         />
-        <div className="w-full">
+        <div className="">
           {showDefinitions && (
             <Button
               className="bg-primary mx-2 mb-8 w-[170px]"
@@ -208,7 +212,12 @@ const SubjectPage = (params: {
           </Form>
         </div>
 
-        {questionExamplesVisible && subjectObject?.questionExamples && <QuestionExamples questions={subjectObject.questionExamples} askQuestionOnClick={askQuestionOnClick}/>}
+        {questionExamplesVisible && subjectObject?.questionExamples && (
+          <QuestionExamples
+            questions={subjectObject.questionExamples}
+            askQuestionOnClick={askQuestionOnClick}
+          />
+        )}
 
         <div className="space-y-4 mt-4">
           {isLoading && (
@@ -234,7 +243,14 @@ const SubjectPage = (params: {
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <p className="text-sm">{message.content}</p>
+                <p className="text-sm whitespace-pre-line">{removeWarningFromString(message.content)}</p>
+                
+                {/* {isWarningInString(message.content) && (<HoverCard>
+                  <HoverCardTrigger><AlertCircle className="w-5 h-5 flex flex-shrink-0" /></HoverCardTrigger>
+                  <HoverCardContent>
+                    This may only be a partial answer so you should check the full answer in the marking scheme and your notes.
+                  </HoverCardContent>
+                </HoverCard>)} */}
               </div>
             ))}
           </div>

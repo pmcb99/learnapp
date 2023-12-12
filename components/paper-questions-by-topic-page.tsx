@@ -253,6 +253,12 @@ const PaperQuestionsByTopicPage = ({
     }
   };
 
+  function displayQBeforeQuestionNumber(question: string, parts: string) {
+    // decide if we should show 'Q' before question number
+    const ans = `${question} ${parts}`.toLowerCase().includes('section') ? '' : 'Q';
+    return ans
+  }    
+
   return (
     <div className="flex flex-col h-full justify-center items-center">
       <div className="flex-1 flex flex-col items-center justify-between bg-primary pb-4 rounded-xl">
@@ -343,7 +349,7 @@ const PaperQuestionsByTopicPage = ({
                       {/* {topic.examPaperPage === -1 && <h2 className="mr-2 text-blue-400 ">PRO</h2>} */}
                       {topic.examPaperPage === -1 && <Badge variant="premium" className="uppercase text-sm mr-3 py-1 border border-purple">pro</Badge>}
                       
-                      {!params.year ? topic.year : ""} Q{topic.question}{" "}
+                      {!params.year ? topic.year : ""} {displayQBeforeQuestionNumber(topic.question!, topic.parts!)}{topic.question}{" "}
                       {topic.parts} - {topic.topic}
                       {chosenQuestion?.id === topic.id && <Check className="ml-2 h-4 w-4" />}
                     </Button>

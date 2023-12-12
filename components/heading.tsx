@@ -21,20 +21,18 @@ export const Heading = ({
   subject
 }: HeadingProps) => {
   return (
-    <>
       <div className="px-4 flex items-center gap-x-3 mb-8">
-        <div >
+        <div className="flex flex-shrink-0">
           {/* <Icon className={cn("w-10 h-10", iconColor)} /> */}
-          <Image src={`/subject-icons/${subject}-light.png`} width={140} height={140} alt="" className="dark:hidden"/>
-          <Image src={`/subject-icons/${subject}-dark.png`} width={140} height={140} alt="" className="hidden dark:block"/>
+          <Image src={`/subject-icons/${subject}-light.png`} width={50} height={50} alt="" className="dark:hidden"/>
+          <Image src={`/subject-icons/${subject}-dark.png`} width={50} height={50} alt="" className="hidden dark:block"/>
         </div>
         <div className="hidden md:block">
-          <h2 className="text-3xl font-bold">{title}</h2>
+          <h2 className="text-3xl font-bold">{title.replaceAll("-"," ")}</h2>
           <p className="text-sm text-muted-foreground">
-            {description}
+            {description.replaceAll("-", " ")}
           </p>
         </div>
       </div>
-    </>
   );
 };

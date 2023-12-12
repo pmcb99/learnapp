@@ -72,8 +72,8 @@ export const lcHigherSubjects = [
     questionExample: 'What is the Irish for "I am living in an apartment"?',
     questionExamples: [
       "How can I count to ten in Irish?",
-      "What topics came up in the 2019 paper?",
-      "How do I say 'I am really happy today' in Irish?"]
+      "What came up in Question 1 of the 2019 paper?",
+      "What is the Irish word for 'hospital'?"]
   },
   {
     label: 'Mathematics',
@@ -95,6 +95,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-pink-500/10",
     href: '/french',
     questionExample: 'What is the French for "I am going to the cinema"?',
+    questionExamples: [
+      "How can I count to ten in French?",
+      "What came up in Question 1 of the 2015 paper?",
+      "What is the French word for 'hospital'?"]
   },
   {
     label: 'German',
@@ -104,6 +108,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-brown-500/10",
     href: '/german',
     questionExample: 'What is the German for "I am going to the cinema"?',
+    questionExamples: [
+      "How can I count to ten in German?",
+      "What came up in Question 3 of the 2017 paper?",
+      "What is the French word for 'hospital'?"]
   },
   {
     label: 'Spanish',
@@ -113,6 +121,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-red-500/10",
     href: '/spanish',
     questionExample: 'What is the Spanish for "I am going to the party"?',
+    questionExamples: [
+      "How can I count to ten in Spanish?",
+      "What came up in Question 2 of the 2012 paper?",
+      "What is the Spanish word for 'house'?"]
   },
   {
     label: 'Physics',
@@ -135,6 +147,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-teal-500/10",
     href: '/chemistry',
     questionExample: 'What is the atomic number of carbon?',
+    questionExamples: [
+      "What came up in 2015 Question 2?",
+      "What is the difference between an isotope and an ion?",
+      "Is rust an example of oxidation or reduction?"]
   },
   {
     label: 'Biology',
@@ -144,6 +160,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-green-600/10",
     href: '/biology',
     questionExample: 'What is the function of the mitochondria?',
+    questionExamples: [
+      "What came up in 2014 Question 2?",
+      "Explain mitosis using an analogy.",
+      "What is the answer to 2019 Question 3?"]
   },
   {
     label: 'Agricultural Science',
@@ -153,6 +173,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-green-700/10",
     href: '/agricultural-science',
     questionExample: 'Explain what 10-10-20 means.',
+    questionExamples: [
+      "What is the answer to 2019 Question 3?",
+      "What is 10 - 10 - 20 fertiliser?",
+      "Did I need to study pigs for the 2023 exam paper?"]
   },
   {
     label: 'Applied Mathematics',
@@ -161,6 +185,10 @@ export const lcHigherSubjects = [
     imageIconPath: "/subject-icons/applied-mathematics-light.png",
     bgColor: "bg-yellow-600/10",
     href: '/applied-mathematics',
+    questionExamples: [
+      "What are some topics that came up in the 2019 exam?",
+      "Did projectile motion come up in 2018 and which question?",
+      "What is the difference between a vector and a scalar?"]
   },
   {
     label: 'Physics and Chemistry',
@@ -169,6 +197,10 @@ export const lcHigherSubjects = [
     imageIconPath: "/subject-icons/physics-and-chemistry-light.png",
     bgColor: "bg-indigo-500/10",
     href: '/physics-and-chemistry',
+    questionExamples: [
+      "What is the answer to 2014 Question 3?",
+      "Name one acidic oxide of sulfur.",
+      "What does the marking scheme say about Charles' Law?"] 
   },
   {
     label: 'Accounting',
@@ -178,6 +210,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-gray-500/10",
     href: '/accounting',
     questionExample: 'What is a balance sheet?',
+    questionExamples: [
+      "What is the answer to 2019 Question 3?",
+      "Explain the Financial Reporting Standard",
+      "Which topics came up in the 2018 exam?"] 
   },
   {
     label: 'Business',
@@ -187,6 +223,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-gray-600/10",
     href: '/business',
     questionExample: 'What is a sole trader?',
+    questionExamples: [
+      "What is the answer to 2013 Question 3?",
+      "Explain one implication of underinsurance.",
+      "Explain the term public liability insurance."] 
   },
   {
     label: 'Economics',
@@ -196,6 +236,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-pink-600/10",
     href: '/economics',
     questionExample: 'What is the difference between a recession and a depression?',
+    questionExamples: [
+      "List 3 characteristics of a perfectly competitive market.",
+      "Did monopolies come up in the 2019 exam and what question was it?",
+      "Give me one advantage/disadvantage of globalisation."] 
   },
   {
     label: 'Construction Studies',
@@ -205,6 +249,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-pink-600/10",
     href: '/construction-studies',
     questionExample: "What is a birds mouth?",
+    questionExamples: [
+      "What is the answer to 2016 Question 3?",
+      "What is a pressure release valve?",
+      "How can I start studying solar collectors?"] 
   },
   {
     label: 'Geography',
@@ -214,6 +262,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-blue-700/10",
     href: '/geography',
     questionExample: 'What is a drumlin?',
+    questionExamples: [
+      "What came up in the Options section of the 2019 exam?",
+      "What is longshore drift?",
+      "How do I start studying Karst regions?"] 
   },
   {
     label: 'History',
@@ -223,6 +275,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-red-700/10",
     href: '/history',
     questionExample: 'What is the significance of the Battle of the Boyne?',
+    questionExamples: [
+      "What is the answer to 2014 Question 3?",
+      "During the period 1912-1940, what were the strengths and weaknesses of James Craig as a political leader?",
+      "Why was there an uprising in Hungary in 1956 and why did the Soviet Union take steps to crush it?"] 
   },
   {
     label: 'Engineering',
@@ -232,6 +288,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-gray-800/10",
     href: '/engineering',
     questionExample: "What are the main safety precautions when using a lathe?",
+    questionExamples: [
+      "What is the answer to 2020 Question 3?",
+      "Describe the floatation process to separate ores.",
+      "How do I start studying polymers?"] 
   },
   {
     label: 'Design and Communication Graphics',
@@ -240,6 +300,10 @@ export const lcHigherSubjects = [
     imageIconPath: "/subject-icons/design-and-communication-graphics-light.png",
     bgColor: "bg-yellow-700/10",
     href: '/design-and-communication-graphics',
+    questionExamples: [
+      "What are some topics came up in the 2014 paper?",
+      "Did the 2019 paper have any questions on the axonometric projection?",
+      "What are some questions that ask about structural forms?"] 
   },
   {
     label: 'Home Economics',
@@ -248,6 +312,10 @@ export const lcHigherSubjects = [
     imageIconPath: "/subject-icons/home-economics-light.png",
     bgColor: "bg-gray-700/10",
     href: '/home-economics',
+    questionExamples: [
+      "What came up in the 2018 exam Question 3?",
+      "Do I need to know about interest rates for the exam?",
+      "How can I start studying home appliances?"] 
   },
   {
     label: "Physical Education",
@@ -256,6 +324,10 @@ export const lcHigherSubjects = [
     imageIconPath: "/subject-icons/physical-education-light.png",
     bgColor: "bg-green-800/10",
     href: '/physical-education',
+    questionExamples: [
+      "Which exam did Newtons Law come up in and what law was it? ",
+      "Name a fitness test that can measure muscular endurance.",
+      "Did hegemony come up in the 2023 exam?"] 
   },
   {
     label: 'Technology',
@@ -265,6 +337,10 @@ export const lcHigherSubjects = [
     href: '/technology',
     questionExample: 'What is a cam?',
     imageIconPath: "/subject-icons/technology-light.png",
+    questionExamples: [
+      "What is the answer to 2022 Question 8?",
+      "Give two advantages of hybrid buses over diesel buses.",
+      "What exam years did barcode systems come up in?"] 
   },
   {
     label: 'Art',
@@ -273,7 +349,11 @@ export const lcHigherSubjects = [
     bgColor: "bg-indigo-600/10",
     imageIconPath: "/subject-icons/art-light.png",
     href: '/art',
-    questionExample: "What is cubism?"
+    questionExample: "What is cubism?",
+    questionExamples: [
+      "What is the answer to 2014 Question 3?",
+      "Name one acidic oxide of sulfur.",
+      "What does the marking scheme say about Charles' Law?"] 
   },
   // {
   //   label: 'Music',
@@ -290,6 +370,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-gray-700/10",
     href: '/politics-and-society',
     questionExample: "What is the Dáil?",
+    questionExamples: [
+      "What is the answer to 2014 Question 3?",
+      "Name one acidic oxide of sulfur.",
+      "What does the marking scheme say about Charles' Law?"] 
   },
   {
     label: 'Religious Education',
@@ -299,6 +383,10 @@ export const lcHigherSubjects = [
     bgColor: "bg-blue-800/10",
     href: '/religious-education',
     questionExample: "What is monotheism?",
+    questionExamples: [
+      "What is the answer to 2014 Question 3?",
+      "Name one acidic oxide of sulfur.",
+      "What does the marking scheme say about Charles' Law?"] 
   },
   // {
   //   label: 'Classical Studies',
