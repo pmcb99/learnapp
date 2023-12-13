@@ -20,7 +20,8 @@ export const FreeCounter = ({
   const [mounted, setMounted] = useState(false);
   const proModal = useProModal();
 
-
+  console.log('wtf')
+  console.log(MAX_FREE_COUNTS)
 
   useEffect(() => {
     setMounted(true);

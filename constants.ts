@@ -1,15 +1,38 @@
-import { AtomIcon, BookIcon, BookKey, BriefcaseIcon, Brush, CalculatorIcon, ChefHat, Code, Cog, Coins, Dna, EyeIcon, FlagIcon, Globe, Globe2, Hammer, Hourglass, ImageIcon, JapaneseYen, LineChart, Lock, LockIcon, MessageSquare, Music, Music2, Orbit, Pencil, PizzaIcon, Sheet, Soup, Sun, Swords, TestTube, TestTubes, Vegan, VideoIcon } from "lucide-react";
+import { AtomIcon, BookIcon, BookKey, BookOpenCheck, Bot, BriefcaseIcon, Brush, CalculatorIcon, ChefHat, Code, Cog, Coins, Dna, EyeIcon, FlagIcon, Globe, Globe2, Hammer, Hourglass, ImageIcon, JapaneseYen, LineChart, Lock, LockIcon, MessageSquare, Music, Music2, Orbit, Pencil, PizzaIcon, Sheet, Soup, Sun, Swords, TestTube, TestTube2, TestTubes, Vegan, VideoIcon } from "lucide-react";
 import { env } from "process";
 
-var environment = 'production';
-try {
-  environment = process.env.ENVIRONMENT!;
-} catch (error) {
-  console.log("Environment variable not set.");
-}
-export const MAX_FREE_COUNTS = environment === 'production' ? 10 : 1000;
+const environment = process.env.ENVIRONMENT?.trim();
+console.log(environment);
+export const MAX_FREE_COUNTS = environment == 'development' ? 1000 : 10;
+console.log(environment == 'development')
+console.log(MAX_FREE_COUNTS)
 
-export const proFeatures = [
+export const freeFeatures = [
+  {
+    label: '5 exam questions on each topic and year',
+    icon: BookOpenCheck,
+    href: '/conversation',
+    color: "text-blue-700",
+    bgColor: "bg-violet-500/10",
+  },
+  {
+    label: '10 trial chat questions',
+    icon: Bot,
+    href: '/conversation',
+    color: "text-blue-700",
+    bgColor: "bg-violet-500/10",
+    badge: 'New',
+  },
+  {
+    label: 'Definitions for science subjects',
+    icon: TestTube2,
+    color: "text-blue-700",
+    bgColor: "bg-orange-700/10",
+    href: '/video',
+  },
+];
+
+export const proFeaturesMonthly = [
   {
     label: 'All questions broken down by topic each year',
     icon: LockIcon,
@@ -26,7 +49,39 @@ export const proFeatures = [
     badge: 'New',
   },
   {
-    label: 'Early bird discounted rate (€7.99/month) for life.',
+    label: 'Pro membership by month',
+    icon: Coins,
+    color: "text-blue-700",
+    bgColor: "bg-pink-700/10",
+    href: '/image',
+  },
+  {
+    label: 'Full access to AI chat feature.',
+    icon: MessageSquare,
+    color: "text-blue-700",
+    bgColor: "bg-orange-700/10",
+    href: '/video',
+  },
+];
+
+export const proFeaturesYearly = [
+  {
+    label: 'All questions broken down by topic each year',
+    icon: LockIcon,
+    href: '/conversation',
+    color: "text-blue-700",
+    bgColor: "bg-violet-500/10",
+  },
+  {
+    label: 'Topic breakdown for individual papers',
+    icon: EyeIcon,
+    href: '/conversation',
+    color: "text-blue-700",
+    bgColor: "bg-violet-500/10",
+    badge: 'New',
+  },
+  {
+    label: 'Pro membership until exams are finished in June.',
     icon: Coins,
     color: "text-blue-700",
     bgColor: "bg-pink-700/10",
@@ -352,8 +407,8 @@ export const lcHigherSubjects = [
     questionExample: "What is cubism?",
     questionExamples: [
       "What is the answer to 2014 Question 3?",
-      "Name one acidic oxide of sulfur.",
-      "What does the marking scheme say about Charles' Law?"] 
+      "Did the Ardagh Chalice come up recently in any exams?",
+      "Give a brief description and discussion of one named work by Seurat."] 
   },
   // {
   //   label: 'Music',
@@ -371,9 +426,9 @@ export const lcHigherSubjects = [
     href: '/politics-and-society',
     questionExample: "What is the Dáil?",
     questionExamples: [
-      "What is the answer to 2014 Question 3?",
-      "Name one acidic oxide of sulfur.",
-      "What does the marking scheme say about Charles' Law?"] 
+      "What was 2022 Question 3? And give a sample answer.",
+      "List the year and question number that asked about the importance of media in politics?",
+      "How universal is the UDHR? Give a sample answer."] 
   },
   {
     label: 'Religious Education',
@@ -384,9 +439,9 @@ export const lcHigherSubjects = [
     href: '/religious-education',
     questionExample: "What is monotheism?",
     questionExamples: [
-      "What is the answer to 2014 Question 3?",
-      "Name one acidic oxide of sulfur.",
-      "What does the marking scheme say about Charles' Law?"] 
+      "Why was Jesus put on trial before the Sanhedrin?",
+      "Give a sample answer for 2023 - Section 1 - Question 1",
+      "What years/questions can I use to study the Old Testament?"] 
   },
   // {
   //   label: 'Classical Studies',

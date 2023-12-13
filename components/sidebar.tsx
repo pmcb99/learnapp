@@ -122,7 +122,7 @@ export const Sidebar = ({
               href={route.href}
               onClick={() => setIsOpen && setIsOpen(false)}
               className={cn(
-                "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer rounded-lg transition hover:bg-secondary",
+                "text-sm group flex p-3 text-white w-full justify-start font-medium cursor-pointer rounded-lg transition hover:bg-secondary",
                 pathname.includes(route.href) ? "bg-white/10" : "",
               )}
             >
