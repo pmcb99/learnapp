@@ -53,7 +53,6 @@ const SubjectPage = (params: {
     `/${params.params.examType}/${params.params.subject}`
   );
 
-  console.log(subjectObject);
 
   // const [questionExample, setQuestionExample] = useState<string>(
   //   getSubjectFromHref(`/${params.params.subject}`)?.questionExample ||

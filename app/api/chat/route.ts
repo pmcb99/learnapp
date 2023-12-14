@@ -49,8 +49,6 @@ async function checkMarkingSchemeForYear(year: string) {
       ],
     },
   });
-  console.log(searchResult);
-  console.log("Checked for this answer in the year " + yearObj.year);
   return searchResult.map((result) => result["payload"]!["content"]).join(" ");
 }
 
@@ -67,8 +65,7 @@ async function checkMarkingSchemeForYear(year: string) {
       limit: 3,
     });
 
-  console.log("Checked for this answer in all years");
-  console.log(searchResult)
+
   return searchResult.map((result) => result["payload"]!["content"]).join(" ");
 }
 
@@ -99,7 +96,6 @@ export async function POST(req: Request) {
     });
   }
 
-  console.log(messages);
 
   const runner = openai.beta.chat.completions.runFunctions({
     model: "gpt-3.5-turbo-1106",
@@ -129,7 +125,6 @@ export async function POST(req: Request) {
   });
 
   const finalContent = await runner.finalContent();
-  console.log(finalContent);
 
   if (!(await checkApiLimit()) && !(await checkSubscription())) {
     return new NextResponse("Free trial has expired. Please upgrade to pro.", {

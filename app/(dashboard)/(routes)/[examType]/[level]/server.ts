@@ -36,11 +36,9 @@ export const getPresignedUrls = async (level: string, subject: string, bucket: s
   const cachedValue = (await redis.get(redisKey)) as PresignedUrl[] | null;
 
   if (cachedValue != null) {
-    console.log("In Redis")
     const presignedUrls: PresignedUrl[] = cachedValue;
     return presignedUrls;
   } else {
-    console.log("Not in Redis")
   }
 
   // iterate over files and create a presigned URL for each
@@ -68,11 +66,9 @@ export const getPresignedUrls = async (level: string, subject: string, bucket: s
     }
   })();
 
-  console.log("[GET_SUCCESS]", presignedUrls);
   return presignedUrls;
 
   } catch (error) {
-    console.log("[GET_ERROR]", error);
     return [];
   }
 };

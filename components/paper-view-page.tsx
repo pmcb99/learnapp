@@ -59,11 +59,6 @@ const PaperViewPage = ({
 
   const setCurrentExamPaper = () => {
 
-    presignedUrls.forEach((presignedUrl) => {
-      console.log(presignedUrl.key);
-    });
-
-    console.log("current presigned url: ", currentPresignedUrl);
     if (presignedUrls && !currentPresignedUrl) {
       setCurrentPresignedUrl(presignedUrls[0]);
     } else {
@@ -72,19 +67,15 @@ const PaperViewPage = ({
         const paperTwo = presignedUrls.find((presignedUrl) =>
           presignedUrl.key.includes("paper-two") && presignedUrl.key.includes(year.toString())
         );
-        paperTwo ? setCurrentPresignedUrl(paperTwo!) : console.log("no paper");
       }
         else if (currentPresignedUrl.key.includes("aural")) {
-          console.log("aural");
           const aural = presignedUrls.find((presignedUrl) =>
             presignedUrl.key.includes("aural") && presignedUrl.key.includes(year.toString())
           );
-          aural ? setCurrentPresignedUrl(aural!) : console.log("no paper");
       } else {
         const paperOne = presignedUrls.find((presignedUrl) =>
           presignedUrl.key.includes("paper-one") && presignedUrl.key.includes(year.toString())
         );
-        paperOne ? setCurrentPresignedUrl(paperOne!) : console.log("no paper");
       }
     }
   };

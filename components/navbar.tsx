@@ -22,7 +22,6 @@ const Navbar = async (
   const isPro = await checkSubscription();
   const userHasAccessCode = await checkIfUserHasAccessCode();
 
-  console.log(props.showMobileSidebar)
 
 
   return ( 

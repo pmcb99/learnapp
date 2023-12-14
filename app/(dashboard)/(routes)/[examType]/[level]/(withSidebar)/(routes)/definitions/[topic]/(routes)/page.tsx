@@ -21,7 +21,6 @@ const DefinitionPage: React.FC<DefinitionPageProps> = async ({
         }
     });
 
-    console.log("definitions: ", definitions);
     
     return (
         <DefinitionList definitions={definitions}/>

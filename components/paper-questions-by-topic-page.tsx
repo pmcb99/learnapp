@@ -134,13 +134,6 @@ const PaperQuestionsByTopicPage = ({
           topic: chosenTopicValue,
         },
       });
-      console.log({
-        examType: params.examType,
-        level: params.level,
-        subject: params.subject,
-        namesOnly: "false",
-        topic: chosenTopicValue,
-      })
       response.data.topics ? setTopics(response.data.topics) : setTopics([]);
       return response.data;
     } catch (error: any) {

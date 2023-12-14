@@ -23,13 +23,9 @@ export async function POST(req: Request) {
 
   const session = event.data.object as Stripe.Checkout.Session;
 
-  console.log("event.type", event.type);
-  console.log("session.mode", session.mode);
-
   if (event.type === "checkout.session.completed") {
 
     if (!session?.metadata?.userId) {
-      console.log("User id is required");
       return new NextResponse("User id is required", { status: 400 });
     }
 
@@ -83,7 +79,6 @@ export async function POST(req: Request) {
   } 
 
   if (event.type === "invoice.payment_succeeded") {
-    console.log("invoice.payment_succeeded");
     const subscription = await stripe.subscriptions.retrieve(
       session.subscription as string
     );

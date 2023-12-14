@@ -173,7 +173,6 @@ export default function PDFViewer(props: {
     else {
       setExamPaperPage(examPaperPage + adjustmentAmount)
 
-    console.log('here1')
     }
   }
 

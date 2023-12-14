@@ -14,7 +14,6 @@ const SettingsPage = async () => {
     return null;
   } 
 
-  console.log(userPlan);
 
   return (
     <div className="flex flex-col">

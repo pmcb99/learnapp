@@ -32,7 +32,6 @@ export function PricingComponent(
       setLoading(true);
       const response = await axios.get("/api/stripe-monthly");
 
-      console.log("response url", response.data.url);
       window.location.href = response.data.url;
     } catch (error) {
       toast.error("Something went wrong");
@@ -54,7 +53,6 @@ export function PricingComponent(
     }
   };
 
-  console.log("user plan", props.userPlan);
 
   return (
     <div className="mb-9">
