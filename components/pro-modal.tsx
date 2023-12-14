@@ -27,23 +27,11 @@ import {
 import { cn } from "@/lib/utils";
 import { PricingComponent } from "./pricing-component";
 import { Pricing } from "aws-sdk";
+import { ScrollArea } from "./ui/scroll-area";
 
 export const ProModal = () => {
   const proModal = useProModal();
   const [loading, setLoading] = useState(false);
-
-  const onSubscribe = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get("/api/stripe");
-
-      window.location.href = response.data.url;
-    } catch (error) {
-      toast.error("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   //   return (
   //     <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
@@ -126,43 +114,21 @@ export const ProModal = () => {
   //   );
   // };
 
-
-    return (
-      <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
-        <DialogContent className="flex flex-col min-w-full">
-            <DialogTitle className="">
-              {/* <div className="">
-                Upgrade to Rewise
-                <Badge variant="premium" className="uppercase text-sm py-1">
-                  pro
-                </Badge>
-              </div> */}
+  return (
+    <>
+      <div className="">
+        <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
+          <DialogContent className="flex flex-col min-w-full max-h-screen">
+            <DialogTitle className="flex items-center justify-center">
+              Upgrade to Rewise {<Badge variant="premium">PRO</Badge>}
             </DialogTitle>
             <DialogDescription className="flex items-center justify-center w-full">
-              {/* <ul>
-              {proFeatures.map((tool) => (
-                <li key={tool.href} className="p-3 border-0 border-white border-collapse flex items-center justify-between">
-                  <div className="flex items-center gap-x-3">
-                    <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
-                      <tool.icon className={cn("w-6 h-6", tool.color)} />
-                    </div>
-                    <div className="font-semibold text-sm">
-                      {tool.label}
-                    </div>
-                  </div>
-                  {tool.badge && (<div>
-                    <Badge variant="outline" className="uppercase text-xs py-1">
-                      {tool.badge}
-                    </Badge>
-                  </div>)}
-                  <Check className="text-primary w-5 h-5" />
-                </li>
-              ))
-              }
-              </ul> */}
-              <PricingComponent/>
+              <PricingComponent />
             </DialogDescription>
-        </DialogContent>
-      </Dialog>
-    );
-  };
+
+          </DialogContent>
+        </Dialog>
+      </div>
+    </>
+  );
+};

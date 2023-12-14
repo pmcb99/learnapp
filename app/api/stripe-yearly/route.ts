@@ -20,22 +20,22 @@ export async function GET() {
       where: {
         userId
       }
-    })
+    });
 
     if (userSubscription && userSubscription.stripeCustomerId) {
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: userSubscription.stripeCustomerId,
         return_url: settingsUrl,
-      })
+      });
 
-      return new NextResponse(JSON.stringify({ url: stripeSession.url }))
+      return new NextResponse(JSON.stringify({ url: stripeSession.url }));
     }
 
     const stripeSession = await stripe.checkout.sessions.create({
       success_url: settingsUrl,
       cancel_url: settingsUrl,
       payment_method_types: ["card"],
-      mode: "subscription",
+      mode: "payment",
       billing_address_collection: "auto",
       customer_email: user.emailAddresses[0].emailAddress,
       line_items: [
@@ -43,13 +43,10 @@ export async function GET() {
           price_data: {
             currency: "EUR",
             product_data: {
-              name: "Rewise Pro",
-              description: "Beta access to Rewise Pro"
+              name: "Rewise Pro Annual Subscription",
+              description: "One time payment - Rewise Pro access until end of 2024 exams"
             },
-            unit_amount: 799,
-            recurring: {
-              interval: "month"
-            }
+            unit_amount: 3500, // Adjusted annual price
           },
           quantity: 1,
         },
@@ -57,9 +54,9 @@ export async function GET() {
       metadata: {
         userId,
       },
-    })
+    });
 
-    return new NextResponse(JSON.stringify({ url: stripeSession.url }))
+    return new NextResponse(JSON.stringify({ url: stripeSession.url }));
   } catch (error) {
     console.log("[STRIPE_ERROR]", error);
     return new NextResponse("Internal Error", { status: 500 });

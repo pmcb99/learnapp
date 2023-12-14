@@ -23,7 +23,20 @@ model UserSubscription {
   stripeSubscriptionId   String?   @unique @map("stripe_subscription_id")
   stripePriceId          String?   @map("stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map("stripe_current_period_end")
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
 }
+
+model UserPayment {
+  id               String    @id @default(cuid())
+  userId           String    
+  stripeCustomerId String    @map("stripe_customer_id")
+  amount           Int       // Represents the amount paid
+  accessEndDate    DateTime  // The date when the user's access expires
+  createdAt        DateTime  @default(now()) // The date and time when the record was created
+  updatedAt        DateTime  @updatedAt // Automatically updated when the record changes
+}
+
 
 model UserSubject {
   userId  String
