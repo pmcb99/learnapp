@@ -115,20 +115,24 @@ export const ProModal = () => {
   // };
 
   return (
-    <>
-      <div className="">
-        <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
-          <DialogContent className="flex flex-col min-w-full max-h-screen">
-            <DialogTitle className="flex items-center justify-center">
-              Upgrade to Rewise {<Badge variant="premium">PRO</Badge>}
-            </DialogTitle>
-            <DialogDescription className="flex items-center justify-center w-full">
+<>
+  <div className="">
+    <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
+      <DialogContent className="flex flex-col min-w-full min-h-screen max-h-screen overflow-auto md:overflow-hidden">
+        <div className="flex flex-col justify-between h-screen">
+          <DialogTitle className="flex items-center justify-center py-3">
+            Upgrade to Rewise <span className="ml-1">{<Badge variant="premium">PRO</Badge>}</span>
+          </DialogTitle>
+          <DialogDescription className="flex flex-grow items-center justify-center">
+            {/* <ScrollArea className="w-full h-full overflow-y-auto rounded-md border"> */}
               <PricingComponent />
-            </DialogDescription>
+            {/* </ScrollArea> */}
+          </DialogDescription>
+        </div>
+      </DialogContent>
+    </Dialog>
+  </div>
+</>
 
-          </DialogContent>
-        </Dialog>
-      </div>
-    </>
   );
 };

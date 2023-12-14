@@ -46,7 +46,7 @@ export async function GET() {
               name: "Rewise Pro Annual Subscription",
               description: "One time payment - Rewise Pro access until end of 2024 exams"
             },
-            unit_amount: 3500, // Adjusted annual price
+            unit_amount: 3999, // Adjusted annual price
           },
           quantity: 1,
         },
@@ -55,6 +55,11 @@ export async function GET() {
         userId,
       },
     });
+
+    // cancel their current subscription
+    if (userSubscription && userSubscription.stripeSubscriptionId) {
+      await stripe.subscriptions.del(userSubscription.stripeSubscriptionId);
+    }
 
     return new NextResponse(JSON.stringify({ url: stripeSession.url }));
   } catch (error) {

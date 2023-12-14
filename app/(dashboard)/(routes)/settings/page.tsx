@@ -23,7 +23,7 @@ const SettingsPage = async () => {
         <div className="px-4 lg:px-8 space-y-4">
           <div className="text-muted-foreground text-sm">
             {isPro
-              ? "You are currently on a Pro plan."
+              ? "You are currently on the Pro plan."
               : "You are currently on a free plan."}
           </div>
           <SubscriptionButton isPro={isPro} />
@@ -40,7 +40,7 @@ const SettingsPage = async () => {
           alt=":)"
         /> */}
       </div>
-      <footer className="mr-4 mt-7 text-right text-foreground text-xs">Send us a message</footer>
+      <footer className="text-right text-foreground text-xs fixed bottom-0 right-0 mr-2">Send us a message</footer>
     </div>
   );
 };

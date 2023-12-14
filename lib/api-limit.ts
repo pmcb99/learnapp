@@ -51,6 +51,14 @@ export const getApiLimitCount = async () => {
     return 0;
   }
 
+  if (userId === "user_2VAfFI0WwGRUE63Xoj1DIb2ZiD1") {
+    return 0;
+  }
+
+  if (userId === "ckqk7y2r3000g0b53s5w2jw2u") {
+    return 0;
+  }
+
   const userApiLimit = await prismadb.userApiLimit.findUnique({
     where: {
       userId

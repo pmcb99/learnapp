@@ -1,12 +1,4 @@
 import { AtomIcon, BookIcon, BookKey, BookOpenCheck, Bot, BriefcaseIcon, Brush, CalculatorIcon, ChefHat, Code, Cog, Coins, Dna, EyeIcon, FlagIcon, Globe, Globe2, Hammer, Hourglass, ImageIcon, JapaneseYen, LineChart, Lock, LockIcon, MessageSquare, Music, Music2, Orbit, Pencil, PizzaIcon, Sheet, Soup, Sun, Swords, TestTube, TestTube2, TestTubes, Vegan, VideoIcon } from "lucide-react";
-import { env } from "process";
-
-const environment = process.env.ENVIRONMENT?.trim();
-console.log(environment);
-export const MAX_FREE_COUNTS = environment == 'development' ? 1000 : 10;
-console.log(environment == 'development')
-console.log(MAX_FREE_COUNTS)
-
 export const freeFeatures = [
   {
     label: '5 exam questions on each topic and year',
@@ -16,12 +8,11 @@ export const freeFeatures = [
     bgColor: "bg-violet-500/10",
   },
   {
-    label: '10 trial chat questions',
+    label: 'AI marking scheme tutor (10 trial chat questions)',
     icon: Bot,
     href: '/conversation',
     color: "text-blue-700",
     bgColor: "bg-violet-500/10",
-    badge: 'New',
   },
   {
     label: 'Definitions for science subjects',
@@ -56,7 +47,7 @@ export const proFeaturesMonthly = [
     href: '/image',
   },
   {
-    label: 'Full access to AI chat feature.',
+    label: 'Full access to AI marking scheme tutor.',
     icon: MessageSquare,
     color: "text-blue-700",
     bgColor: "bg-orange-700/10",
@@ -88,7 +79,7 @@ export const proFeaturesYearly = [
     href: '/image',
   },
   {
-    label: 'Full access to AI chat feature.',
+    label: 'Full access to AI marking scheme tutor.',
     icon: MessageSquare,
     color: "text-blue-700",
     bgColor: "bg-orange-700/10",

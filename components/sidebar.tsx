@@ -3,16 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from 'next/font/google'
-import { Code, Dna, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, Sun, Moon, VideoIcon, Speaker } from "lucide-react";
+import { ImageIcon, Settings, Sun, Moon, VideoIcon, Speaker } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { FreeCounter } from "@/components/free-counter";
-import { Accordion } from "./ui/accordion";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
-import { useTheme } from "next-themes";
-import { Badge } from "./ui/badge";
 
 const poppins = Montserrat ({ weight: '600', subsets: ['latin'] });
 
@@ -122,7 +117,7 @@ export const Sidebar = ({
               href={route.href}
               onClick={() => setIsOpen && setIsOpen(false)}
               className={cn(
-                "text-sm group flex p-3 text-white w-full justify-start font-medium cursor-pointer rounded-lg transition hover:bg-secondary",
+                "text-sm group flex p-3 text-white w-full justify-start font-medium cursor-pointer rounded-lg transition hover:border",
                 pathname.includes(route.href) ? "bg-white/10" : "",
               )}
             >

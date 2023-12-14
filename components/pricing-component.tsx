@@ -85,7 +85,7 @@ export function PricingComponent() {
           <div>
             <h3 className="text-2xl font-bold text-center">Monthly</h3>
             <div className="mt-4 text-center text-zinc-600 dark:text-zinc-400">
-              <span className="text-4xl font-bold">€10</span>/ month
+              <span className="text-4xl font-bold">€11.99</span>/ month
             </div>
             <ul className="">
               {proFeaturesMonthly.map((tool) => (
@@ -125,12 +125,12 @@ export function PricingComponent() {
         </div>
         <div className="p-6 w-auto shadow-lg rounded-lg dark:bg-zinc-850 border border-gray-300">
           <div className="flex flex-col">
-            <div className="px-3 py-1 text-sm text-white items-center justify-center bg-gradient-to-r from-pink-500 to-purple-500 rounded-full text-center">
-              Popular
+            <div className="px-3 my-2 text-sm text-white items-center justify-center bg-gradient-to-r via-pink-500 to-purple-500 from-blue-500 rounded-full text-center">
+              Best Value
             </div>
             <h3 className="text-2xl font-bold text-center">Full access</h3>
             <div className="mt-4 text-center text-zinc-600 dark:text-zinc-400">
-              <span className="text-4xl font-bold">€35</span>
+              <span className="text-4xl font-bold">€39.99</span>
             </div>
             <ul className="">
               {proFeaturesYearly.map((tool) => (
@@ -171,7 +171,6 @@ export function PricingComponent() {
       </div>
     </div>
     <div className="md:hidden min-h-screen max-h-screen">
-      <ScrollArea className="h-[200px] min-h-screen min-w-screen rounded-md border ">
       <div className="flex md:flex-row flex-col gap-x-8 px-8 items-center justify-center md:space-y-0 space-y-4">
         <div className="p-6 w-auto shadow-lg rounded-lg dark:bg-zinc-850 justify-between border border-gray-300">
           <div className="h-full">
@@ -208,7 +207,7 @@ export function PricingComponent() {
           <div>
             <h3 className="text-2xl font-bold text-center">Monthly</h3>
             <div className="mt-4 text-center text-zinc-600 dark:text-zinc-400">
-              <span className="text-4xl font-bold">€10</span>/ month
+              <span className="text-4xl font-bold">€11.99</span>/ month
             </div>
             <ul className="">
               {proFeaturesMonthly.map((tool) => (
@@ -248,12 +247,12 @@ export function PricingComponent() {
         </div>
         <div className="p-6 w-auto shadow-lg rounded-lg dark:bg-zinc-850 border border-gray-300">
           <div className="flex flex-col">
-            <div className="px-3 py-1 text-sm text-white items-center justify-center bg-gradient-to-r from-pink-500 to-purple-500 rounded-full text-center">
-              Popular
+            <div className="px-3 my-2 text-sm text-white items-center justify-center bg-gradient-to-r via-pink-500 to-purple-500 from-blue-500 rounded-full text-center">
+              Best Value
             </div>
             <h3 className="text-2xl font-bold text-center">Full access</h3>
             <div className="mt-4 text-center text-zinc-600 dark:text-zinc-400">
-              <span className="text-4xl font-bold">€35</span>
+              <span className="text-4xl font-bold">€39.99</span>
             </div>
             <ul className="">
               {proFeaturesYearly.map((tool) => (
@@ -283,7 +282,7 @@ export function PricingComponent() {
           </div>
           <div className="mt-6">
             <Button
-              className="w-full bg-gradient-to-r from-pink-500 to-purple-500"
+              className="w-full bg-gradient-to-r from-blue-500 to-purple-500"
               onClick={onPaymentYearly}
               disabled={loading}
             >
@@ -292,27 +291,8 @@ export function PricingComponent() {
           </div>
         </div>
       </div>
-      </ScrollArea>
     </div>
     </div>
   );
 }
 
-function CheckIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-  );
-}

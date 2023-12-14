@@ -21,7 +21,7 @@ export default function HomePage() {
   return (
     <div>
       <div className="mb-8 space-y-4">
-        <h2 className="text-2xl md:text-4xl font-bold text-center">
+        <h2 className="text-2xl font-bold text-center">
           Subjects - Topics for Individual Year
         </h2>
         <h3 className=" text-center text-slate-600">
@@ -33,7 +33,7 @@ export default function HomePage() {
       </div>
       <div className="grid md:grid-cols-2 grid-cols-1 gap-x-2 gap-y-2 px-20 lg:px-32 ">
         {lcHigherSubjects.map((subject) => (
-          <Card onClick={() => router.push(`${hrefPrefix}/single-year/${subject.href}/`)} key={subject.href} className="p-4 border-slate-700 flex items-center justify-between hover:shadow-md hover:scale-105 transition cursor-pointer">
+          <Card onClick={() => router.push(`${hrefPrefix}/single-year/${subject.href}/`)} key={subject.href} className="p-5 border-slate-700 flex items-center justify-between hover:shadow-md hover:scale-105 transition cursor-pointer">
             <div className="flex md:justify-center md:items-center gap-x-4 w-auto md:flex-row flex-col ">
               <div className="font-semibold">
                 <Image src={subject.imageIconPath || ""} alt="" width={50} height={50} className="dark:hidden"/>
@@ -42,7 +42,7 @@ export default function HomePage() {
               <div>
 
               </div>
-              <div className="font-semibold sm:overflow-hidden text-lg">
+              <div className="font-semibold sm:overflow-hidden ">
                 {subject.label}
               </div>
             </div>

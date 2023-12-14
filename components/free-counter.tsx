@@ -1,7 +1,6 @@
 import { Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { MAX_FREE_COUNTS } from "@/constants";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -20,8 +19,7 @@ export const FreeCounter = ({
   const [mounted, setMounted] = useState(false);
   const proModal = useProModal();
 
-  console.log('wtf')
-  console.log(MAX_FREE_COUNTS)
+  const MAX_FREE_COUNTS = 10;
 
   useEffect(() => {
     setMounted(true);
