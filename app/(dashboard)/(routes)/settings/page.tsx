@@ -17,7 +17,7 @@ const SettingsPage = async () => {
   console.log(userPlan);
 
   return (
-    <div className="">
+    <div className="flex flex-col">
       <div className="h-full">
         <Heading
           title="Settings"
@@ -34,10 +34,13 @@ const SettingsPage = async () => {
               : "You are currently on a free plan."}
           </div>
           <SubscriptionButton isPro={isPro} userPlan={userPlan} />
-          <AccessCodeForm />
+          {!isPro && <AccessCodeForm />}
         </div>
       </div>
-      <div className="flex pt-6 items-center justify-center">
+      <div className="flex flex-col justify-end">
+        {/* <div className="flex flex-auto text-4xl bg-gray-700/10">
+          🧑‍🎄
+        </div> */}
         {/* <Image
           src="/beta-lab.png"
           className="rounded-full"
@@ -46,8 +49,8 @@ const SettingsPage = async () => {
           objectFit="cover"
           alt=":)"
         /> */}
-      </div>
       <footer className="text-right text-foreground text-xs fixed bottom-0 right-0 mr-2">Send us a message</footer>
+</div>
     </div>
   );
 };

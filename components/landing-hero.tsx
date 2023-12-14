@@ -6,12 +6,13 @@ import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
+import { InformationFooter } from "./information-footer";
 
 export const LandingHero = () => {
   const { isSignedIn } = useAuth();
 
   return (
-    <div className="text-white font-bold py-36 text-center space-y-5 bg-[#000310]">
+    <div className="text-white font-bold min-h-screen space-y-5 text-center bg-[#000310]">
       <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl space-y-5 font-extrabold">
         <h1 className="">Learn faster with Rewise.</h1>
       <div className="text-sm md:text-xl font-light text-zinc-400">
@@ -50,6 +51,7 @@ export const LandingHero = () => {
         </Link>
         <Image src="/landing/owl.png" className="" width={300} height={200} alt='wkw'/>
       </div>
+      {/* <InformationFooter /> */}
     </div>
   );
 };

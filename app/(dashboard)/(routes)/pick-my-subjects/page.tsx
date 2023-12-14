@@ -7,7 +7,6 @@ import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-import { proFeatures } from "@/constants";
 import { lcHigherSubjects as lcHigherSubjects } from "@/constants";
 
 import { Label } from "@/components/ui/label";

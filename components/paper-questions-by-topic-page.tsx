@@ -261,7 +261,7 @@ const PaperQuestionsByTopicPage = ({
 
   return (
     <div className="flex flex-col h-full justify-center items-center">
-      <div className="flex-1 flex flex-col items-center justify-between bg-primary pb-4 rounded-xl">
+      <div className="flex-1 flex flex-col items-center justify-between bg-primary pb-4 rounded-xl w-full">
         {params.year && (
           <PaperVersionAndTypeToggles presignedUrls={presignedUrls} />
         )}

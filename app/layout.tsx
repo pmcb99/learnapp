@@ -25,9 +25,6 @@ export default async function RootLayout({
 }) {
 
   const userPlan = await checkWhatPlanUserIsOn();
-  if (userPlan == false) {
-    return null;
-  }
 
   return (
     <ClerkProvider>

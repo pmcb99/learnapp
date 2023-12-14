@@ -89,7 +89,7 @@ function PaperVersionAndTypeToggles(props: PaperVersionAndTypeTogglesProps) {
             {presignedUrlsByPaperVersion[uniquePaperVersion].map(
               (presignedUrl: PresignedUrl) => (
                 (presignedUrl && <Button
-                className="bg-gray-300"
+                className="bg-secondary text-primary hover:border hover:border-secondary hover:text-secondary"
                   key={presignedUrl.key}
                   onClick={() => setCurrentPresignedUrl(presignedUrl)}
                   disabled={currentPresignedUrl?.key === presignedUrl.key}

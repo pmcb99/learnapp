@@ -37,7 +37,7 @@ export const SubscriptionButton = (
 
   return (
     <div className="flex justify-start gap-x-4">
-    {props.isPro && <Button variant={"default"} disabled={loading} onClick={onClick} >
+    {props.userPlan == "MONTHLY" && <Button variant={"default"} disabled={loading} onClick={onClick} >
       {"Manage Subscription"}
     </Button>}
     {!props.isPro && <Button variant={"premium"} disabled={loading} onClick={proModal.onOpen} >

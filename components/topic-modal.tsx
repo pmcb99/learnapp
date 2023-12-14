@@ -15,8 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { proFeatures } from "@/constants";
-import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useTopicModal } from "@/hooks/use-topic-modal";
 import PaperQuestionsByTopicPage from "./paper-questions-by-topic-page";

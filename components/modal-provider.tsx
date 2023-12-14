@@ -7,7 +7,7 @@ import { TopicModal } from "./topic-modal";
 import { checkWhatPlanUserIsOn } from "@/lib/subscription";
 
 interface ModalProviderProps {
-  userPlan: string;
+  userPlan: string | false;
 }
 
 export const ModalProvider = (
@@ -18,6 +18,10 @@ export const ModalProvider = (
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  if (!props.userPlan) {
+    return null;
+  }
 
 
   if (!isMounted) {
