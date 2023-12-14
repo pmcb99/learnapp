@@ -29,110 +29,37 @@ import { PricingComponent } from "./pricing-component";
 import { Pricing } from "aws-sdk";
 import { ScrollArea } from "./ui/scroll-area";
 
-export const ProModal = () => {
+interface ProModalProps {
+  userPlan: string;
+}
+
+export const ProModal = (
+  props: ProModalProps
+) => {
   const proModal = useProModal();
   const [loading, setLoading] = useState(false);
 
-  //   return (
-  //     <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
-  //       <DialogContent>
-  //         <DialogHeader>
-  //           <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2">
-  //             <div className="flex items-center gap-x-2 font-bold text-xl">
-  //               Upgrade to Rewise
-  //               <Badge variant="premium" className="uppercase text-sm py-1">
-  //                 pro
-  //               </Badge>
-  //             </div>
-  //           </DialogTitle>
-  //           <div className="flex space-x-4">
-  //           <Card>
-  //           <DialogDescription className="text-center pt-2 space-y-2 text-zinc-900 font-medium">
-  //             <ul>
-  //             {proFeatures.map((tool) => (
-  //               <li key={tool.href} className="p-3 border-0 border-white border-collapse flex items-center justify-between">
-  //                 <div className="flex items-center gap-x-3">
-  //                   <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
-  //                     <tool.icon className={cn("w-6 h-6", tool.color)} />
-  //                   </div>
-  //                   <div className="font-semibold text-sm">
-  //                     {tool.label}
-  //                   </div>
-  //                 </div>
-  //                 {tool.badge && (<div>
-  //                   <Badge variant="outline" className="uppercase text-xs py-1">
-  //                     {tool.badge}
-  //                   </Badge>
-  //                 </div>)}
-  //                 <Check className="text-primary w-5 h-5" />
-  //               </li>
-  //             ))
-  //             }
-  //             </ul>
-  //           </DialogDescription>
-  //           <Button disabled={loading} onClick={onSubscribe} size="lg" variant="premium" className="w-full border border-black">
-  //             Upgrade
-  //             <Zap className="w-4 h-4 ml-2 fill-white" />
-  //           </Button>
-  //           </Card>
-  //           <Card>
-  //           <DialogDescription className="text-center pt-2 space-y-2 text-zinc-900 font-medium">
-  //             {proFeatures.map((tool) => (
-  //               <Card key={tool.href} className="p-3 border-black/5 flex items-center justify-between">
-  //                 <div className="flex items-center gap-x-3">
-  //                   <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
-  //                     <tool.icon className={cn("w-6 h-6", tool.color)} />
-  //                   </div>
-  //                   <div className="font-semibold text-sm">
-  //                     {tool.label}
-  //                   </div>
-  //                 </div>
-  //                 {tool.badge && (<div>
-  //                   <Badge variant="outline" className="uppercase text-xs py-1">
-  //                     {tool.badge}
-  //                   </Badge>
-  //                 </div>)}
-  //                 <Check className="text-primary w-5 h-5" />
-  //               </Card>
-  //             ))}
-  //           </DialogDescription>
-  //           <Button disabled={loading} onClick={onSubscribe} size="lg" variant="premium" className="w-full border border-black">
-  //             Upgrade
-  //             <Zap className="w-4 h-4 ml-2 fill-white" />
-  //           </Button>
-  //           </Card>
-  //           </div>
-  //         </DialogHeader>
-  //         <DialogFooter>
-  //           <Button disabled={loading} onClick={onSubscribe} size="lg" variant="premium" className="w-full border border-black">
-  //             Upgrade
-  //             <Zap className="w-4 h-4 ml-2 fill-white" />
-  //           </Button>
-  //         </DialogFooter>
-  //       </DialogContent>
-  //     </Dialog>
-  //   );
-  // };
-
   return (
-<>
-  <div className="">
-    <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
-      <DialogContent className="flex flex-col min-w-full min-h-screen max-h-screen overflow-auto md:overflow-hidden">
-        <div className="flex flex-col justify-between h-screen">
-          <DialogTitle className="flex items-center justify-center py-3">
-            Upgrade to Rewise <span className="ml-1">{<Badge variant="premium">PRO</Badge>}</span>
-          </DialogTitle>
-          <DialogDescription className="flex flex-grow items-center justify-center">
-            {/* <ScrollArea className="w-full h-full overflow-y-auto rounded-md border"> */}
-              <PricingComponent />
-            {/* </ScrollArea> */}
-          </DialogDescription>
-        </div>
-      </DialogContent>
-    </Dialog>
-  </div>
-</>
-
+    <>
+      <div className="">
+        <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
+          <DialogContent className="flex flex-col min-w-full min-h-screen max-h-screen overflow-auto md:overflow-hidden">
+            <div className="flex flex-col justify-between h-screen">
+              <DialogTitle className="flex items-center justify-center py-3">
+                Upgrade to Rewise{" "}
+                <span className="ml-1">
+                  {<Badge variant="premium">PRO</Badge>}
+                </span>
+              </DialogTitle>
+              <DialogDescription className="flex flex-grow items-center justify-center">
+                {/* <ScrollArea className="w-full h-full overflow-y-auto rounded-md border"> */}
+                <PricingComponent userPlan={props.userPlan}/>
+                {/* </ScrollArea> */}
+              </DialogDescription>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </>
   );
 };

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useProModal } from "@/hooks/use-pro-modal";
 import { checkIfUserHasAccessCode } from "@/lib/subscription";
+import { MAX_FREE_COUNTS } from "@/constants";
 
 export const FreeCounter = ({
   isPro = false,
@@ -19,8 +20,6 @@ export const FreeCounter = ({
   const [mounted, setMounted] = useState(false);
   const proModal = useProModal();
 
-  const MAX_FREE_COUNTS = 10;
-
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -29,7 +28,7 @@ export const FreeCounter = ({
     return null;
   }
   
-  if (userHasAccessCode) {
+  if (isPro) {
     return null;
   }
 
@@ -42,7 +41,6 @@ export const FreeCounter = ({
               {apiLimitCount} / {MAX_FREE_COUNTS} Free Chats Left
             </p>
             <p>
-              {/* {apiLimitCount} / {MAX_FREE_COUNTS} Free Generations */}
             </p>
             <Progress className="h-3 border-white border" value={(apiLimitCount / MAX_FREE_COUNTS) * 100} />
           </div>

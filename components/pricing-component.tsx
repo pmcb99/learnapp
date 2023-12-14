@@ -12,12 +12,21 @@ import {
 } from "@/constants";
 import { cn } from "@/lib/utils";
 import { Badge } from "./ui/badge";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { ScrollArea } from "./ui/scroll-area";
+import { set } from "zod";
 
-export function PricingComponent() {
+interface PricingComponentProps {
+  userPlan: string;
+}
+
+export function PricingComponent(
+  props: PricingComponentProps
+) {
+
+  const [loading, setLoading] = useState(false);
   const onSubscribeMonthly = async () => {
     try {
       setLoading(true);
@@ -45,7 +54,8 @@ export function PricingComponent() {
     }
   };
 
-  const [loading, setLoading] = useState(false);
+  console.log("user plan", props.userPlan);
+
   return (
     <div className="mb-9">
     <div className="md:block hidden min-h-screen">
@@ -79,7 +89,8 @@ export function PricingComponent() {
               ))}
             </ul>
           </div>
-          <div className="text-center mt-6">Current plan</div>
+          {props.userPlan == "FREE" && <div className="text-center mt-6">Current plan</div>}
+          {props.userPlan !== "FREE" && <Button className="w-full mt-6" onClick={onSubscribeMonthly} disabled={loading}>Cancel Paid Plan</Button>}
         </div>
         <div className="p-6 w-auto shadow-lg rounded-lg dark:bg-zinc-850 justify-between border border-gray-300">
           <div>
@@ -114,13 +125,16 @@ export function PricingComponent() {
             </ul>
           </div>
           <div className="mt-6">
-            <Button
+            {props.userPlan !== "MONTHLY" && <Button
               className="w-full"
               onClick={onSubscribeMonthly}
               disabled={loading}
             >
               Get Started
-            </Button>
+            </Button>}
+            {
+              props.userPlan == "MONTHLY" && <div className="text-center">Current Plan</div>
+            }
           </div>
         </div>
         <div className="p-6 w-auto shadow-lg rounded-lg dark:bg-zinc-850 border border-gray-300">
@@ -159,13 +173,17 @@ export function PricingComponent() {
             </ul>
           </div>
           <div className="mt-6">
-            <Button
-              className="w-full bg-gradient-to-r from-pink-500 to-purple-500"
+            {props.userPlan !== "YEARLY" && <Button
+              className="w-full"
               onClick={onPaymentYearly}
               disabled={loading}
+              variant={"premium"}
             >
               Get Started
-            </Button>
+            </Button>}
+            {
+              props.userPlan == "YEARLY" && <div>Current Plan</div>
+            }
           </div>
         </div>
       </div>
@@ -201,9 +219,10 @@ export function PricingComponent() {
               ))}
             </ul>
           </div>
-          <div className="text-center mt-6">Current plan</div>
+          {props.userPlan == "FREE" && <div className="text-center mt-6">Current plan</div>}
+          {props.userPlan !== "FREE" && <Button className="w-full mt-6" onClick={onSubscribeMonthly} disabled={loading}>Cancel Paid Plan</Button>}
         </div>
-        <div className="p-6 w-auto shadow-lg rounded-lg dark:bg-zinc-850 justify-between border border-gray-300">
+        {<div className="p-6 w-auto shadow-lg rounded-lg dark:bg-zinc-850 justify-between border border-gray-300">
           <div>
             <h3 className="text-2xl font-bold text-center">Monthly</h3>
             <div className="mt-4 text-center text-zinc-600 dark:text-zinc-400">
@@ -236,15 +255,18 @@ export function PricingComponent() {
             </ul>
           </div>
           <div className="mt-6">
-            <Button
+            {props.userPlan !== "MONTHLY" && <Button
               className="w-full"
               onClick={onSubscribeMonthly}
               disabled={loading}
             >
               Get Started
-            </Button>
+            </Button>}
+            {
+              props.userPlan == "MONTHLY" && <div className="text-center">Current Plan</div>
+            }
           </div>
-        </div>
+        </div>}
         <div className="p-6 w-auto shadow-lg rounded-lg dark:bg-zinc-850 border border-gray-300">
           <div className="flex flex-col">
             <div className="px-3 my-2 text-sm text-white items-center justify-center bg-gradient-to-r via-pink-500 to-purple-500 from-blue-500 rounded-full text-center">
@@ -281,13 +303,17 @@ export function PricingComponent() {
             </ul>
           </div>
           <div className="mt-6">
-            <Button
-              className="w-full bg-gradient-to-r from-blue-500 to-purple-500"
+            {props.userPlan !== "YEARLY" && <Button
+              className="w-full"
               onClick={onPaymentYearly}
               disabled={loading}
+              variant={"premium"}
             >
-              Get Started
-            </Button>
+              Change to Annual Plan
+            </Button>}
+            {
+              props.userPlan == "YEARLY" && <div>Current Plan</div>
+            }
           </div>
         </div>
       </div>

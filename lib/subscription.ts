@@ -70,3 +70,44 @@ export const checkIfUserHasAccessCode = async () => {
 
   return false;
 }
+
+export const checkWhatPlanUserIsOn = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return false;
+  }
+
+  const userSubscription = await prismadb.userSubscription.findUnique({
+    where: {
+      userId: userId,
+    },
+  })
+
+  if (!userSubscription) {
+    return "FREE";
+  }
+
+  const TWO_MONTHS_IN_MS = 2*2628002880
+
+  // check if userSub currentPeriodEnd is further than one month from now
+  const isMonthly =
+    userSubscription.stripePriceId &&
+    userSubscription.stripeCurrentPeriodEnd?.getTime()! < Date.now() + TWO_MONTHS_IN_MS
+    && userSubscription.stripeCurrentPeriodEnd?.getTime()! > Date.now()
+
+    if (isMonthly) {
+      return "MONTHLY"
+    }
+
+  const isYearly =
+    userSubscription.stripePriceId &&
+    userSubscription.stripeCurrentPeriodEnd?.getTime()! > Date.now() + TWO_MONTHS_IN_MS
+    && userSubscription.stripeCurrentPeriodEnd?.getTime()! > Date.now()
+
+    if (isYearly) {
+      return "YEARLY"
+    }
+
+  return "FREE";
+}

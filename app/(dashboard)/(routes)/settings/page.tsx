@@ -2,12 +2,19 @@ import { Settings } from "lucide-react";
 
 import { Heading } from "@/components/heading";
 import { SubscriptionButton } from "@/components/subscription-button";
-import { checkSubscription } from "@/lib/subscription";
+import { checkWhatPlanUserIsOn, checkSubscription } from "@/lib/subscription";
 import Image from "next/image";
 import AccessCodeForm from "@/components/access-form";
 
 const SettingsPage = async () => {
   const isPro = await checkSubscription();
+  const userPlan = await checkWhatPlanUserIsOn();
+
+  if (userPlan == false) {
+    return null;
+  } 
+
+  console.log(userPlan);
 
   return (
     <div className="">
@@ -26,7 +33,7 @@ const SettingsPage = async () => {
               ? "You are currently on the Pro plan."
               : "You are currently on a free plan."}
           </div>
-          <SubscriptionButton isPro={isPro} />
+          <SubscriptionButton isPro={isPro} userPlan={userPlan} />
           <AccessCodeForm />
         </div>
       </div>

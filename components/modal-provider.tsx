@@ -4,13 +4,21 @@ import { useEffect, useState } from "react";
 
 import { ProModal } from "@/components/pro-modal";
 import { TopicModal } from "./topic-modal";
+import { checkWhatPlanUserIsOn } from "@/lib/subscription";
 
-export const ModalProvider = () => {
+interface ModalProviderProps {
+  userPlan: string;
+}
+
+export const ModalProvider = (
+  props: ModalProviderProps
+) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
 
   if (!isMounted) {
     return null;
@@ -18,7 +26,7 @@ export const ModalProvider = () => {
 
   return (
     <>
-      <ProModal />
+      <ProModal userPlan={props.userPlan}/>
       {/* <TopicModal /> */}
     </>
   );

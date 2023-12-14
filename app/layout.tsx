@@ -9,6 +9,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import Provider from "@/app/_trpc/Provider";
 
 import './globals.css'
+import { checkWhatPlanUserIsOn } from '@/lib/subscription'
 
 const font = Inter({ subsets: ['latin'] });
 
@@ -22,13 +23,19 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
+  const userPlan = await checkWhatPlanUserIsOn();
+  if (userPlan == false) {
+    return null;
+  }
+
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <CrispProvider />
         <body className={font.className}>
           <ToasterProvider />
-          <ModalProvider />
+          <ModalProvider userPlan={userPlan}/>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

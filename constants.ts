@@ -1,5 +1,17 @@
 import { AtomIcon, BookIcon, BookKey, BookOpenCheck, Bot, BriefcaseIcon, Brush, CalculatorIcon, ChefHat, Code, Cog, Coins, Dna, EyeIcon, FlagIcon, Globe, Globe2, Hammer, Hourglass, ImageIcon, JapaneseYen, LineChart, Lock, LockIcon, MessageSquare, Music, Music2, Orbit, Pencil, PizzaIcon, Sheet, Soup, Sun, Swords, TestTube, TestTube2, TestTubes, Vegan, VideoIcon } from "lucide-react";
-export const freeFeatures = [
+
+export const MAX_FREE_COUNTS = 10;
+
+interface Feature {
+  label: string;
+  icon: any;
+  href: string;
+  color: string;
+  bgColor: string;
+  badge?: string;
+}
+
+export const freeFeatures: Feature[] = [
   {
     label: '5 exam questions on each topic and year',
     icon: BookOpenCheck,
