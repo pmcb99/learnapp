@@ -7,7 +7,7 @@ import axios from "axios";
 export const getPresignedUrls = async (level: string, subject: string, bucket: string, year?: string | null) => {
   // sets presignedUrls to contain ALL papers for that subject and level
   // const url = `/api/documents/presigned-urls?Bucket=${LC_BUCKET_NAME}&Prefix=${level}_${subject}_2022`;
-  const keySlashed = year ? `${level}/${subject}/${year}` : `${level}/${subject}`
+  const keySlashed = year ? `${level}/${subject}/${year}` : `${level}/${subject}/`
 
   if (!bucket || !keySlashed) {
     throw new Error("[ERROR] Missing bucket or key.");

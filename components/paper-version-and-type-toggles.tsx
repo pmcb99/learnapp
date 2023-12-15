@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "./ui/button";
 import { PresignedUrl } from "@/types/global";
 import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
@@ -36,7 +36,7 @@ function getPaperVersionAndType(presignedUrl: PresignedUrl) {
   } else if (presignedUrl.key.includes("exam-paper/")) {
     resultObject["paperType"] = "Exam Paper";
   } else if (presignedUrl.key.includes("marking-scheme/")) {
-    resultObject["paperType"] = "Show Marking Scheme";
+    resultObject["paperType"] = "Marking Scheme";
   } else {
     resultObject["paperType"] = "Paper";
   }
@@ -77,6 +77,8 @@ function PaperVersionAndTypeToggles(props: PaperVersionAndTypeTogglesProps) {
     })
   );
 
+
+
   return (
     <>
       {uniquePaperVersions.map((uniquePaperVersion: string) => (
@@ -93,6 +95,7 @@ function PaperVersionAndTypeToggles(props: PaperVersionAndTypeTogglesProps) {
                   key={presignedUrl.key}
                   onClick={() => setCurrentPresignedUrl(presignedUrl)}
                   disabled={currentPresignedUrl?.key === presignedUrl.key}
+                  className=""
                 >
                   {getPaperVersionAndType(presignedUrl).paperType}
                   {currentPresignedUrl?.key === presignedUrl.key && <CheckIcon/>}

@@ -147,6 +147,7 @@ const PaperQuestionsByTopicPage = ({
       return presignedUrl.key.includes(year.toString());
     });
     setFilteredPresignedUrls(filteredPresignedUrls);
+    setCurrentPresignedUrl(filteredPresignedUrls[0]);
   };
 
   const setCurrentExamPaper = () => {
@@ -157,7 +158,6 @@ const PaperQuestionsByTopicPage = ({
       setCurrentPresignedUrl(currentExamPaper!);
     }
   };
-
 
 
   useEffect(() => {
@@ -172,14 +172,21 @@ const PaperQuestionsByTopicPage = ({
   useEffect(() => {
     if (params.year) {
       getTopicsForYear();
+
+      if (!presignedUrls.includes(currentPresignedUrl!)) {
+        setCurrentPresignedUrl(presignedUrls[0]);
+      }
+
     } else {
       getTopicsNamesForSubject();
-    }
+
+  }
   }, []);
 
   const findPageWithQuestion = async (topic: PaperQuestionsByTopic) => {
     setYear(topic.year!);
     setChosenQuestion(topic);
+    
 
     if (topic.examPaperPage) {
       if (topic.paperVersion === "sample-paper") {
@@ -324,7 +331,7 @@ const PaperQuestionsByTopicPage = ({
       {currentPresignedUrl && topics && (
         <div className="flex-2 flex flex-col items-center justify-center">
           <h2 className="font-bold text-2xl mb-4 pt-8">
-            {params && params.year ? "Topics" : "Questions"}
+            {params && params.year ? "Questions" : "Questions"}
           </h2>
           <ScrollArea className="bg-primary rounded-md border p-4 h-[440px] w-full">
           <div className="flex flex-col items-center">
