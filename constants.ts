@@ -1,6 +1,6 @@
 import { AtomIcon, BookIcon, BookKey, BookOpenCheck, Bot, BriefcaseIcon, Brush, CalculatorIcon, ChefHat, Code, Cog, Coins, Dna, EyeIcon, FlagIcon, Globe, Globe2, Hammer, Hourglass, ImageIcon, JapaneseYen, LineChart, Lock, LockIcon, MessageSquare, Music, Music2, Orbit, Pencil, PizzaIcon, Sheet, Soup, Sun, Swords, TestTube, TestTube2, TestTubes, Vegan, VideoIcon } from "lucide-react";
 
-export const MAX_FREE_COUNTS = 10000;
+export const MAX_FREE_COUNTS = 10;
 
 interface Feature {
   label: string;

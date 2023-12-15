@@ -85,6 +85,8 @@ const PaperViewPage = ({
   }, [presignedUrls, year]);
 
   return (
+    <div>
+      <div>Higher Level</div>
     <div className="flex w-full gap-x-3 justify-center">
       <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80 ml-5">
         <PaperQuestionsByTopicPage
@@ -107,6 +109,7 @@ const PaperViewPage = ({
         />
         <div></div>
       </div>
+    </div>
     </div>
   );
 };
