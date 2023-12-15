@@ -31,7 +31,7 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <head>
-        <PlausibleProvider domain="example.com" />
+        <PlausibleProvider domain="rewise.ie" />
       </head>
       <html lang="en" suppressHydrationWarning>
         <CrispProvider />
