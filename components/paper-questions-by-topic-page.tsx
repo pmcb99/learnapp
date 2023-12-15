@@ -359,7 +359,7 @@ const PaperQuestionsByTopicPage = ({
     )
   ) : (
     <div>
-    <p className="text-primary text-center rounded-lg bg-secondary p-5 m-3">Viewing marking scheme. Select an exam paper to view questions.</p>
+    <p className="text-primary text-center rounded-lg bg-secondary p-5 m-3">Select an exam paper to view questions.</p>
     <Image className="rounded-full" src="/santa-workshop.png" width={500} height={300} alt=""/>
     </div>
   )}
