@@ -30,7 +30,9 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider>
-      <PlausibleProvider domain="rewise.ie">
+      <head>
+        <PlausibleProvider domain="example.com" />
+      </head>
       <html lang="en" suppressHydrationWarning>
         <CrispProvider />
         <body className={font.className}>
@@ -46,7 +48,6 @@ export default async function RootLayout({
           </ThemeProvider>
         </body>
       </html>
-</PlausibleProvider>
     </ClerkProvider>
   )
 }
