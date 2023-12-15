@@ -7,6 +7,8 @@ import { ModalProvider } from '@/components/modal-provider'
 import { CrispProvider } from '@/components/crisp-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import Provider from "@/app/_trpc/Provider";
+import { usePlausible  }  from 'next-plausible'
+import PlausibleProvider from 'next-plausible'
 
 import './globals.css'
 import { checkWhatPlanUserIsOn } from '@/lib/subscription'
@@ -28,6 +30,7 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider>
+      <PlausibleProvider domain="rewise.ie">
       <html lang="en" suppressHydrationWarning>
         <CrispProvider />
         <body className={font.className}>
@@ -43,6 +46,7 @@ export default async function RootLayout({
           </ThemeProvider>
         </body>
       </html>
+</PlausibleProvider>
     </ClerkProvider>
   )
 }
