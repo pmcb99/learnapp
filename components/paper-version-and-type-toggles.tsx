@@ -36,7 +36,7 @@ function getPaperVersionAndType(presignedUrl: PresignedUrl) {
   } else if (presignedUrl.key.includes("exam-paper/")) {
     resultObject["paperType"] = "Exam Paper";
   } else if (presignedUrl.key.includes("marking-scheme/")) {
-    resultObject["paperType"] = "Marking Scheme";
+    resultObject["paperType"] = "Show Marking Scheme";
   } else {
     resultObject["paperType"] = "Paper";
   }
@@ -89,7 +89,7 @@ function PaperVersionAndTypeToggles(props: PaperVersionAndTypeTogglesProps) {
             {presignedUrlsByPaperVersion[uniquePaperVersion].map(
               (presignedUrl: PresignedUrl) => (
                 (presignedUrl && <Button
-                className="bg-secondary text-primary hover:border hover:border-secondary hover:text-secondary"
+                  variant={"hollow"}
                   key={presignedUrl.key}
                   onClick={() => setCurrentPresignedUrl(presignedUrl)}
                   disabled={currentPresignedUrl?.key === presignedUrl.key}

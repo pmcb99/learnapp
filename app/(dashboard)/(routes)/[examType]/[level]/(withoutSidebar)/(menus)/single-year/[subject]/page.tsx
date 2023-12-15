@@ -38,7 +38,7 @@ export default async function HomePage(
             label: `${file.Key?.split('/')[2]}`,
             key: `${file.Key}`,
             href: `${hrefPrefix}/${params.params.subject}/${file.Key?.split('/')[2]}${cleanUpFileName(file.Key?.split('/')[4] || '')}`,
-            bgColor: "bg-blue-500",
+            bgColor: "bg-primary",
             color: "text-blue-700"
         })));
 

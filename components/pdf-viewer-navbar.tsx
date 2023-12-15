@@ -27,7 +27,7 @@ export function Nav({
   return (
     <nav className="flex md:flex-row flex-col bg-primary w-full md:h-24 rounded-xl items-center justify-center text-center gap-y-2 h-auto md:py-0 py-4 px-4">
       <div>
-        <p className="text-2xl font-bold text-white dark:text-black">
+        <p className="text-2xl font-bold text-white dark:text-black mr-3">
           {pdfName.replace("_", " ")}
         </p>
       </div>
@@ -37,8 +37,8 @@ export function Nav({
 
       <Button onClick={prevPageFunc}
         disabled={visiblePage <= 1}
-        className="focus:z-20 gap-x-3 ml-4"
-        variant={"outline"}
+        // className="focus:z-20 gap-x-3 ml-4"
+        variant={"hollow"}
       >
         {<ArrowLeft className="w-5 h-5" />}
         Previous Page
@@ -53,8 +53,8 @@ export function Nav({
       <Button 
       onClick={nextPageFunc}
       disabled={visiblePage >= numPages!}
-      className="focus:z-20 gap-x-3"
-      variant={"outline"}
+      // className="focus:z-20 gap-x-3"
+      variant={"hollow"}
       >
         Next Page
         {<ArrowRight className="w-5 h-5 hover:scale-105" />}

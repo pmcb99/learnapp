@@ -31,7 +31,9 @@ const CardList: React.FC<CardListProps> = ({items, heading}) => {
         </div>
         <div className="px-4 md:px-20 lg:px-32 space-y-4">
           {items.map((item) => (
-            <Card onClick={() => router.push(item.href)} key={item.href} className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer hover:bg-blue-100/100">
+            <Card onClick={() => router.push(item.href)} key={item.href} 
+            className="p-4 border-black/5 flex items-center justify-between hover:shadow-md transition cursor-pointer hover:bg-blue-100/100"
+            >
               <div className="flex items-center gap-x-4">
                 <div className={cn("p-2 w-fit rounded-md", item.bgColor)}>
                 </div>

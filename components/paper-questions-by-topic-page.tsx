@@ -29,6 +29,7 @@ import toast from "react-hot-toast";
 import PaperVersionAndTypeToggles from "./paper-version-and-type-toggles";
 import { PresignedUrl } from "@/types/global";
 import { useProModal } from "@/hooks/use-pro-modal";
+import Image from "next/image";
 
 interface PaperQuestionsByTopicPageProps {
   params: {
@@ -253,7 +254,7 @@ const PaperQuestionsByTopicPage = ({
   }    
 
   return (
-    <div className="flex flex-col h-full justify-center items-center">
+    <div className="flex flex-col h-auto justify-center items-center">
       <div className="flex-1 flex flex-col items-center justify-between bg-primary pb-4 rounded-xl w-full">
         {params.year && (
           <PaperVersionAndTypeToggles presignedUrls={presignedUrls} />
@@ -272,7 +273,7 @@ const PaperQuestionsByTopicPage = ({
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button
-                  variant="outline"
+                  variant="hollow"
                   role="combobox"
                   aria-expanded={open}
                   className="w-[200px] justify-between"
@@ -325,30 +326,38 @@ const PaperQuestionsByTopicPage = ({
           <h2 className="font-bold text-2xl mb-4 pt-8">
             {params && params.year ? "Topics" : "Questions"}
           </h2>
-          <ScrollArea className="rounded-md border p-4 h-[440px] w-full">
-            <div className="flex flex-col items-center">
-              {topics.map(
-                (topic) =>
-                  topic &&
-                  currentPresignedUrl.key.includes(topic.paperVersion) && (
-                    <Button
-                      key={topic.id}
-                      className={"my-2 h-auto w-full bg-primary"}
-                      disabled={chosenQuestion?.id === topic.id}
-                      onClick={() =>
-                        findPageWithQuestion && findPageWithQuestion(topic)
-                      }
-                    >
-                      {/* {topic.examPaperPage === -1 && <h2 className="mr-2 text-blue-400 ">PRO</h2>} */}
-                      {topic.examPaperPage === -1 && <Badge variant="premium" className="uppercase text-sm mr-3 py-1 border border-purple">pro</Badge>}
-                      
-                      {!params.year ? topic.year : ""} {displayQBeforeQuestionNumber(topic.question!, topic.parts!)}{topic.question}{" "}
-                      {topic.parts} - {topic.topic}
-                      {chosenQuestion?.id === topic.id && <Check className="ml-2 h-4 w-4" />}
-                    </Button>
-                  )
-              )}
-            </div>
+          <ScrollArea className="bg-primary rounded-md border p-4 h-[440px] w-full">
+          <div className="flex flex-col items-center">
+  {topics.filter(topic => topic && currentPresignedUrl.key.includes(topic.paperVersion)).length > 0 ? (
+    topics.map(
+      (topic) =>
+        topic &&
+        currentPresignedUrl.key.includes(topic.paperVersion) && (
+          <Button
+            key={topic.id}
+            className={"my-2 h-auto w-full "}
+            variant={"hollow"}
+            disabled={chosenQuestion?.id === topic.id}
+            onClick={() =>
+              findPageWithQuestion && findPageWithQuestion(topic)
+            }
+          >
+            {topic.examPaperPage === -1 && <Badge variant="premium" className="uppercase text-sm mr-3 py-1 border border-purple">pro</Badge>}
+            
+            {!params.year ? topic.year : ""} {displayQBeforeQuestionNumber(topic.question!, topic.parts!)}{topic.question}{" "}
+            {topic.parts} - {topic.topic}
+            {chosenQuestion?.id === topic.id && <Check className="ml-2 h-4 w-4" />}
+          </Button>
+        )
+    )
+  ) : (
+    <div>
+    <p className="text-primary text-center rounded-lg bg-secondary p-5 m-3">Viewing marking scheme. Select an exam paper to view questions.</p>
+    <Image className="rounded-full" src="/santa-workshop.png" width={500} height={300} alt=""/>
+    </div>
+  )}
+</div>
+
           </ScrollArea>
         </div>
       )}
