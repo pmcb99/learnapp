@@ -20,7 +20,6 @@ const openai = new OpenAI({
 var subjectValue = "";
 var userQuestion = "";
 
-
 // Define the queryQdrant function
 async function checkMarkingSchemeForYear(year: string) {
   // Generate embedding for the message
@@ -49,28 +48,58 @@ async function checkMarkingSchemeForYear(year: string) {
       ],
     },
   });
-  return searchResult.map((result) => result["payload"]!["content"]).join(" ");
+  console.log("Year search result: ", searchResult);
+  return searchResult
+    .map((result) => result["payload"]!["content"])
+    .join(" ") as string;
 }
 
-  async function checkMarkingSchemeForAllYears(year: string) {
-    const embeddingResponse = await openai.embeddings.create({
-      input: userQuestion,
-      model: "text-embedding-ada-002",
-    });
-    const requestEmbedding = embeddingResponse.data[0].embedding;
-  
-    // Query Qdrant using the embedding
-    let searchResult = await client.search(`lc_higher_${subjectValue}_chat`, {
-      vector: requestEmbedding,
-      limit: 3,
-    });
+async function checkMarkingSchemeForAllYears(year: string) {
+  const embeddingResponse = await openai.embeddings.create({
+    input: userQuestion,
+    model: "text-embedding-ada-002",
+  });
+  const requestEmbedding = embeddingResponse.data[0].embedding;
 
+  // Query Qdrant using the embedding
+  let searchResult = await client.search(`lc_higher_${subjectValue}_chat`, {
+    vector: requestEmbedding,
+    limit: 3,
+  });
+
+  console.log("All years search result: ", searchResult);
 
   return searchResult.map((result) => result["payload"]!["content"]).join(" ");
 }
 
 //descinding list of years from 2023 to 2000
-const years = [ "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", "all"]
+const years = [
+  "2023",
+  "2022",
+  "2021",
+  "2020",
+  "2019",
+  "2018",
+  "2017",
+  "2016",
+  "2015",
+  "2014",
+  "2013",
+  "2012",
+  "2011",
+  "2010",
+  "2009",
+  "2008",
+  "2007",
+  "2006",
+  "2005",
+  "2004",
+  "2003",
+  "2002",
+  "2001",
+  "2000",
+  "all",
+];
 
 export async function POST(req: Request) {
   const { userId } = auth();
@@ -85,8 +114,8 @@ export async function POST(req: Request) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const systemPrompt = `Ignore previous instructions, and ensure you follow all steps that follow. You are a Leaving Certificate ${subject} teacher. You have access to the following tools: 'checkMarkingSchemeForAllYears' which you should use for each message unless a particular year is mentioned. In that case, use 'checkMarkingSchemeForYear'. Try to always use the tools, but if your response is not based solely on information from the tool, append the code '!WARNING!', followed by a brief explanation of what may not be relevant in the context of the marking scheme, to the very end of the message.`
-  const examPaperOnlyPrompt = `Ignore previous instructions, and ensure you follow all steps that follow. You are a Leaving Certificate ${subject} teacher. You have access to the following tools: 'checkMarkingSchemeForAllYears' which you should use for each message unless a particular year is mentioned. In that case, use 'checkMarkingSchemeForYear'. Try to always use the tools, and supplement your response with your own knowledge if you feel it is necessary. Then be helpful and ask if they have follow up questions.`
+  const systemPrompt = `Ignore previous instructions, and ensure you follow all steps that follow. You are a Leaving Certificate ${subject} teacher. You have access to the following tools: 'checkMarkingSchemeForAllYears' which you should use for each message unless a particular year is mentioned. In that case, use 'checkMarkingSchemeForYear'. Try to always use the tools, but if your response is not based solely on information from the tool, append the code '!WARNING!', followed by a brief explanation of what may not be relevant in the context of the marking scheme, to the very end of the message.`;
+  const examPaperOnlyPrompt = `Ignore previous instructions, and ensure you follow all steps that follow. You are a Leaving Certificate ${subject} teacher. You have access to the following tools: 'checkMarkingSchemeForAllYears' which you should use for each message unless a particular year is mentioned. In that case, use 'checkMarkingSchemeForYear'. Try to always use the tools, and supplement your response with your own knowledge if you feel it is necessary. Then be helpful and ask if they have follow up questions.`;
 
   // add system prompt if there are less than 2 messages to the first index
   if (messages.length < 2) {
@@ -96,33 +125,50 @@ export async function POST(req: Request) {
     });
   }
 
-
-  const runner = openai.beta.chat.completions.runFunctions({
-    model: "gpt-3.5-turbo-1106",
-    messages: [...messages],
-    functions: [
-      {
-        function: checkMarkingSchemeForYear,
-        description: "Check a specific years marking scheme if a year is specified in the question",
-        parameters: {
-          type: "object",
-          properties: {
-            year: { type: "string", description: "The year of the exam paper" },
+  const runner = openai.beta.chat.completions
+    .runTools({
+      model: "gpt-3.5-turbo",
+      messages: [...messages],
+      max_tokens: 2000,
+      tools: [
+        {
+          type: "function",
+          function: {
+            function: checkMarkingSchemeForYear,
+            description:
+              "Check a specific years marking scheme if a year is specified in the question",
+            parameters: {
+              type: "object",
+              properties: {
+                year: {
+                  type: "string",
+                  description: "The year of the exam paper",
+                },
+              },
+            },
           },
         },
-      },
-      {
-        function: checkMarkingSchemeForAllYears,
-        description: "Check all years marking schemes if no year is specified in the question",
-        parameters: {
-          type: "object",
-          properties: {
-            year: { type: "string", description: "Representing all years", enum: ['all']},
-          },
-        }
-      },
-    ],
-  });
+        // {
+        //   type: "function",
+        //   function: {
+        //     function: checkMarkingSchemeForAllYears,
+        //     description:
+        //       "Check all years marking schemes if no year is specified in the question",
+        //     parameters: {
+        //       type: "object",
+        //       properties: {
+        //         year: {
+        //           type: "string",
+        //           description: "Representing all years",
+        //           enum: ["all"],
+        //         },
+        //       },
+        //     },
+        //   },
+        // },
+      ],
+    })
+    .on("message", (message) => console.log(message));
 
   const finalContent = await runner.finalContent();
 
