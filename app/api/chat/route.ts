@@ -64,7 +64,7 @@ async function checkMarkingSchemeForAllYears(year: string) {
   // Query Qdrant using the embedding
   let searchResult = await client.search(`lc_higher_${subjectValue}_chat`, {
     vector: requestEmbedding,
-    limit: 3,
+    limit: 2,
   });
 
   console.log("All years search result: ", searchResult);
@@ -129,7 +129,7 @@ export async function POST(req: Request) {
     .runTools({
       model: "gpt-3.5-turbo",
       messages: [...messages],
-      max_tokens: 2000,
+      max_tokens: 1000,
       tools: [
         {
           type: "function",
