@@ -14,6 +14,10 @@ import PDFViewer from "@/components/pdf-viewer";
 import PaperQuestionsByTopicPage from "@/components/paper-questions-by-topic-page";
 import { PresignedUrl } from "@/types/global";
 import { useExamDocumentStore } from "@/hooks/pdf-viewer-page-store";
+import PaperNavigationBar from "@/app/(dashboard)/(routes)/[examType]/[level]/(withoutSidebar)/paper-navigation-bar";
+import SubjectPage from "@/app/(dashboard)/(routes)/[examType]/[level]/(withSidebar)/(routes)/_quiz/page";
+import ChatComponent, { ChatPage } from "./chat";
+import { Button } from "./ui/button";
 
 interface PageParams {
   examType: string;
@@ -56,25 +60,28 @@ const PaperViewPage = ({
 
   const bucket = params.examType === "lc" ? LC_BUCKET_NAME : JC_BUCKET_NAME;
 
-
   const setCurrentExamPaper = () => {
-
     if (presignedUrls && !currentPresignedUrl) {
       setCurrentPresignedUrl(presignedUrls[0]);
     } else {
       // set new current presigned url to the same paperVersion as the current one
       if (currentPresignedUrl.key.includes("paper-two")) {
-        const paperTwo = presignedUrls.find((presignedUrl) =>
-          presignedUrl.key.includes("paper-two") && presignedUrl.key.includes(year.toString())
+        const paperTwo = presignedUrls.find(
+          (presignedUrl) =>
+            presignedUrl.key.includes("paper-two") &&
+            presignedUrl.key.includes(year.toString())
         );
-      }
-        else if (currentPresignedUrl.key.includes("aural")) {
-          const aural = presignedUrls.find((presignedUrl) =>
-            presignedUrl.key.includes("aural") && presignedUrl.key.includes(year.toString())
-          );
+      } else if (currentPresignedUrl.key.includes("aural")) {
+        const aural = presignedUrls.find(
+          (presignedUrl) =>
+            presignedUrl.key.includes("aural") &&
+            presignedUrl.key.includes(year.toString())
+        );
       } else {
-        const paperOne = presignedUrls.find((presignedUrl) =>
-          presignedUrl.key.includes("paper-one") && presignedUrl.key.includes(year.toString())
+        const paperOne = presignedUrls.find(
+          (presignedUrl) =>
+            presignedUrl.key.includes("paper-one") &&
+            presignedUrl.key.includes(year.toString())
         );
       }
     }
@@ -85,16 +92,23 @@ const PaperViewPage = ({
   }, [presignedUrls, year]);
 
   return (
-    <div>
-      {/* <div>Higher Level</div> */}
-    <div className="flex w-full gap-x-3 justify-center">
+    <div className="flex gap-x-3 justify-between px-5">
+
+
+      <div className=" w-1/5">
+        {/* <Button className="bg-primary mb-7 ml-3" onClick={() => router.back()}>
+          Back
+        </Button> */}
+        <ChatComponent params={params} />
+      </div>
+      
       <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80 ml-5">
         <PaperQuestionsByTopicPage
           params={params}
           presignedUrls={presignedUrls}
         />
       </div>
-      <div className="h-full w-auto ">
+      <div className="h-full ">
         <PDFViewer
           presignedUrls={presignedUrls}
           bucket={bucket}
@@ -105,11 +119,15 @@ const PaperViewPage = ({
           linkId=""
           params={params}
           topicComponent={PaperQuestionsByTopicPage}
-          topicComponentProps={{ params: params, presignedUrls: presignedUrls }}
+          topicComponentProps={{
+            params: params,
+            presignedUrls: presignedUrls,
+          }}
         />
-        <div></div>
+        <div>
+          {/* <ChatPage params={params} /> */}
+        </div>
       </div>
-    </div>
     </div>
   );
 };

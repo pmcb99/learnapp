@@ -30,6 +30,7 @@ import PaperVersionAndTypeToggles from "./paper-version-and-type-toggles";
 import { PresignedUrl } from "@/types/global";
 import { useProModal } from "@/hooks/use-pro-modal";
 import Image from "next/image";
+import PaperNavigationBar from "@/app/(dashboard)/(routes)/[examType]/[level]/(withoutSidebar)/paper-navigation-bar";
 
 interface PaperQuestionsByTopicPageProps {
   params: {
@@ -261,6 +262,8 @@ const PaperQuestionsByTopicPage = ({
   }    
 
   return (
+
+
     <div className="flex flex-col h-auto justify-center items-center">
       <div className="flex-1 flex flex-col items-center justify-between bg-primary pb-4 rounded-xl w-full">
         {params.year && (
@@ -271,6 +274,10 @@ const PaperQuestionsByTopicPage = ({
         )}
       </div>
 
+
+    <div className="my-5 p-5 items-center justify-center bg-primary rounded-xl ">
+    {/* <PaperNavigationBar /> */}
+    </div>
       {!params.year && (
         <div className="py-6">
           <div className="flex-1 flex flex-col items-center justify-between bg-primary py-4 rounded-xl">
