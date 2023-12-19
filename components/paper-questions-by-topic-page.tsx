@@ -275,9 +275,6 @@ const PaperQuestionsByTopicPage = ({
       </div>
 
 
-    <div className="my-5 p-5 items-center justify-center bg-primary rounded-xl ">
-    {/* <PaperNavigationBar /> */}
-    </div>
       {!params.year && (
         <div className="py-6">
           <div className="flex-1 flex flex-col items-center justify-between bg-primary py-4 rounded-xl">

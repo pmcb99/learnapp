@@ -18,6 +18,7 @@ import PaperNavigationBar from "@/app/(dashboard)/(routes)/[examType]/[level]/(w
 import SubjectPage from "@/app/(dashboard)/(routes)/[examType]/[level]/(withSidebar)/(routes)/_quiz/page";
 import ChatComponent, { ChatPage } from "./chat";
 import { Button } from "./ui/button";
+import { useChatComponentStore } from "@/hooks/chat-window-store";
 
 interface PageParams {
   examType: string;
@@ -91,22 +92,23 @@ const PaperViewPage = ({
     setCurrentExamPaper();
   }, [presignedUrls, year]);
 
+
+  const chatHook = useChatComponentStore((state) => ({
+    chatShown: state.chatShown,
+    setChatShown: state.setChatShown,
+  }));
+
   return (
-    <div className="flex gap-x-3 justify-between px-5">
+    <div className="flex gap-x-3 justify-center px-5">
 
 
-      <div className=" w-1/5">
-        {/* <Button className="bg-primary mb-7 ml-3" onClick={() => router.back()}>
-          Back
-        </Button> */}
-        <ChatComponent params={params} />
-      </div>
       
       <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80 ml-5">
-        <PaperQuestionsByTopicPage
+        {!chatHook.chatShown && <PaperQuestionsByTopicPage
           params={params}
           presignedUrls={presignedUrls}
-        />
+        />}
+        {chatHook.chatShown && <ChatComponent params={params} />}
       </div>
       <div className="h-full ">
         <PDFViewer
