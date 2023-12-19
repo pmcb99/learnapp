@@ -42,7 +42,7 @@ import { isWarningInString, removeWarningFromString } from "./functions";
 
 
 
-export const SubjectPage = (params: {
+const SubjectPage = (params: {
   params: { subject: string; examType: string; level: string };
 }) => {
   const router = useRouter();
