@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { TopicButton } from "./topic-button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import PaperNavigationBar from "@/app/(dashboard)/(routes)/[examType]/[level]/(withoutSidebar)/paper-navigation-bar";
 
 export function Nav({
   pageNumber,
@@ -25,7 +26,11 @@ export function Nav({
   const TopicComponent = topicComponent;
 
   return (
-    <nav className="flex md:flex-row flex-col bg-primary w-full md:h-24 rounded-xl items-center justify-center text-center gap-y-2 h-auto md:py-0 py-4 px-4">
+    <nav className="flex md:flex-row flex-col bg-primary w-full rounded-xl items-center justify-center text-center gap-y-2 h-auto md:py-2 py-4 px-4">
+      <div className="flex flex-col">
+        <PaperNavigationBar />
+      <div>
+
       <div>
         <p className="text-2xl font-bold text-white dark:text-black mr-3">
           {pdfName.replace("_", " ")}
@@ -66,6 +71,9 @@ export function Nav({
       {/* <span className="text-black-400"> / {numPages}</span> */}
       {/* </div> */}
       {/* </div> */}
+</div>
+
+</div>
     </nav>
   );
 }

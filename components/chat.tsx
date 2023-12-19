@@ -10,11 +10,6 @@ import {
   SeparatorVertical,
 } from "lucide-react";
 
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
 
 import { UseFormReturn, useForm } from "react-hook-form";
 import { useState } from "react";
@@ -36,13 +31,13 @@ import { useProModal } from "@/hooks/use-pro-modal";
 import { formSchema } from "@/app/constants";
 import { getSubjectFromHref, subjectsWithDefinitions } from "@/constants";
 import React from "react";
-import QuestionExamples from "../question-examples";
-import { isWarningInString, removeWarningFromString } from "./functions";
+import QuestionExamples from "@/app/(dashboard)/(routes)/[examType]/[level]/(withSidebar)/chat/question-examples";
+import { removeWarningFromString } from "@/app/(dashboard)/(routes)/[examType]/[level]/(withSidebar)/chat/[subject]/functions";
 
 
 
 
-export const SubjectPage = (params: {
+export const ChatPage = (params: {
   params: { subject: string; examType: string; level: string };
 }) => {
   const router = useRouter();
@@ -53,11 +48,6 @@ export const SubjectPage = (params: {
     `/${params.params.examType}/${params.params.subject}`
   );
 
-
-  // const [questionExample, setQuestionExample] = useState<string>(
-  //   getSubjectFromHref(`/${params.params.subject}`)?.questionExample ||
-  //     "Ask a question"
-  // );
   const [questionExamplesVisible, setQuestionExamplesVisible] =
     useState<boolean>(true);
 
@@ -121,51 +111,8 @@ export const SubjectPage = (params: {
   }
 
   return (
-    <div className="">
-      <div className="flex items-center pt-8 ml-5 gap-x-4">
-        <Button className="bg-primary mb-7 ml-3" onClick={() => router.back()}>
-          Back
-        </Button>
-        <Heading
-          title={params.params.subject.toUpperCase()}
-          description=""
-          icon={MessageSquare}
-          iconColor="text-violet-500"
-          subject={params.params.subject}
-        />
-        <div className="">
-          {showDefinitions && (
-            <Button
-              className="bg-primary mx-2 mb-8 w-[170px]"
-              onClick={() =>
-                router.push(
-                  `/${params.params.examType}/${params.params.level}/${params.params.subject}/definitions`
-                )
-              }
-            >
-              Definitions
-              <ArrowRight className="w-5 h-5" />
-            </Button>
-          )}
-          <Button
-            className="bg-primary mx-2 mb-8 w-[170px]"
-            onClick={() =>
-              router.push(
-                `/${params.params.examType}/${params.params.level}/multi-year/${params.params.subject}/`
-              )
-            }
-          >
-            Past Papers
-            <ArrowRight className="w-5 h-5" />
-          </Button>
-          {/* <Button className="bg-primary mx-2 mb-8 w-[170px]" onClick={() => router.push(`/${params.params.examType}/${params.params.level}/${params.params.subject}/quiz`)}>
-          Quiz
-          <ArrowRight className="w-5 h-5" />
-        </Button> */}
-        </div>
-      </div>
 
-      <div className="px-4 lg:px-8">
+      <div className="">
         <div>
           <Form {...form}>
             <form
@@ -178,8 +125,6 @@ export const SubjectPage = (params: {
                 px-3 
                 md:px-6 
                 focus-within:shadow-sm
-                grid
-                grid-cols-12
                 gap-2
               "
             >
@@ -191,7 +136,7 @@ export const SubjectPage = (params: {
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
-                        placeholder={""}
+                        placeholder={"Ask a question..."}
                         {...field}
                       />
                     </FormControl>
@@ -211,24 +156,18 @@ export const SubjectPage = (params: {
           </Form>
         </div>
 
-        {questionExamplesVisible && subjectObject?.questionExamples && (
+        {/* {questionExamplesVisible && subjectObject?.questionExamples && (
           <QuestionExamples
             questions={subjectObject.questionExamples}
             askQuestionOnClick={askQuestionOnClick}
           />
-        )}
+        )} */}
 
         <div className="space-y-4 mt-4">
           {isLoading && (
             <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
               <Loader />
             </div>
-          )}
-          {messages.length === 0 && !isLoading && (
-            <Empty
-              label="No conversation started."
-              subject={params.params.subject}
-            />
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
@@ -255,8 +194,7 @@ export const SubjectPage = (params: {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
-export default SubjectPage;
+export default ChatPage;
