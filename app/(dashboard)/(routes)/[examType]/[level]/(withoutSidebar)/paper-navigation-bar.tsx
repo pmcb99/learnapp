@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useChatComponentStore } from "@/hooks/chat-window-store";
 import { Book, MessageCircle } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -33,8 +34,8 @@ function PaperNavigationBar() {
         )}
         {chatHook.chatShown && (
           <div className="flex gap-x-3">
-            <Book className="" size={20} />
-            <h3 className="">View questions</h3>
+            <Image className="animate-spin duration-1000" src="/logoR-circle.png" width={20} height={20} alt=""/>
+            <h3 className="">Chatting..</h3>
           </div>
         )}
       </Button>

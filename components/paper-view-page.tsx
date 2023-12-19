@@ -61,6 +61,11 @@ const PaperViewPage = ({
 
   const bucket = params.examType === "lc" ? LC_BUCKET_NAME : JC_BUCKET_NAME;
 
+  const chatHook = useChatComponentStore((state) => ({
+    chatShown: state.chatShown,
+    setChatShown: state.setChatShown,
+  }));
+
   const setCurrentExamPaper = () => {
     if (presignedUrls && !currentPresignedUrl) {
       setCurrentPresignedUrl(presignedUrls[0]);
@@ -88,28 +93,45 @@ const PaperViewPage = ({
     }
   };
 
+ const [shouldRenderChat, setShouldRenderChat] = useState(chatHook.chatShown);
+ const [shouldSlideIn, setShouldSlideIn] = useState(chatHook.chatShown);
+
+  useEffect(() => {
+    if (chatHook.chatShown) {
+      setShouldSlideIn(true);
+      setShouldRenderChat(true);
+    } else {
+      setShouldSlideIn(false);
+      setTimeout(() => {
+        setShouldRenderChat(false);
+      }, 500); // delay should match transition duration
+    }
+  }, [chatHook.chatShown]);
+
   useEffect(() => {
     setCurrentExamPaper();
   }, [presignedUrls, year]);
 
-
-  const chatHook = useChatComponentStore((state) => ({
-    chatShown: state.chatShown,
-    setChatShown: state.setChatShown,
-  }));
-
   return (
-    <div className="flex gap-x-3 justify-center px-5">
-
-
-      
-      <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80 ml-5">
-        {!chatHook.chatShown && <PaperQuestionsByTopicPage
-          params={params}
-          presignedUrls={presignedUrls}
-        />}
-        {chatHook.chatShown && <ChatComponent params={params} />}
+    <div className="flex gap-x-3 justify-center md:pr-52 ">
+      <div
+        className={`fixed rounded-s-2xl inset-y-10 z-10 right-0 transform ${
+          shouldSlideIn ? "translate-x-0" : "translate-x-full"
+        } transition-transform duration-500 ease-in-out pt-5 w-2/5 bg-primary overflow-scroll px-3`}
+      >
+        {shouldRenderChat && <ChatComponent params={params} />}
       </div>
+      <div className="hidden h-full md:flex md:w-72 md:flex-col md:inset-y-0 z-80 ml-5">
+        {
+          <div className={`transition-opacity duration-500`}>
+            <PaperQuestionsByTopicPage
+              params={params}
+              presignedUrls={presignedUrls}
+            />
+          </div>
+        }
+      </div>
+
       <div className="h-full ">
         <PDFViewer
           presignedUrls={presignedUrls}
@@ -126,9 +148,7 @@ const PaperViewPage = ({
             presignedUrls: presignedUrls,
           }}
         />
-        <div>
-          {/* <ChatPage params={params} /> */}
-        </div>
+        <div>{/* <ChatPage params={params} /> */}</div>
       </div>
     </div>
   );

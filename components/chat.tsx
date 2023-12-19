@@ -33,6 +33,8 @@ import { getSubjectFromHref, subjectsWithDefinitions } from "@/constants";
 import React from "react";
 import QuestionExamples from "@/app/(dashboard)/(routes)/[examType]/[level]/(withSidebar)/chat/question-examples";
 import { removeWarningFromString } from "@/app/(dashboard)/(routes)/[examType]/[level]/(withSidebar)/chat/[subject]/functions";
+import { X } from "lucide-react";
+import { useChatComponentStore } from "@/hooks/chat-window-store";
 
 
 
@@ -105,6 +107,11 @@ export const ChatPage = (params: {
     }
   };
 
+  const chatComponentStore = useChatComponentStore((state) => ({
+    chatShown: state.chatShown,
+    setChatShown: state.setChatShown,
+  }));
+
   function askQuestionOnClick(question: string) {
     form.setValue("prompt", question);
     askButtonRef.current?.click();
@@ -113,30 +120,37 @@ export const ChatPage = (params: {
   return (
 
       <div className="">
-        <div>
+        <div className="flex justify-end items-end">
+        <Button variant={"hollow"} className="" onClick={() => chatComponentStore.setChatShown(!chatComponentStore.chatShown)}>
+          <div className="flex gap-x-2 items-center">
+            <X className="w-5 h-5" />
+            <h3>Close Chat</h3>
+          </div>
+        </Button>
+        </div>
+
+        <div className="flex gap-y-5 pt-5 items-center justify-center">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="
                 rounded-lg 
                 border 
-                w-full 
-                p-4 
                 px-3 
+                bg-primary
                 md:px-6 
                 focus-within:shadow-sm
-                gap-2
               "
             >
               <FormField
                 name="prompt"
                 render={({ field }) => (
                   <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
+                    <FormControl className="m-0 p-0 text-center text-primary">
                       <Input
-                        className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+                        className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent bg-primary text-secondary"
                         disabled={isLoading}
-                        placeholder={"Ask a question..."}
+                        placeholder={"Enter your question..."}
                         {...field}
                       />
                     </FormControl>
@@ -144,11 +158,12 @@ export const ChatPage = (params: {
                 )}
               />
               <Button
-                className="col-span-12 lg:col-span-2 w-full"
+                className="w-full "
                 type="submit"
                 disabled={isLoading}
                 size="icon"
                 ref={askButtonRef}
+                variant={"hollow"}
               >
                 Ask
               </Button>
@@ -156,25 +171,38 @@ export const ChatPage = (params: {
           </Form>
         </div>
 
-        {/* {questionExamplesVisible && subjectObject?.questionExamples && (
+      <div className="px-3">
+        {questionExamplesVisible && subjectObject?.questionExamples && (
           <QuestionExamples
             questions={subjectObject.questionExamples}
             askQuestionOnClick={askQuestionOnClick}
+            variant="hollow"
           />
-        )} */}
+        )}
+</div>
 
         <div className="space-y-4 mt-4">
           {isLoading && (
-            <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
+            <div className="p-8 rounded-lg flex items-center justify-center bg-muted">
               <Loader />
             </div>
           )}
+          <div className="flex flex-col items-center justify-center">
+          {/* {messages.length === 0 && !isLoading && (
+            <Empty
+              label="No conversation started."
+              subject={params.params.subject}
+              height={150}
+              width={150}
+            />
+          )} */}
+</div>
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
               <div
                 key={message.content}
                 className={cn(
-                  "p-8 w-full flex gap-x-8 rounded-lg items-center",
+                  "p-8 flex gap-x-8 rounded-lg items-center",
                   message.role === "user"
                     ? "bg-slate-800 text-white border border-black/10 dark:bg-slate-900"
                     : "bg-muted dark:text-white"
