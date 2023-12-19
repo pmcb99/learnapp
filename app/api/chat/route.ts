@@ -7,6 +7,8 @@ import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
 import { QdrantClient } from "@qdrant/js-client-rest";
 import { json } from "stream/consumers";
 
+export const maxDuration = 20;
+
 const client = new QdrantClient({
   url: process.env.QDRANT_URL,
   port: 6333,
@@ -19,7 +21,6 @@ const openai = new OpenAI({
 
 var subjectValue = "";
 var userQuestion = "";
-
 // Define the queryQdrant function
 async function checkMarkingSchemeForYear(year: string) {
   // Generate embedding for the message
@@ -125,6 +126,7 @@ export async function POST(req: Request) {
     });
   }
 
+  console.time("profile")
   const runner = openai.beta.chat.completions
     .runTools({
       model: "gpt-3.5-turbo",
@@ -148,28 +150,29 @@ export async function POST(req: Request) {
             },
           },
         },
-        // {
-        //   type: "function",
-        //   function: {
-        //     function: checkMarkingSchemeForAllYears,
-        //     description:
-        //       "Check all years marking schemes if no year is specified in the question",
-        //     parameters: {
-        //       type: "object",
-        //       properties: {
-        //         year: {
-        //           type: "string",
-        //           description: "Representing all years",
-        //           enum: ["all"],
-        //         },
-        //       },
-        //     },
-        //   },
-        // },
+        {
+          type: "function",
+          function: {
+            function: checkMarkingSchemeForAllYears,
+            description:
+              "Check all years marking schemes if no year is specified in the question",
+            parameters: {
+              type: "object",
+              properties: {
+                year: {
+                  type: "string",
+                  description: "Representing all years",
+                  enum: ["all"],
+                },
+              },
+            },
+          },
+        },
       ],
     })
     .on("message", (message) => console.log(message));
 
+    console.timeEnd("profile")
   const finalContent = await runner.finalContent();
 
   if (!(await checkApiLimit()) && !(await checkSubscription())) {
