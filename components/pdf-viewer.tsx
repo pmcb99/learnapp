@@ -299,7 +299,7 @@ export default function PDFViewer(props: {
                   loading={<LoadingAnimation />}
                   // options={options}
                   renderMode="canvas"
-                  className="flex items-center justify-center scale-50 md:scale-100 md:relative absolute top-0 "
+                  className="flex items-center justify-center scale-[80%] md:scale-100 md:relative absolute top-[41%] z-[-2] "
                 >
                   <Page
                     className="overflow-hidden w-full items-center"
